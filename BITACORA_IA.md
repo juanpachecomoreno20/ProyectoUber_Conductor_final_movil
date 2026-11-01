@@ -38,7 +38,7 @@ Se construyó únicamente la primera entrega: estructura de carpetas `src/`, nav
 
 ### Herramientas utilizadas
 - Visual Studio Code
-- Cursor
+- Microsoft Copilot
 - Git
 - Expo SDK 58
 - React Native
@@ -50,8 +50,10 @@ La aplicación queda preparada para seguir desarrollando en commits posteriores:
 - Stack Navigator raíz con Bottom Tabs anidadas.
 - Placeholders vacíos para Firestore y Storage (sin inicializar).
 
+
 ### Uso de IA
-Se utilizó IA para generar la estructura de carpetas, los archivos de navegación y comentarios explicativos, respetando el alcance de la primera entrega.
+Se utilizó IA como apoyo para obtener sugerencias sobre la organización inicial del proyecto, estructura de carpetas y configuración del entorno de desarrollo.
+
 
 ### Aprendizaje
 Se comprendió cómo anidar un Bottom Tab Navigator dentro de un Stack Navigator con React Navigation, y por qué conviene dejar Register fuera de las pestañas.
