@@ -1,20 +1,24 @@
+/**
+ * App.js
+ *
+ * Punto de entrada visual de la app.
+ * Monta el NavigationContainer de React Navigation
+ * y el Stack Navigator raíz (con Bottom Tabs anidadas).
+ *
+ * No configura Firebase, mapas, pagos ni lógica de viajes.
+ */
+import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import AppProvider from './src/context/AppContext';
+import AppNavigator from './src/navigation/AppNavigator';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AppProvider>
+      <NavigationContainer>
+        <AppNavigator />
+        <StatusBar style="auto" />
+      </NavigationContainer>
+    </AppProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
