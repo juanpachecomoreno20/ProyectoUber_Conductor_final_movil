@@ -4,6 +4,8 @@
  * Formulario con validaciones locales (useState).
  */
 import DateTimePicker from '@react-native-community/datetimepicker';
+import CustomInput from '../components/CustomInput';
+import CustomButton from '../components/CustomButton';
 import { Picker } from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
@@ -16,7 +18,6 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   View,
 } from 'react-native';
 
@@ -222,55 +223,50 @@ export default function RegisterScreen() {
           ) : null}
           {errores.foto ? <Text style={styles.error}>{errores.foto}</Text> : null}
 
-          <Text style={styles.etiqueta}>Nombre completo</Text>
-          <TextInput
-            style={[styles.input, errores.nombreCompleto && styles.inputError]}
+          <CustomInput
+            label="Nombre completo"
             value={nombreCompleto}
             onChangeText={(texto) => {
               setNombreCompleto(texto);
               limpiarError('nombreCompleto');
             }}
             placeholder="Ej. Ana María López"
-            placeholderTextColor="#9CA3AF"
+            error={errores.nombreCompleto}
             maxLength={NOMBRE_MAX}
             autoCapitalize="words"
           />
           <Text style={styles.contador}>
             {nombreCompleto.length}/{NOMBRE_MAX}
           </Text>
-          {errores.nombreCompleto ? (
-            <Text style={styles.error}>{errores.nombreCompleto}</Text>
-          ) : null}
 
-          <Text style={styles.etiqueta}>Documento de identidad</Text>
-          <TextInput
-            style={[styles.input, errores.documento && styles.inputError]}
+          <CustomInput
+            label="Documento de identidad"
             value={documento}
             onChangeText={(texto) => {
-              setDocumento(texto.replace(/[^\d]/g, '').slice(0, DOC_MAX));
+              setDocumento(
+                texto.replace(/[^\d]/g, '').slice(0, DOC_MAX)
+              );
               limpiarError('documento');
             }}
             placeholder="Entre 6 y 10 dígitos"
-            placeholderTextColor="#9CA3AF"
+            error={errores.documento}
             keyboardType="number-pad"
             maxLength={DOC_MAX}
           />
-          {errores.documento ? <Text style={styles.error}>{errores.documento}</Text> : null}
-
-          <Text style={styles.etiqueta}>Número de celular</Text>
-          <TextInput
-            style={[styles.input, errores.celular && styles.inputError]}
+          <CustomInput
+            label="Número de celular"
             value={celular}
             onChangeText={(texto) => {
-              setCelular(texto.replace(/[^\d]/g, '').slice(0, CELULAR_LARGO));
+              setCelular(
+                texto.replace(/[^\d]/g, '').slice(0, CELULAR_LARGO)
+              );
               limpiarError('celular');
             }}
             placeholder="10 dígitos"
-            placeholderTextColor="#9CA3AF"
+            error={errores.celular}
             keyboardType="phone-pad"
             maxLength={CELULAR_LARGO}
           />
-          {errores.celular ? <Text style={styles.error}>{errores.celular}</Text> : null}
 
           <Text style={styles.etiqueta}>Fecha de nacimiento</Text>
           <Pressable
@@ -321,21 +317,19 @@ export default function RegisterScreen() {
           </View>
           {errores.genero ? <Text style={styles.error}>{errores.genero}</Text> : null}
 
-          <Text style={styles.etiqueta}>Correo electrónico</Text>
-          <TextInput
-            style={[styles.input, errores.correo && styles.inputError]}
+          <CustomInput
+            label="Correo electrónico"
             value={correo}
             onChangeText={(texto) => {
               setCorreo(texto);
               limpiarError('correo');
             }}
             placeholder="correo@ejemplo.com"
-            placeholderTextColor="#9CA3AF"
+            error={errores.correo}
             keyboardType="email-address"
             autoCapitalize="none"
             autoCorrect={false}
           />
-          {errores.correo ? <Text style={styles.error}>{errores.correo}</Text> : null}
 
           <Text style={styles.etiqueta}>Idioma</Text>
           <View style={[styles.pickerCaja, errores.idioma && styles.inputError]}>
@@ -354,9 +348,10 @@ export default function RegisterScreen() {
           </View>
           {errores.idioma ? <Text style={styles.error}>{errores.idioma}</Text> : null}
 
-          <Pressable style={styles.botonContinuar} onPress={onContinuar}>
-            <Text style={styles.botonContinuarTexto}>Continuar</Text>
-          </Pressable>
+          <CustomButton
+            title="Continuar"
+            onPress={onContinuar}
+          />
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
