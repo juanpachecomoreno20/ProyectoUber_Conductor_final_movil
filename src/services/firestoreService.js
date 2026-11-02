@@ -1,9 +1,11 @@
 /**
- * Servicio de Firestore (NoSQL).
- * Aquí se implementarán después las operaciones CRUD
- * del conductor y del vehículo (sin lógica de viajes).
+ * Firestore Service
+ *
+ * Maneja las operaciones CRUD de la colección conductores.
+ *
+ * Colección:
+ * conductores
  */
-
 import {
   collection,
   addDoc,
@@ -11,6 +13,7 @@ import {
   updateDoc,
   deleteDoc,
   doc,
+  getDoc,
   serverTimestamp,
 } from 'firebase/firestore';
 
@@ -80,3 +83,24 @@ export const deleteDriver = async (
     documentRef,
   );
 };
+
+export const getDriverById = async (id) => {
+  const documentRef = doc(
+    db,
+    COLLECTION,
+    id
+  );
+
+  const documentSnapshot =
+    await getDoc(documentRef);
+
+  if (!documentSnapshot.exists()) {
+    return null;
+  }
+
+  return {
+    id: documentSnapshot.id,
+    ...documentSnapshot.data(),
+  };
+};
+``

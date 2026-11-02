@@ -1,6 +1,5 @@
 /**
  * HomeScreen
- *
  * Pantalla inicial del conductor (pestaña Home).
  * Primera entrega: vacía, sin mapa, sin viajes y sin estado de disponibilidad.
  */
@@ -10,7 +9,11 @@ export default function HomeScreen() {
   return (
     <ScreenPlaceholder
       title="Inicio"
-      description="Pantalla vacía. Aquí se mostrará el inicio del conductor en entregas posteriores."
+      description="Próximamente se mostrará la información operativa del conductor:
+                    Estado de conexión
+                  - Solicitudes de viaje
+                  - Viajes activos
+                  - Ganancias del día."
     />
   );
 }

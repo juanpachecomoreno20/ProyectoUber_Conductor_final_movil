@@ -17,7 +17,7 @@ export default function ProfileScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>Perfil</Text>
       <Text style={styles.description}>
-        Pantalla vacía. Aquí se mostrará el perfil del conductor en entregas posteriores.
+        Próximamente se mostrará la información del conductor almacenada en Firebase..
       </Text>
       <Pressable
         style={styles.link}
