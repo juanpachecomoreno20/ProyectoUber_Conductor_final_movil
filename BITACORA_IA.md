@@ -80,3 +80,36 @@ Se implementaron componentes reutilizables para botones, entradas de texto, sele
 
 ### Aprendizaje
 Se comprendió cómo reutilizar componentes en React Native mediante props para reducir duplicación de código y mejorar la mantenibilidad del proyecto.
+
+
+## 02/11/2026  (1:08 AM )
+
+### Actividad realizada
+Integración de Firebase Firestore con el registro del conductor.
+
+### Herramientas utilizadas
+- Visual Studio Code
+- Git
+- GitHub
+- Microsoft Copilot
+- Firebase
+- Firestore
+- Expo
+- React Native
+
+### Uso de IA
+Se utilizó IA como apoyo para diseñar la arquitectura de Firestore, definir la estructura de la colección conductores, organizar la separación de servicios y validar el flujo de navegación entre las pantallas de Datos Personales y Vehículo.
+
+### Resultado obtenido
+Se configuró Firebase en el proyecto y se creó la colección conductores en Firestore.
+
+Se implementó el servicio firestoreService.js con operaciones CRUD básicas y se logró almacenar correctamente la información de Datos Personales y Vehículo dentro de Firestore.
+
+### Aprendizaje
+Se comprendió cómo conectar una aplicación React Native con Firebase Firestore, cómo crear documentos en una colección y cómo estructurar la información utilizando objetos anidados para datos personales y datos del vehículo.
+
+### Próximos pasos
+- Mostrar la información del conductor en ProfileScreen.
+- Implementar lectura de datos desde Firestore.
+- Configurar Firebase Storage.
+- Asociar imágenes con registros del conductor.
