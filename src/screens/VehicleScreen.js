@@ -14,6 +14,8 @@
  * - Integración con Storage.
  * - Persistencia de datos.
  */
+import { useRoute } from '@react-navigation/native';
+import { createDriver } from '../services/firestoreService';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 import {
@@ -55,6 +57,17 @@ const COLORES = [
 const ANIO_MINIMO = 2000;
 
 export default function VehicleScreen() {
+
+  const route = useRoute();
+
+  const datosPersonales =
+    route.params?.datosPersonales;
+
+  console.log(
+    'DATOS PERSONALES:',
+    datosPersonales
+  );
+
   const [fotoVehiculo, setFotoVehiculo] = useState(null);
 
   const [categoria, setCategoria] = useState('');
@@ -163,211 +176,246 @@ export default function VehicleScreen() {
     );
   };
 
-  const onGuardarVehiculo = () => {
+  const onGuardarVehiculo = async () => {
     const valido = validarFormulario();
 
     if (!valido) {
       return;
     }
 
-    Alert.alert(
-      'Vehículo',
-      'Información válida. La integración con Firestore se realizará más adelante.'
-    );
+    console.log('DATOS PERSONALES:', datosPersonales);
+
+    console.log('DATOS VEHICULO:', {
+      categoria,
+      placa,
+      marca,
+      modelo,
+      anio,
+      color,
+      capacidad,
+    });
+
+    try {
+      await createDriver({
+        datosPersonales,
+
+        vehiculo: {
+          categoria,
+          placa,
+          marca,
+          modelo,
+          anio,
+          color,
+          capacidad,
+        },
+      });
+
+      Alert.alert(
+        'Éxito',
+        'Conductor registrado correctamente.'
+      );
+
+    } catch (error) {
+
+      Alert.alert(
+        'Error',
+        error.message
+      );
+
+    }
   };
-
-  return (
-    <KeyboardAvoidingView
-      style={styles.flex}
-      behavior={
-        Platform.OS === 'ios'
-          ? 'padding'
-          : undefined
-      }
-    >
-      <ScrollView
+    return (
+      <KeyboardAvoidingView
         style={styles.flex}
-        contentContainerStyle={styles.contenido}
+        behavior={
+          Platform.OS === 'ios'
+            ? 'padding'
+            : undefined
+        }
       >
-        <View style={styles.encabezado}>
-          <Text style={styles.numero}>
-            Pestaña 2
-          </Text>
+        <ScrollView
+          style={styles.flex}
+          contentContainerStyle={styles.contenido}
+        >
+          <View style={styles.encabezado}>
+            <Text style={styles.numero}>
+              Pestaña 2
+            </Text>
 
-          <Text style={styles.titulo}>
-            Información del vehículo
-          </Text>
+            <Text style={styles.titulo}>
+              Información del vehículo
+            </Text>
 
-          <Text style={styles.subtitulo}>
-            Completa la información del vehículo
-            que utilizarás como conductor.
-          </Text>
-        </View>
+            <Text style={styles.subtitulo}>
+              Completa la información del vehículo
+              que utilizarás como conductor.
+            </Text>
+          </View>
 
-        <View style={styles.card}>
-          <ProfileImagePicker
-            label="Foto del vehículo"
-            imageUri={fotoVehiculo}
-            onSelectImage={seleccionarFotoVehiculo}
-            error={errores.fotoVehiculo}
-          />
+          <View style={styles.card}>
+            <ProfileImagePicker
+              label="Foto del vehículo"
+              imageUri={fotoVehiculo}
+              onSelectImage={seleccionarFotoVehiculo}
+              error={errores.fotoVehiculo}
+            />
 
-          <CustomPicker
-            icon="layers-outline"
-            label="Categoría"
-            selectedValue={categoria}
-            onValueChange={(valor) => {
-              setCategoria(valor);
-              limpiarError('categoria');
-            }}
-            items={CATEGORIAS}
-            placeholder="Selecciona una categoría"
-            error={errores.categoria}
-          />
+            <CustomPicker
+              icon="layers-outline"
+              label="Categoría"
+              selectedValue={categoria}
+              onValueChange={(valor) => {
+                setCategoria(valor);
+                limpiarError('categoria');
+              }}
+              items={CATEGORIAS}
+              placeholder="Selecciona una categoría"
+              error={errores.categoria}
+            />
 
-          <CustomInput
-            icon="card-outline"
-            label="Placa"
-            value={placa}
-            onChangeText={(texto) => {
-              setPlaca(
-                texto.toUpperCase()
-              );
-              limpiarError('placa');
-            }}
-            placeholder="ABC123"
-            error={errores.placa}
-            autoCapitalize="characters"
-          />
+            <CustomInput
+              icon="card-outline"
+              label="Placa"
+              value={placa}
+              onChangeText={(texto) => {
+                setPlaca(
+                  texto.toUpperCase()
+                );
+                limpiarError('placa');
+              }}
+              placeholder="ABC123"
+              error={errores.placa}
+              autoCapitalize="characters"
+            />
 
-          <CustomInput
-            icon="car-outline"
-            label="Marca"
-            value={marca}
-            onChangeText={(texto) => {
-              setMarca(texto);
-              limpiarError('marca');
-            }}
-            placeholder="Ej. Chevrolet"
-            error={errores.marca}
-          />
+            <CustomInput
+              icon="car-outline"
+              label="Marca"
+              value={marca}
+              onChangeText={(texto) => {
+                setMarca(texto);
+                limpiarError('marca');
+              }}
+              placeholder="Ej. Chevrolet"
+              error={errores.marca}
+            />
 
-          <CustomInput
-            icon="car-sport-outline"
-            label="Modelo"
-            value={modelo}
-            onChangeText={(texto) => {
-              setModelo(texto);
-              limpiarError('modelo');
-            }}
-            placeholder="Ej. Onix"
-            error={errores.modelo}
-          />
+            <CustomInput
+              icon="car-sport-outline"
+              label="Modelo"
+              value={modelo}
+              onChangeText={(texto) => {
+                setModelo(texto);
+                limpiarError('modelo');
+              }}
+              placeholder="Ej. Onix"
+              error={errores.modelo}
+            />
 
-          <CustomInput
-            icon="calendar-outline"
-            label="Año"
-            value={anio}
-            onChangeText={(texto) => {
-              setAnio(
-                texto
-                  .replace(/[^\d]/g, '')
-                  .slice(0, 4)
-              );
+            <CustomInput
+              icon="calendar-outline"
+              label="Año"
+              value={anio}
+              onChangeText={(texto) => {
+                setAnio(
+                  texto
+                    .replace(/[^\d]/g, '')
+                    .slice(0, 4)
+                );
 
-              limpiarError('anio');
-            }}
-            placeholder="2024"
-            error={errores.anio}
-            keyboardType="number-pad"
-          />
+                limpiarError('anio');
+              }}
+              placeholder="2024"
+              error={errores.anio}
+              keyboardType="number-pad"
+            />
 
-          <CustomPicker
-            icon="color-palette-outline"
-            label="Color"
-            selectedValue={color}
-            onValueChange={(valor) => {
-              setColor(valor);
-              limpiarError('color');
-            }}
-            items={COLORES}
-            placeholder="Selecciona un color"
-            error={errores.color}
-          />
+            <CustomPicker
+              icon="color-palette-outline"
+              label="Color"
+              selectedValue={color}
+              onValueChange={(valor) => {
+                setColor(valor);
+                limpiarError('color');
+              }}
+              items={COLORES}
+              placeholder="Selecciona un color"
+              error={errores.color}
+            />
 
-          <CustomInput
-            icon="people-outline"
-            label="Capacidad de pasajeros"
-            value={capacidad}
-            onChangeText={(texto) => {
-              setCapacidad(
-                texto.replace(/[^\d]/g, '')
-              );
+            <CustomInput
+              icon="people-outline"
+              label="Capacidad de pasajeros"
+              value={capacidad}
+              onChangeText={(texto) => {
+                setCapacidad(
+                  texto.replace(/[^\d]/g, '')
+                );
 
-              limpiarError('capacidad');
-            }}
-            placeholder="4"
-            error={errores.capacidad}
-            keyboardType="number-pad"
-          />
+                limpiarError('capacidad');
+              }}
+              placeholder="4"
+              error={errores.capacidad}
+              keyboardType="number-pad"
+            />
 
-          <CustomButton
-            title="Guardar vehículo"
-            onPress={onGuardarVehiculo}
-          />
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
-  );
-}
+            <CustomButton
+              title="Guardar vehículo"
+              onPress={onGuardarVehiculo}
+            />
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    );
+  }
 
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-    backgroundColor: '#F3F4F6',
-  },
-
-  contenido: {
-    padding: 20,
-    paddingBottom: 40,
-  },
-
-  encabezado: {
-    marginBottom: 16,
-  },
-
-  numero: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#059669',
-    textTransform: 'uppercase',
-    marginBottom: 4,
-  },
-
-  titulo: {
-    fontSize: 26,
-    fontWeight: '700',
-    color: '#111827',
-  },
-
-  subtitulo: {
-    marginTop: 6,
-    fontSize: 14,
-    color: '#6B7280',
-    lineHeight: 20,
-  },
-
-  card: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    padding: 20,
-    shadowColor: '#111827',
-    shadowOpacity: 0.06,
-    shadowRadius: 12,
-    shadowOffset: {
-      width: 0,
-      height: 4,
+  const styles = StyleSheet.create({
+    flex: {
+      flex: 1,
+      backgroundColor: '#F3F4F6',
     },
-    elevation: 3,
-  },
-});
+
+    contenido: {
+      padding: 20,
+      paddingBottom: 40,
+    },
+
+    encabezado: {
+      marginBottom: 16,
+    },
+
+    numero: {
+      fontSize: 12,
+      fontWeight: '700',
+      color: '#059669',
+      textTransform: 'uppercase',
+      marginBottom: 4,
+    },
+
+    titulo: {
+      fontSize: 26,
+      fontWeight: '700',
+      color: '#111827',
+    },
+
+    subtitulo: {
+      marginTop: 6,
+      fontSize: 14,
+      color: '#6B7280',
+      lineHeight: 20,
+    },
+
+    card: {
+      backgroundColor: '#FFFFFF',
+      borderRadius: 16,
+      padding: 20,
+      shadowColor: '#111827',
+      shadowOpacity: 0.06,
+      shadowRadius: 12,
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      elevation: 3,
+    },
+  });

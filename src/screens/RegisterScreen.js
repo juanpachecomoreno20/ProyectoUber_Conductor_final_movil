@@ -9,6 +9,8 @@ import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import CustomPicker from '../components/CustomPicker';
 import ProfileImagePicker from '../components/ProfileImagePicker';
+import { useNavigation } from '@react-navigation/native';
+import { ROUTES } from '../constants/routes';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 import {
@@ -71,6 +73,8 @@ export default function RegisterScreen() {
   const [correo, setCorreo] = useState('');
   const [idioma, setIdioma] = useState('');
   const [errores, setErrores] = useState({});
+
+  const navigation = useNavigation();
 
   const limpiarError = (campo) => {
     setErrores((actuales) => {
@@ -177,18 +181,33 @@ export default function RegisterScreen() {
 
   const onContinuar = () => {
     const esValido = validarFormulario();
-
+  
     if (!esValido) {
       return;
     }
-
-    // No se persisten datos en esta entrega.
-    Alert.alert(
-      'Datos personales',
-      'Los datos son válidos. El guardado se implementará más adelante.',
-    );
+  
+    navigation.navigate(
+      ROUTES.MAIN_TABS,
+      {
+        screen: ROUTES.VEHICLE,
+    
+        params: {
+          datosPersonales: {
+            fotoUri,
+            nombreCompleto,
+            documento,
+            celular,
+            fechaNacimiento:
+              fechaNacimiento?.toISOString(),
+            genero,
+            correo,
+            idioma,
+          },
+        },
+      }
+    ); 
   };
-
+  
   return (
     <KeyboardAvoidingView
       style={styles.flex}

@@ -1,11 +1,21 @@
+
 /**
- * Servicio de Firebase Storage.
+ * Servicio Storage.
  *
- * INTENCIONALMENTE VACÍO EN ESTA ENTREGA.
- * Aquí se subirán después archivos como foto de perfil
- * o documentos del vehículo.
+ * Pendiente:
+ * - Configurar Firebase Storage.
+ * - Subida de imágenes.
+ * - Obtener URLs públicas.
  */
 
-export const storageService = {
-  // uploadFile: async () => {},
+export const uploadProfileImage = async () => {
+  throw new Error(
+    'Storage aún no configurado.'
+  );
+};
+
+export const uploadVehicleImage = async () => {
+  throw new Error(
+    'Storage aún no configurado.'
+  );
 };
