@@ -6,7 +6,7 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
-import { Picker } from '@react-native-picker/picker';
+import CustomPicker from '../components/CustomPicker';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 import {
@@ -300,22 +300,17 @@ export default function RegisterScreen() {
             <Text style={styles.error}>{errores.fechaNacimiento}</Text>
           ) : null}
 
-          <Text style={styles.etiqueta}>Género</Text>
-          <View style={[styles.pickerCaja, errores.genero && styles.inputError]}>
-            <Picker
-              selectedValue={genero}
-              onValueChange={(valor) => {
-                setGenero(valor);
-                limpiarError('genero');
-              }}
-            >
-              <Picker.Item label="Selecciona el género" value="" />
-              {GENEROS.map((opcion) => (
-                <Picker.Item key={opcion} label={opcion} value={opcion} />
-              ))}
-            </Picker>
-          </View>
-          {errores.genero ? <Text style={styles.error}>{errores.genero}</Text> : null}
+          <CustomPicker
+            label="Género"
+            selectedValue={genero}
+            onValueChange={(valor) => {
+              setGenero(valor);
+              limpiarError('genero');
+            }}
+            items={GENEROS}
+            placeholder="Selecciona el género"
+            error={errores.genero}
+          />
 
           <CustomInput
             label="Correo electrónico"
@@ -331,23 +326,17 @@ export default function RegisterScreen() {
             autoCorrect={false}
           />
 
-          <Text style={styles.etiqueta}>Idioma</Text>
-          <View style={[styles.pickerCaja, errores.idioma && styles.inputError]}>
-            <Picker
-              selectedValue={idioma}
-              onValueChange={(valor) => {
-                setIdioma(valor);
-                limpiarError('idioma');
-              }}
-            >
-              <Picker.Item label="Selecciona el idioma" value="" />
-              {IDIOMAS.map((opcion) => (
-                <Picker.Item key={opcion} label={opcion} value={opcion} />
-              ))}
-            </Picker>
-          </View>
-          {errores.idioma ? <Text style={styles.error}>{errores.idioma}</Text> : null}
-
+          <CustomPicker
+            label="Idioma"
+            selectedValue={idioma}
+            onValueChange={(valor) => {
+              setIdioma(valor);
+              limpiarError('idioma');
+            }}
+            items={IDIOMAS}
+            placeholder="Selecciona el idioma"
+            error={errores.idioma}
+          />
           <CustomButton
             title="Continuar"
             onPress={onContinuar}
@@ -357,7 +346,6 @@ export default function RegisterScreen() {
     </KeyboardAvoidingView>
   );
 }
-
 const styles = StyleSheet.create({
   flex: {
     flex: 1,
