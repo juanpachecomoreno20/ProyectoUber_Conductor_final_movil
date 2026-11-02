@@ -1,18 +1,21 @@
 /**
  * Configuración de Firebase.
  *
- * INTENCIONALMENTE VACÍO EN ESTA ENTREGA.
- * No se inicializa Firebase, Firestore ni Storage todavía.
- *
- * En un commit posterior se colocarán aquí las credenciales
- * y la inicialización de la app de Firebase.
  */
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
 
-export const firebaseConfig = {
-  // apiKey: '',
-  // authDomain: '',
-  // projectId: '',
-  // storageBucket: '',
-  // messagingSenderId: '',
-  // appId: '',
+const firebaseConfig = {
+  apiKey: 'AIzaSyAjNYb23T4R11gY-anDhbtjAavBgk-yROY',
+  authDomain: 'proyectouberconductor.firebaseapp.com',
+  projectId: 'proyectouberconductor',
+  storageBucket: 'proyectouberconductor.firebasestorage.app',
+  messagingSenderId: '722961238638',
+  appId: '1:722961238638:web:98a24a5db80f8d295d347f',
 };
+
+const app = initializeApp(firebaseConfig);
+
+export const db = getFirestore(app);
+
+export default app;

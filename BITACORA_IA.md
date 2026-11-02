@@ -39,6 +39,7 @@ Se construyó únicamente la primera entrega: estructura de carpetas `src/`, nav
 ### Herramientas utilizadas
 - Visual Studio Code
 - Microsoft Copilot
+- Cursor IDE
 - Git
 - Expo SDK 58
 - React Native
@@ -62,3 +63,20 @@ Se comprendió cómo anidar un Bottom Tab Navigator dentro de un Stack Navigator
 - Configurar Firebase Firestore y Storage.
 - Implementar el módulo de registro del conductor.
 - Conectar las pantallas vacías con datos reales.
+
+## 01/11/2026
+
+### Actividad realizada
+Refactorización de la Pestaña 1 - Datos Personales.
+
+### Resultado obtenido
+Se implementaron componentes reutilizables para botones, entradas de texto, selectores y fotografía de perfil.
+
+### Mejoras realizadas
+- Integración de Ionicons.
+- Modularización del formulario.
+- Reducción de código repetido.
+- Mejora de la experiencia visual.
+
+### Aprendizaje
+Se comprendió cómo reutilizar componentes en React Native mediante props para reducir duplicación de código y mejorar la mantenibilidad del proyecto.
