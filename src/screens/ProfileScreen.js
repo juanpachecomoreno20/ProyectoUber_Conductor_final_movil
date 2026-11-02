@@ -7,6 +7,7 @@
  */
 import { useNavigation } from '@react-navigation/native';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import ProfileImagePicker from '../components/ProfileImagePicker';
 import { ROUTES } from '../constants/routes';
 
 export default function ProfileScreen() {

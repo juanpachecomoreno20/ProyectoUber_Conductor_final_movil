@@ -1,8 +1,10 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { Ionicons } from '@expo/vector-icons';
 import ErrorMessage from './ErrorMessage';
 
 export default function CustomPicker({
+  icon,
   label,
   selectedValue,
   onValueChange,
@@ -22,23 +24,34 @@ export default function CustomPicker({
           error && styles.pickerError,
         ]}
       >
-        <Picker
-          selectedValue={selectedValue}
-          onValueChange={onValueChange}
-        >
-          <Picker.Item
-            label={placeholder}
-            value=""
+        {icon ? (
+          <Ionicons
+            name={icon}
+            size={20}
+            color="#6B7280"
+            style={styles.icon}
           />
+        ) : null}
 
-          {items.map((item) => (
+        <View style={styles.pickerWrapper}>
+          <Picker
+            selectedValue={selectedValue}
+            onValueChange={onValueChange}
+          >
             <Picker.Item
-              key={item}
-              label={item}
-              value={item}
+              label={placeholder}
+              value=""
             />
-          ))}
-        </Picker>
+
+            {items.map((item) => (
+              <Picker.Item
+                key={item}
+                label={item}
+                value={item}
+              />
+            ))}
+          </Picker>
+        </View>
       </View>
 
       <ErrorMessage message={error} />
@@ -59,14 +72,23 @@ const styles = StyleSheet.create({
   },
 
   pickerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     borderWidth: 1,
     borderColor: '#E5E7EB',
     backgroundColor: '#F9FAFB',
     borderRadius: 12,
-    overflow: 'hidden',
   },
 
   pickerError: {
     borderColor: '#DC2626',
+  },
+
+  icon: {
+    marginLeft: 14,
+  },
+
+  pickerWrapper: {
+    flex: 1,
   },
 });

@@ -4,6 +4,7 @@
  * Formulario con validaciones locales (useState).
  */
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { Ionicons } from '@expo/vector-icons';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import CustomPicker from '../components/CustomPicker';
@@ -12,7 +13,6 @@ import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 import {
   Alert,
-  Image,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -43,6 +43,7 @@ function obtenerFechaMaxima18() {
   return fecha;
 }
 
+/** Función para verificar si la fecha de nacimiento es mayor a 18 años */
 function tieneMinimo18Anios(fechaNacimiento) {
   if (!fechaNacimiento) {
     return false;
@@ -50,6 +51,7 @@ function tieneMinimo18Anios(fechaNacimiento) {
   return fechaNacimiento.getTime() <= obtenerFechaMaxima18().getTime();
 }
 
+/** Función para formatear la fecha de nacimiento */
 function formatearFecha(fecha) {
   return fecha.toLocaleDateString('es-CO', {
     day: '2-digit',
@@ -57,7 +59,7 @@ function formatearFecha(fecha) {
     year: 'numeric',
   });
 }
-
+/** Componente para el formulario de registro */
 export default function RegisterScreen() {
   const [fotoUri, setFotoUri] = useState(null);
   const [nombreCompleto, setNombreCompleto] = useState('');
@@ -214,6 +216,7 @@ export default function RegisterScreen() {
           />
 
           <CustomInput
+            icon="person-outline"
             label="Nombre completo"
             value={nombreCompleto}
             onChangeText={(texto) => {
@@ -230,6 +233,7 @@ export default function RegisterScreen() {
           </Text>
 
           <CustomInput
+            icon="card-outline"
             label="Documento de identidad"
             value={documento}
             onChangeText={(texto) => {
@@ -244,6 +248,7 @@ export default function RegisterScreen() {
             maxLength={DOC_MAX}
           />
           <CustomInput
+            icon="call-outline"
             label="Número de celular"
             value={celular}
             onChangeText={(texto) => {
@@ -260,11 +265,30 @@ export default function RegisterScreen() {
 
           <Text style={styles.etiqueta}>Fecha de nacimiento</Text>
           <Pressable
-            style={[styles.input, styles.selectorFecha, errores.fechaNacimiento && styles.inputError]}
+            style={[
+              styles.input,
+              styles.selectorFecha,
+              errores.fechaNacimiento && styles.inputError,
+            ]}
             onPress={() => setMostrarCalendario(true)}
           >
-            <Text style={fechaNacimiento ? styles.textoSelector : styles.placeholder}>
-              {fechaNacimiento ? formatearFecha(fechaNacimiento) : 'Selecciona tu fecha de nacimiento'}
+            <Ionicons
+              name="calendar-outline"
+              size={20}
+              color="#6B7280"
+            />
+
+            <Text
+              style={[
+                fechaNacimiento
+                  ? styles.textoSelector
+                  : styles.placeholder,
+                { marginLeft: 10 },
+              ]}
+            >
+              {fechaNacimiento
+                ? formatearFecha(fechaNacimiento)
+                : 'Selecciona tu fecha de nacimiento'}
             </Text>
           </Pressable>
           {mostrarCalendario ? (
@@ -291,6 +315,7 @@ export default function RegisterScreen() {
           ) : null}
 
           <CustomPicker
+            icon="people-outline"
             label="Género"
             selectedValue={genero}
             onValueChange={(valor) => {
@@ -301,8 +326,8 @@ export default function RegisterScreen() {
             placeholder="Selecciona el género"
             error={errores.genero}
           />
-
           <CustomInput
+            icon="mail-outline"
             label="Correo electrónico"
             value={correo}
             onChangeText={(texto) => {
@@ -317,6 +342,7 @@ export default function RegisterScreen() {
           />
 
           <CustomPicker
+            icon="language-outline"
             label="Idioma"
             selectedValue={idioma}
             onValueChange={(valor) => {
@@ -414,18 +440,6 @@ const styles = StyleSheet.create({
     color: '#9CA3AF',
     textAlign: 'right',
   },
-  error: {
-    marginTop: 6,
-    fontSize: 13,
-    color: '#DC2626',
-  },
-  pickerCaja: {
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-    backgroundColor: '#F9FAFB',
-    borderRadius: 12,
-    overflow: 'hidden',
-  },
   botonListo: {
     alignSelf: 'flex-end',
     marginTop: 8,
@@ -435,17 +449,5 @@ const styles = StyleSheet.create({
   botonListoTexto: {
     color: '#059669',
     fontWeight: '700',
-  },
-  botonContinuar: {
-    marginTop: 28,
-    backgroundColor: '#111827',
-    borderRadius: 14,
-    paddingVertical: 16,
-    alignItems: 'center',
-  },
-  botonContinuarTexto: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '700',
-  },
+  }
 });

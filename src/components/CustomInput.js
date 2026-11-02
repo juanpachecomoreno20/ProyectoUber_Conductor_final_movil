@@ -1,7 +1,9 @@
 import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import ErrorMessage from './ErrorMessage';
 
 export default function CustomInput({
+  icon,
   label,
   value,
   onChangeText,
@@ -15,17 +17,30 @@ export default function CustomInput({
         {label}
       </Text>
 
-      <TextInput
+      <View
         style={[
-          styles.input,
+          styles.inputContainer,
           error && styles.inputError,
         ]}
-        value={value}
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-        placeholderTextColor="#9CA3AF"
-        {...props}
-      />
+      >
+        {icon ? (
+          <Ionicons
+            name={icon}
+            size={20}
+            color="#6B7280"
+            style={styles.icon}
+          />
+        ) : null}
+
+        <TextInput
+          style={styles.input}
+          value={value}
+          onChangeText={onChangeText}
+          placeholder={placeholder}
+          placeholderTextColor="#9CA3AF"
+          {...props}
+        />
+      </View>
 
       <ErrorMessage message={error} />
     </View>
@@ -44,18 +59,28 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
 
-  input: {
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     borderWidth: 1,
     borderColor: '#E5E7EB',
     backgroundColor: '#F9FAFB',
     borderRadius: 12,
     paddingHorizontal: 14,
-    paddingVertical: 12,
-    fontSize: 16,
-    color: '#111827',
   },
 
   inputError: {
     borderColor: '#DC2626',
+  },
+
+  icon: {
+    marginRight: 10,
+  },
+
+  input: {
+    flex: 1,
+    paddingVertical: 12,
+    fontSize: 16,
+    color: '#111827',
   },
 });
