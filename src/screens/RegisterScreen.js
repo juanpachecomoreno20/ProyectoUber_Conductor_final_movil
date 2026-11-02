@@ -7,6 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import CustomPicker from '../components/CustomPicker';
+import ProfileImagePicker from '../components/ProfileImagePicker';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 import {
@@ -205,23 +206,12 @@ export default function RegisterScreen() {
         </View>
 
         <View style={styles.tarjeta}>
-          <Text style={[styles.etiqueta, styles.etiquetaPrimera]}>Foto de perfil</Text>
-          <Pressable style={styles.fotoContenedor} onPress={seleccionarFoto}>
-            {fotoUri ? (
-              <Image source={{ uri: fotoUri }} style={styles.foto} />
-            ) : (
-              <View style={styles.fotoVacia}>
-                <Text style={styles.fotoIcono}>+</Text>
-                <Text style={styles.fotoAyuda}>Seleccionar de la galería</Text>
-              </View>
-            )}
-          </Pressable>
-          {fotoUri ? (
-            <Pressable onPress={seleccionarFoto}>
-              <Text style={styles.enlace}>Cambiar foto</Text>
-            </Pressable>
-          ) : null}
-          {errores.foto ? <Text style={styles.error}>{errores.foto}</Text> : null}
+          <ProfileImagePicker
+            label="Foto de perfil"
+            imageUri={fotoUri}
+            onSelectImage={seleccionarFoto}
+            error={errores.foto}
+          />
 
           <CustomInput
             label="Nombre completo"
@@ -394,9 +384,6 @@ const styles = StyleSheet.create({
     marginTop: 16,
     marginBottom: 8,
   },
-  etiquetaPrimera: {
-    marginTop: 0,
-  },
   input: {
     borderWidth: 1,
     borderColor: '#E5E7EB',
@@ -431,42 +418,6 @@ const styles = StyleSheet.create({
     marginTop: 6,
     fontSize: 13,
     color: '#DC2626',
-  },
-  fotoContenedor: {
-    alignSelf: 'center',
-    width: 140,
-    height: 140,
-    borderRadius: 70,
-    overflow: 'hidden',
-    backgroundColor: '#ECFDF5',
-    borderWidth: 2,
-    borderColor: '#A7F3D0',
-  },
-  foto: {
-    width: '100%',
-    height: '100%',
-  },
-  fotoVacia: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 12,
-  },
-  fotoIcono: {
-    fontSize: 32,
-    color: '#059669',
-    marginBottom: 4,
-  },
-  fotoAyuda: {
-    fontSize: 12,
-    color: '#047857',
-    textAlign: 'center',
-  },
-  enlace: {
-    marginTop: 8,
-    textAlign: 'center',
-    color: '#059669',
-    fontWeight: '600',
   },
   pickerCaja: {
     borderWidth: 1,
