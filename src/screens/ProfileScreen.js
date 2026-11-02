@@ -6,7 +6,6 @@
  * Muestra la información almacenada
  * en Firebase Firestore.
  */
-
 import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -16,6 +15,13 @@ import {
   View,
 } from 'react-native';
 
+import { Ionicons } from '@expo/vector-icons';
+
+import SectionTitle from '../components/SectionTitle';
+
+import Colors from '../constants/colors';
+import Typography from '../constants/typography';
+import Dimensions from '../constants/dimensions';
 import { getDrivers } from '../services/firestoreService';
 
 export default function ProfileScreen() {
@@ -83,83 +89,191 @@ export default function ProfileScreen() {
         {driver.datosPersonales?.nombreCompleto}
       </Text>
 
-      <Text style={styles.item}>
-        Documento:
-        {' '}
-        {driver.datosPersonales?.documento}
-      </Text>
+      <View style={styles.statusContainer}>
+        <Ionicons
+          name="time-outline"
+          size={18}
+          color="#D97706"
+        />
 
-      <Text style={styles.item}>
-        Celular:
-        {' '}
-        {driver.datosPersonales?.celular}
-      </Text>
+        <Text style={styles.statusText}>
+          Pendiente de aprobación
+        </Text>
+      </View>
 
-      <Text style={styles.item}>
-        Correo:
-        {' '}
-        {driver.datosPersonales?.correo}
-      </Text>
+      <SectionTitle
+        title="Información personal"
+      />
 
-      <Text style={styles.item}>
-        Género:
-        {' '}
-        {driver.datosPersonales?.genero}
-      </Text>
+      <View style={styles.row}>
+        <Ionicons
+          name="card-outline"
+          size={20}
+          color={Colors.primary}
+        />
+        <Text style={styles.item}>
+          Documento: {driver.datosPersonales?.documento}
+        </Text>
+      </View>
 
-      <Text style={styles.item}>
-        Idioma:
-        {' '}
-        {driver.datosPersonales?.idioma}
-      </Text>
+      <View style={styles.row}>
+        <Ionicons
+          name="call-outline"
+          size={20}
+          color={Colors.primary}
+        />
 
-      <Text style={styles.section}>
-        Información del vehículo
-      </Text>
+        <Text style={styles.item}>
+          Celular:
+          {' '}
+          {driver.datosPersonales?.celular}
+        </Text>
+      </View>
 
-      <Text style={styles.item}>
-        Categoría:
-        {' '}
-        {driver.vehiculo?.categoria}
-      </Text>
+      <View style={styles.row}>
+        <Ionicons
+          name="call-outline"
+          size={20}
+          color={Colors.primary}
+        />
 
-      <Text style={styles.item}>
-        Placa:
-        {' '}
-        {driver.vehiculo?.placa}
-      </Text>
+        <Text style={styles.item}>
+          Celular:
+          {' '}
+          {driver.datosPersonales?.celular}
+        </Text>
+      </View>
 
-      <Text style={styles.item}>
-        Marca:
-        {' '}
-        {driver.vehiculo?.marca}
-      </Text>
+      <View style={styles.row}>
+        <Ionicons
+          name="person-outline"
+          size={20}
+          color={Colors.primary}
+        />
+        <Text style={styles.item}>
+          Género:
+          {' '}
+          {driver.datosPersonales?.genero}
+        </Text>
+      </View>
 
-      <Text style={styles.item}>
-        Modelo:
-        {' '}
-        {driver.vehiculo?.modelo}
-      </Text>
+      <View style={styles.row}>
+        <Ionicons
+          name="language-outline"
+          size={20}
+          color={Colors.primary}
+        />
 
-      <Text style={styles.item}>
-        Año:
-        {' '}
-        {driver.vehiculo?.anio}
-      </Text>
+        <Text style={styles.item}>
+          Idioma:
+          {' '}
+          {driver.datosPersonales?.idioma}
+        </Text>
+      </View>
 
-      <Text style={styles.item}>
-        Color:
-        {' '}
-        {driver.vehiculo?.color}
-      </Text>
+      <SectionTitle
+        title="Información del vehículo"
+      />
 
-      <Text style={styles.item}>
-        Capacidad:
-        {' '}
-        {driver.vehiculo?.capacidad}
-        {' '}
-        pasajeros
-      </Text>
+      <View style={styles.row}>
+        <Ionicons
+          name="layers-outline"
+          size={20}
+          color={Colors.primary}
+        />
+
+        <Text style={styles.item}>
+          Categoría:
+          {' '}
+          {driver.vehiculo?.categoria}
+        </Text>
+      </View>
+
+      <View style={styles.row}>
+        <Ionicons
+          name="card-outline"
+          size={20}
+          color={Colors.primary}
+        />
+
+        <Text style={styles.item}>
+          Placa:
+          {' '}
+          {driver.vehiculo?.placa}
+        </Text>
+      </View>
+
+      <View style={styles.row}>
+        <Ionicons
+          name="car-outline"
+          size={20}
+          color={Colors.primary}
+        />
+
+        <Text style={styles.item}>
+          Marca:
+          {' '}
+          {driver.vehiculo?.marca}
+        </Text>
+      </View>
+
+      <View style={styles.row}>
+        <Ionicons
+          name="car-sport-outline"
+          size={20}
+          color={Colors.primary}
+        />
+
+        <Text style={styles.item}>
+          Modelo:
+          {' '}
+          {driver.vehiculo?.modelo}
+        </Text>
+      </View>
+
+      <View style={styles.row}>
+        <Ionicons
+          name="calendar-outline"
+          size={20}
+          color={Colors.primary}
+        />
+
+        <Text style={styles.item}>
+          Año:
+          {' '}
+          {driver.vehiculo?.anio}
+        </Text>
+      </View>
+
+      <View style={styles.row}>
+        <Ionicons
+          name="calendar-outline"
+          size={20}
+          color={Colors.primary}
+        />
+
+        <Text style={styles.item}>
+          Año:
+          {' '}
+          {driver.vehiculo?.anio}
+        </Text>
+      </View>
+
+      <View style={styles.row}>
+        <Ionicons
+          name="people-outline"
+          size={20}
+          color={Colors.primary}
+        />
+
+        <Text style={styles.item}>
+          Capacidad:
+          {' '}
+          {driver.vehiculo?.capacidad}
+          {' '}
+          pasajeros
+        </Text>
+      </View>
     </View>
   );
 }
@@ -200,7 +314,26 @@ const styles = StyleSheet.create({
   },
 
   item: {
-    fontSize: 16,
-    marginBottom: 8,
+    fontSize: Typography.body,
+    marginLeft: 10,
   },
+  statusContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 25,
+  },
+  statusText: {
+    marginLeft: 8,
+    color: '#D97706',
+    fontWeight: '700',
+  },
+
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+
 });
+
