@@ -10,6 +10,8 @@ import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Image,
+  Modal,
+  Pressable,
   StyleSheet,
   Text,
   View,
@@ -27,6 +29,8 @@ import { getDrivers } from '../services/firestoreService';
 export default function ProfileScreen() {
   const [driver, setDriver] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showImage, setShowImage] =
+    useState(false);
 
   useEffect(() => {
     loadDriver();
@@ -77,13 +81,46 @@ export default function ProfileScreen() {
   return (
     <View style={styles.container}>
       {driver.datosPersonales?.fotoUri ? (
-        <Image
-          source={{
-            uri: driver.datosPersonales.fotoUri,
-          }}
-          style={styles.image}
-        />
+        <Pressable
+          onPress={() => setShowImage(true)}
+        >
+          <Image
+            source={{
+              uri: driver.datosPersonales?.fotoUri,
+            }}
+            style={styles.image}
+          />
+        </Pressable>
+
       ) : null}
+
+
+      <Modal
+        visible={showImage}
+        transparent={true}
+      >
+        <View style={styles.modalContainer}>
+
+          <Pressable
+            style={styles.modalClose}
+            onPress={() => setShowImage(false)}
+          >
+            <Ionicons
+              name="close"
+              size={30}
+              color="white"
+            />
+          </Pressable>
+
+          <Image
+            source={{
+              uri: driver.datosPersonales?.fotoUri,
+            }}
+            style={styles.fullImage}
+            resizeMode="contain"
+          />
+        </View>
+      </Modal>
 
       <Text style={styles.title}>
         {driver.datosPersonales?.nombreCompleto}
@@ -335,5 +372,21 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
 
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.95)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalClose: {
+    position: 'absolute',
+    top: 50,
+    right: 20,
+    zIndex: 1,
+  },
+  fullImage: {
+    width: '100%',
+    height: '80%',
+  },
 });
 

@@ -55,6 +55,9 @@ const COLORES = [
 ];
 
 const ANIO_MINIMO = 2000;
+const PLACA_REGEX =
+  /^[A-Z]{3}[0-9]{3}$/;
+
 
 export default function VehicleScreen() {
 
@@ -131,6 +134,9 @@ export default function VehicleScreen() {
     if (!placa.trim()) {
       nuevosErrores.placa =
         'La placa es obligatoria.';
+    } else if (!PLACA_REGEX.test(placa)) {
+      nuevosErrores.placa =
+        'La placa debe tener formato ABC123.';
     }
 
     if (!marca.trim()) {
@@ -167,8 +173,25 @@ export default function VehicleScreen() {
     if (!capacidad) {
       nuevosErrores.capacidad =
         'La capacidad es obligatoria.';
+    } else {
+    
+      const capacidadNumero =
+        Number(capacidad);
+    
+      if (capacidadNumero <= 0) {
+        nuevosErrores.capacidad =
+          'La capacidad debe ser mayor que cero.';
+      }
+    
+      if (
+        categoria === 'XL' &&
+        capacidadNumero < 6
+      ) {
+        nuevosErrores.capacidad =
+          'La categoría XL exige mínimo 6 pasajeros.';
+      }
     }
-
+    
     setErrores(nuevosErrores);
 
     return (
@@ -298,6 +321,7 @@ export default function VehicleScreen() {
               }}
               placeholder="Ej. Chevrolet"
               error={errores.marca}
+              maxLength={30}
             />
 
             <CustomInput
@@ -310,6 +334,7 @@ export default function VehicleScreen() {
               }}
               placeholder="Ej. Onix"
               error={errores.modelo}
+              maxLength={30}
             />
 
             <CustomInput

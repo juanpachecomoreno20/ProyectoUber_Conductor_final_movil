@@ -113,3 +113,30 @@ Se comprendió cómo conectar una aplicación React Native con Firebase Firestor
 - Implementar lectura de datos desde Firestore.
 - Configurar Firebase Storage.
 - Asociar imágenes con registros del conductor.
+
+## 02/11/2026
+
+### Actividad realizada
+Mejoras visuales de la pantalla Perfil.
+
+### Herramientas utilizadas
+- Visual Studio Code
+- Microsoft Copilot
+- React Native
+- Firebase Firestore
+
+### Uso de IA
+Se utilizó IA para proponer mejoras visuales y reutilización de componentes previamente desarrollados.
+
+### Resultado obtenido
+La pantalla Perfil fue conectada a Firestore y se mejoró visualmente utilizando componentes reutilizables e iconografía con Ionicons.
+
+### Mejoras realizadas
+- Reutilización de SectionTitle.
+- Integración de Ionicons.
+- Organización de información personal y del vehículo.
+- Visualización del estado "Pendiente de aprobación".
+- Lectura de datos reales desde Firestore.
+
+### Aprendizaje
+Se comprendió cómo reutilizar componentes y cómo consumir información almacenada en Firebase Firestore para construir pantallas dinámicas.
