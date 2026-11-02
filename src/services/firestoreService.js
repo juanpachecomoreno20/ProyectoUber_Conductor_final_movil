@@ -35,7 +35,7 @@ export const createDriver = async (driverData) => {
 };
 
 /**
- * Obtener conductores
+ * Obtener conductores por id
  */
 export const getDrivers = async () => {
   const querySnapshot = await getDocs(
