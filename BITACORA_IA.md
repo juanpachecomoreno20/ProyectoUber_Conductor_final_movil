@@ -6,7 +6,7 @@
 Creación del proyecto base para el Proyecto Final de Desarrollo Móvil.
 
 ### Herramientas utilizadas
-- Visual Studio Code
+- Visual Studio Code 
 - Git
 - GitHub
 - Microsoft Copilot
@@ -120,7 +120,8 @@ Se comprendió cómo conectar una aplicación React Native con Firebase Firestor
 Mejoras visuales de la pantalla Perfil.
 
 ### Herramientas utilizadas
-- Visual Studio Code
+- Visual Studio Code 
+- Cursor IDE
 - Microsoft Copilot
 - React Native
 - Firebase Firestore
@@ -148,6 +149,7 @@ Integración completa entre Registro, Vehículo, Firestore y Perfil.
 
 ### Herramientas utilizadas
 - Visual Studio Code
+- Cursor IDE
 - Microsoft Copilot
 - Expo
 - React Native
