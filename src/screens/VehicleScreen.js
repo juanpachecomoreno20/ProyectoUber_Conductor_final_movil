@@ -174,15 +174,15 @@ export default function VehicleScreen() {
       nuevosErrores.capacidad =
         'La capacidad es obligatoria.';
     } else {
-    
+
       const capacidadNumero =
         Number(capacidad);
-    
+
       if (capacidadNumero <= 0) {
         nuevosErrores.capacidad =
           'La capacidad debe ser mayor que cero.';
       }
-    
+
       if (
         categoria === 'XL' &&
         capacidadNumero < 6
@@ -191,7 +191,7 @@ export default function VehicleScreen() {
           'La categoría XL exige mínimo 6 pasajeros.';
       }
     }
-    
+
     setErrores(nuevosErrores);
 
     return (
@@ -247,200 +247,201 @@ export default function VehicleScreen() {
 
     }
   };
-    return (
-      <KeyboardAvoidingView
+  return (
+    <KeyboardAvoidingView
+      style={styles.flex}
+      behavior={
+        Platform.OS === 'ios'
+          ? 'padding'
+          : undefined
+      }
+    >
+      <ScrollView
         style={styles.flex}
-        behavior={
-          Platform.OS === 'ios'
-            ? 'padding'
-            : undefined
-        }
+        contentContainerStyle={styles.contenido}
+        keyboardShouldPersistTaps="handled"
       >
-        <ScrollView
-          style={styles.flex}
-          contentContainerStyle={styles.contenido}
-        >
-          <View style={styles.encabezado}>
-            <Text style={styles.numero}>
-              Pestaña 2
-            </Text>
+        <View style={styles.encabezado}>
+          <Text style={styles.numero}>
+            Pestaña 2
+          </Text>
 
-            <Text style={styles.titulo}>
-              Información del vehículo
-            </Text>
+          <Text style={styles.titulo}>
+            Información del vehículo
+          </Text>
 
-            <Text style={styles.subtitulo}>
-              Completa la información del vehículo
-              que utilizarás como conductor.
-            </Text>
-          </View>
+          <Text style={styles.subtitulo}>
+            Completa la información del vehículo
+            que utilizarás como conductor.
+          </Text>
+        </View>
 
-          <View style={styles.card}>
-            <ProfileImagePicker
-              label="Foto del vehículo"
-              imageUri={fotoVehiculo}
-              onSelectImage={seleccionarFotoVehiculo}
-              error={errores.fotoVehiculo}
-            />
+        <View style={styles.card}>
+          <ProfileImagePicker
+            label="Foto del vehículo"
+            imageUri={fotoVehiculo}
+            onSelectImage={seleccionarFotoVehiculo}
+            error={errores.fotoVehiculo}
+          />
 
-            <CustomPicker
-              icon="layers-outline"
-              label="Categoría"
-              selectedValue={categoria}
-              onValueChange={(valor) => {
-                setCategoria(valor);
-                limpiarError('categoria');
-              }}
-              items={CATEGORIAS}
-              placeholder="Selecciona una categoría"
-              error={errores.categoria}
-            />
+          <CustomPicker
+            icon="layers-outline"
+            label="Categoría"
+            selectedValue={categoria}
+            onValueChange={(valor) => {
+              setCategoria(valor);
+              limpiarError('categoria');
+            }}
+            items={CATEGORIAS}
+            placeholder="Selecciona una categoría"
+            error={errores.categoria}
+          />
 
-            <CustomInput
-              icon="card-outline"
-              label="Placa"
-              value={placa}
-              onChangeText={(texto) => {
-                setPlaca(
-                  texto.toUpperCase()
-                );
-                limpiarError('placa');
-              }}
-              placeholder="ABC123"
-              error={errores.placa}
-              autoCapitalize="characters"
-            />
+          <CustomInput
+            icon="card-outline"
+            label="Placa"
+            value={placa}
+            onChangeText={(texto) => {
+              setPlaca(
+                texto.toUpperCase()
+              );
+              limpiarError('placa');
+            }}
+            placeholder="ABC123"
+            error={errores.placa}
+            autoCapitalize="characters"
+          />
 
-            <CustomInput
-              icon="car-outline"
-              label="Marca"
-              value={marca}
-              onChangeText={(texto) => {
-                setMarca(texto);
-                limpiarError('marca');
-              }}
-              placeholder="Ej. Chevrolet"
-              error={errores.marca}
-              maxLength={30}
-            />
+          <CustomInput
+            icon="car-outline"
+            label="Marca"
+            value={marca}
+            onChangeText={(texto) => {
+              setMarca(texto);
+              limpiarError('marca');
+            }}
+            placeholder="Ej. Chevrolet"
+            error={errores.marca}
+            maxLength={30}
+          />
 
-            <CustomInput
-              icon="car-sport-outline"
-              label="Modelo"
-              value={modelo}
-              onChangeText={(texto) => {
-                setModelo(texto);
-                limpiarError('modelo');
-              }}
-              placeholder="Ej. Onix"
-              error={errores.modelo}
-              maxLength={30}
-            />
+          <CustomInput
+            icon="car-sport-outline"
+            label="Modelo"
+            value={modelo}
+            onChangeText={(texto) => {
+              setModelo(texto);
+              limpiarError('modelo');
+            }}
+            placeholder="Ej. Onix"
+            error={errores.modelo}
+            maxLength={30}
+          />
 
-            <CustomInput
-              icon="calendar-outline"
-              label="Año"
-              value={anio}
-              onChangeText={(texto) => {
-                setAnio(
-                  texto
-                    .replace(/[^\d]/g, '')
-                    .slice(0, 4)
-                );
+          <CustomInput
+            icon="calendar-outline"
+            label="Año"
+            value={anio}
+            onChangeText={(texto) => {
+              setAnio(
+                texto
+                  .replace(/[^\d]/g, '')
+                  .slice(0, 4)
+              );
 
-                limpiarError('anio');
-              }}
-              placeholder="2024"
-              error={errores.anio}
-              keyboardType="number-pad"
-            />
+              limpiarError('anio');
+            }}
+            placeholder="2024"
+            error={errores.anio}
+            keyboardType="number-pad"
+          />
 
-            <CustomPicker
-              icon="color-palette-outline"
-              label="Color"
-              selectedValue={color}
-              onValueChange={(valor) => {
-                setColor(valor);
-                limpiarError('color');
-              }}
-              items={COLORES}
-              placeholder="Selecciona un color"
-              error={errores.color}
-            />
+          <CustomPicker
+            icon="color-palette-outline"
+            label="Color"
+            selectedValue={color}
+            onValueChange={(valor) => {
+              setColor(valor);
+              limpiarError('color');
+            }}
+            items={COLORES}
+            placeholder="Selecciona un color"
+            error={errores.color}
+          />
 
-            <CustomInput
-              icon="people-outline"
-              label="Capacidad de pasajeros"
-              value={capacidad}
-              onChangeText={(texto) => {
-                setCapacidad(
-                  texto.replace(/[^\d]/g, '')
-                );
+          <CustomInput
+            icon="people-outline"
+            label="Capacidad de pasajeros"
+            value={capacidad}
+            onChangeText={(texto) => {
+              setCapacidad(
+                texto.replace(/[^\d]/g, '')
+              );
 
-                limpiarError('capacidad');
-              }}
-              placeholder="4"
-              error={errores.capacidad}
-              keyboardType="number-pad"
-            />
+              limpiarError('capacidad');
+            }}
+            placeholder="4"
+            error={errores.capacidad}
+            keyboardType="number-pad"
+          />
 
-            <CustomButton
-              title="Guardar vehículo"
-              onPress={onGuardarVehiculo}
-            />
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    );
-  }
+          <CustomButton
+            title="Guardar vehículo"
+            onPress={onGuardarVehiculo}
+          />
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
+}
 
-  const styles = StyleSheet.create({
-    flex: {
-      flex: 1,
-      backgroundColor: '#F3F4F6',
+const styles = StyleSheet.create({
+  flex: {
+    flex: 1,
+    backgroundColor: '#F3F4F6',
+  },
+
+  contenido: {
+    padding: 20,
+    paddingBottom: 40,
+  },
+
+  encabezado: {
+    marginBottom: 16,
+  },
+
+  numero: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#059669',
+    textTransform: 'uppercase',
+    marginBottom: 4,
+  },
+
+  titulo: {
+    fontSize: 26,
+    fontWeight: '700',
+    color: '#111827',
+  },
+
+  subtitulo: {
+    marginTop: 6,
+    fontSize: 14,
+    color: '#6B7280',
+    lineHeight: 20,
+  },
+
+  card: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: 20,
+    shadowColor: '#111827',
+    shadowOpacity: 0.06,
+    shadowRadius: 12,
+    shadowOffset: {
+      width: 0,
+      height: 4,
     },
-
-    contenido: {
-      padding: 20,
-      paddingBottom: 40,
-    },
-
-    encabezado: {
-      marginBottom: 16,
-    },
-
-    numero: {
-      fontSize: 12,
-      fontWeight: '700',
-      color: '#059669',
-      textTransform: 'uppercase',
-      marginBottom: 4,
-    },
-
-    titulo: {
-      fontSize: 26,
-      fontWeight: '700',
-      color: '#111827',
-    },
-
-    subtitulo: {
-      marginTop: 6,
-      fontSize: 14,
-      color: '#6B7280',
-      lineHeight: 20,
-    },
-
-    card: {
-      backgroundColor: '#FFFFFF',
-      borderRadius: 16,
-      padding: 20,
-      shadowColor: '#111827',
-      shadowOpacity: 0.06,
-      shadowRadius: 12,
-      shadowOffset: {
-        width: 0,
-        height: 4,
-      },
-      elevation: 3,
-    },
-  });
+    elevation: 3,
+  },
+});

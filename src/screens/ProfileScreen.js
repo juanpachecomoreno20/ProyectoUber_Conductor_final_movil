@@ -6,6 +6,10 @@
  * Muestra la información almacenada
  * en Firebase Firestore.
  */
+import { useNavigation } from '@react-navigation/native';
+import CustomButton from '../components/CustomButton';
+import { ROUTES } from '../constants/routes';
+
 import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -31,6 +35,7 @@ export default function ProfileScreen() {
   const [loading, setLoading] = useState(true);
   const [showImage, setShowImage] =
     useState(false);
+  const navigation = useNavigation();
 
   useEffect(() => {
     loadDriver();
@@ -68,15 +73,25 @@ export default function ProfileScreen() {
   if (!driver) {
     return (
       <View style={styles.center}>
-        <Text>
-          No existen conductores registrados.
-        </Text>
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>
+            No existen conductores registrados.
+          </Text>
+  
+          <View style={styles.buttonContainer}>
+            <CustomButton
+              title="Registrar conductor"
+              onPress={() =>
+                navigation.navigate(
+                  ROUTES.REGISTER
+                )
+              }
+            />
+          </View>
+        </View>
       </View>
     );
   }
-  console.log(
-    driver.datosPersonales?.fotoUri
-  );
 
   return (
     <View style={styles.container}>
@@ -95,32 +110,33 @@ export default function ProfileScreen() {
       ) : null}
 
 
-      <Modal
-        visible={showImage}
-        transparent={true}
-      >
-        <View style={styles.modalContainer}>
+      {driver?.datosPersonales?.fotoUri ? (
+        <Modal
+          visible={showImage}
+          transparent={true}
+        >
+          <View style={styles.modalContainer}>
+            <Pressable
+              style={styles.modalClose}
+              onPress={() => setShowImage(false)}
+            >
+              <Ionicons
+                name="close"
+                size={30}
+                color="white"
+              />
+            </Pressable>
 
-          <Pressable
-            style={styles.modalClose}
-            onPress={() => setShowImage(false)}
-          >
-            <Ionicons
-              name="close"
-              size={30}
-              color="white"
+            <Image
+              source={{
+                uri: driver.datosPersonales.fotoUri,
+              }}
+              style={styles.fullImage}
+              resizeMode="contain"
             />
-          </Pressable>
-
-          <Image
-            source={{
-              uri: driver.datosPersonales?.fotoUri,
-            }}
-            style={styles.fullImage}
-            resizeMode="contain"
-          />
-        </View>
-      </Modal>
+          </View>
+        </Modal>
+      ) : null}
 
       <Text style={styles.title}>
         {driver.datosPersonales?.nombreCompleto}
@@ -150,20 +166,6 @@ export default function ProfileScreen() {
         />
         <Text style={styles.item}>
           Documento: {driver.datosPersonales?.documento}
-        </Text>
-      </View>
-
-      <View style={styles.row}>
-        <Ionicons
-          name="call-outline"
-          size={20}
-          color={Colors.primary}
-        />
-
-        <Text style={styles.item}>
-          Celular:
-          {' '}
-          {driver.datosPersonales?.celular}
         </Text>
       </View>
 
@@ -284,20 +286,6 @@ export default function ProfileScreen() {
 
       <View style={styles.row}>
         <Ionicons
-          name="calendar-outline"
-          size={20}
-          color={Colors.primary}
-        />
-
-        <Text style={styles.item}>
-          Año:
-          {' '}
-          {driver.vehiculo?.anio}
-        </Text>
-      </View>
-
-      <View style={styles.row}>
-        <Ionicons
           name="people-outline"
           size={20}
           color={Colors.primary}
@@ -310,6 +298,18 @@ export default function ProfileScreen() {
           {' '}
           pasajeros
         </Text>
+
+
+        <CustomButton
+          title="Registrar conductor"
+          onPress={() =>
+            navigation.navigate(
+              ROUTES.REGISTER
+            )
+          }
+        />
+
+
       </View>
     </View>
   );
@@ -387,6 +387,20 @@ const styles = StyleSheet.create({
   fullImage: {
     width: '100%',
     height: '80%',
+  },
+
+  emptyContainer: {
+    alignItems: 'center',
+  },
+
+  emptyText: {
+    marginBottom: 20,
+    fontSize: Typography.body,
+    color: Colors.secondary,
+  },
+
+  buttonContainer: {
+    width: 220,
   },
 });
 

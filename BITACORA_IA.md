@@ -140,3 +140,38 @@ La pantalla Perfil fue conectada a Firestore y se mejoró visualmente utilizando
 
 ### Aprendizaje
 Se comprendió cómo reutilizar componentes y cómo consumir información almacenada en Firebase Firestore para construir pantallas dinámicas.
+
+## 02/11/2026
+
+### Actividad realizada
+Integración completa entre Registro, Vehículo, Firestore y Perfil.
+
+### Herramientas utilizadas
+- Visual Studio Code
+- Microsoft Copilot
+- Expo
+- React Native
+- Firebase
+- Firestore
+- GitHub
+
+### Uso de IA
+Se utilizó IA como apoyo para la arquitectura del proyecto, conexión con Firestore, organización de componentes reutilizables y mejoras visuales de la pantalla Perfil.
+
+### Resultado obtenido
+Se logró almacenar información del conductor en Firebase Firestore y mostrarla posteriormente en la pantalla Perfil.
+
+### Mejoras realizadas
+- Integración entre RegisterScreen y VehicleScreen.
+- Persistencia de datos en Firestore.
+- Implementación de createDriver() y getDrivers().
+- Lectura de información desde Firestore.
+- Construcción de ProfileScreen dinámico.
+- Visualización de información personal y del vehículo.
+- Integración de iconografía con Ionicons.
+- Implementación de foto ampliable en Perfil.
+- Estado visual "Pendiente de aprobación".
+- Acceso a Registro desde Perfil cuando no existen conductores registrados.
+
+### Aprendizaje
+Se comprendió el flujo completo de captura, almacenamiento y lectura de datos utilizando React Native y Firebase Firestore. Tambi
