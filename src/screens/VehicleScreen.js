@@ -2,22 +2,16 @@
  * VehicleScreen
  *
  * Pestaña 2 - Información del Vehículo.
- *
- * Primera entrega:
- * - Captura de datos del vehículo.
- * - Validaciones locales con useState.
- * - Componentes reutilizables.
- * - Selección de imagen local.
- *
- * Pendiente:
- * - Integración con Firestore.
- * - Integración con Storage.
- * - Persistencia de datos.
  */
-import { useRoute } from '@react-navigation/native';
 import { createDriver } from '../services/firestoreService';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
+
+import {
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
+
 import {
   Alert,
   KeyboardAvoidingView,
@@ -31,6 +25,7 @@ import {
 import CustomButton from '../components/CustomButton';
 import CustomInput from '../components/CustomInput';
 import CustomPicker from '../components/CustomPicker';
+import { ROUTES } from '../constants/routes';
 import ProfileImagePicker from '../components/ProfileImagePicker';
 
 const CATEGORIAS = [
@@ -62,6 +57,7 @@ const PLACA_REGEX =
 export default function VehicleScreen() {
 
   const route = useRoute();
+  const navigation = useNavigation();
 
   const datosPersonales =
     route.params?.datosPersonales;
@@ -70,6 +66,9 @@ export default function VehicleScreen() {
     'DATOS PERSONALES:',
     datosPersonales
   );
+
+
+  const [guardando, setGuardando] = useState(false);
 
   const [fotoVehiculo, setFotoVehiculo] = useState(null);
 
@@ -200,28 +199,27 @@ export default function VehicleScreen() {
   };
 
   const onGuardarVehiculo = async () => {
-    const valido = validarFormulario();
 
+    if (guardando) {
+      return;
+    }
+  
+    const valido = validarFormulario();
+  
     if (!valido) {
       return;
     }
-
-    console.log('DATOS PERSONALES:', datosPersonales);
-
-    console.log('DATOS VEHICULO:', {
-      categoria,
-      placa,
-      marca,
-      modelo,
-      anio,
-      color,
-      capacidad,
-    });
+  
 
     try {
-      await createDriver({
-        datosPersonales,
 
+      setGuardando(true);
+    
+      console.log('INICIANDO GUARDADO');
+      console.log('DATOS PERSONALES:', datosPersonales);
+    
+      const resultado = await createDriver({
+        datosPersonales,
         vehiculo: {
           categoria,
           placa,
@@ -232,21 +230,36 @@ export default function VehicleScreen() {
           capacidad,
         },
       });
-
+    
+      console.log('DOCUMENTO CREADO:', resultado.id);
+    
       Alert.alert(
         'Éxito',
-        'Conductor registrado correctamente.'
+        'Conductor registrado correctamente.',
+        [
+          {
+            text: 'OK',
+            onPress: () => navigation.navigate(ROUTES.PROFILE),
+          },
+        ]
       );
-
     } catch (error) {
-
+    
+      console.log('ERROR FIREBASE:', error);
+    
       Alert.alert(
         'Error',
         error.message
       );
-
+    
+    } finally {
+    
+      setGuardando(false);
+    
     }
-  };
+  
+ }
+
   return (
     <KeyboardAvoidingView
       style={styles.flex}

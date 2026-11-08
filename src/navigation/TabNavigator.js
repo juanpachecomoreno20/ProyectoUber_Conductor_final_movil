@@ -1,11 +1,4 @@
-/**
- * TabNavigator
- *
- * Bottom Tabs de las secciones principales del conductor:
- * Inicio, Perfil y Vehículo.
- *
- * El registro no va en pestañas: se abre desde el Stack (AppNavigator).
- */
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 
