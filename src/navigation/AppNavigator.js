@@ -12,6 +12,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ROUTES } from '../constants/routes';
 import RegisterScreen from '../screens/RegisterScreen';
 import TabNavigator from './TabNavigator';
+import RequestScreen from '../screens/RequestScreen';
+import TripScreen from '../screens/TripScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +30,23 @@ export default function AppNavigator() {
         component={RegisterScreen}
         options={{ title: 'Registro' }}
       />
+
+      <Stack.Screen
+        name={ROUTES.REQUEST}
+        component={RequestScreen}
+        options={{
+          title: 'Solicitud',
+        }}
+      />
+
+      <Stack.Screen
+        name={ROUTES.TRIP}
+        component={TripScreen}
+        options={{
+          title: 'Viaje',
+        }}
+      />
+
     </Stack.Navigator>
   );
 }

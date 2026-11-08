@@ -10,4 +10,6 @@ export const ROUTES = {
   HOME: 'Home',
   PROFILE: 'Profile',
   VEHICLE: 'Vehicle',
+  REQUEST: 'Request',
+  TRIP: 'Trip',
 };

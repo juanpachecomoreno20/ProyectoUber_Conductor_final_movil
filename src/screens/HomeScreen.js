@@ -13,6 +13,7 @@ import {
   Switch,
   Text,
   View,
+  ScrollView,
 } from 'react-native';
 
 import MapView, {
@@ -22,8 +23,9 @@ import MapView, {
 import SectionTitle from '../components/SectionTitle';
 import Colors from '../constants/colors';
 import useDriverLocation from '../hooks/useDriverLocation';
+import CustomButton from '../components/CustomButton';
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
   const [disponible, setDisponible] =
     useState(false);
 
@@ -45,29 +47,56 @@ export default function HomeScreen() {
   }, [disponible]);
 
   return (
-    <View style={styles.container}>
-      <SectionTitle title="Inicio" />
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.content}
+      showsVerticalScrollIndicator={false}
+    >
+      <SectionTitle title="Bienvenido Conductor 👋" />
+
+      <Text style={styles.subtitulo}>
+        Todo está listo para comenzar a recibir solicitudes.
+      </Text>
+
+      {/* ESTADO DEL CONDUCTOR */}
 
       <View style={styles.card}>
         <Text style={styles.label}>
           Estado del conductor
         </Text>
 
+        <Text
+          style={[
+            styles.estadoGrande,
+            {
+              color: disponible
+                ? Colors.primary
+                : Colors.error,
+            },
+          ]}
+        >
+          {disponible
+            ? '🟢 EN LÍNEA'
+            : '🔴 DESCONECTADO'}
+        </Text>
+
+        <Text style={styles.descripcionEstado}>
+          {disponible
+            ? 'Estás listo para recibir nuevas solicitudes de viaje.'
+            : 'Activa tu disponibilidad para comenzar a trabajar.'}
+        </Text>
+
         <View style={styles.estadoContainer}>
-          <Text
-            style={[
-              styles.estado,
-              {
-                color: disponible
-                  ? Colors.primary
-                  : Colors.error,
-              },
-            ]}
-          >
-            {disponible
-              ? 'Disponible'
-              : 'No disponible'}
-          </Text>
+          <View>
+            <Text style={styles.switchLabel}>
+              Recibir solicitudes
+            </Text>
+
+            <Text style={styles.switchDescription}>
+              Activa este modo para aparecer
+              disponible para los pasajeros.
+            </Text>
+          </View>
 
           <Switch
             value={disponible}
@@ -85,19 +114,27 @@ export default function HomeScreen() {
         </View>
       </View>
 
+      {/* UBICACIÓN */}
+
       <View style={styles.card}>
         <Text style={styles.label}>
           Ubicación actual
         </Text>
 
-        <Text style={styles.info}>
-          Latitud:{' '}
+        <Text style={styles.ciudad}>
+          Medellín, Antioquia
+        </Text>
+
+        <Text style={styles.coordenadas}>
+          Latitud:
+          {' '}
           {location?.coords?.latitude?.toFixed(6) ??
             '--'}
         </Text>
 
-        <Text style={styles.info}>
-          Longitud:{' '}
+        <Text style={styles.coordenadas}>
+          Longitud:
+          {' '}
           {location?.coords?.longitude?.toFixed(6) ??
             '--'}
         </Text>
@@ -135,33 +172,132 @@ export default function HomeScreen() {
         <Text style={styles.pending}>
           {disponible
             ? 'Ubicación actualizándose en tiempo real.'
-            : 'Activa el estado Disponible para iniciar el seguimiento.'}
+            : 'Activa Disponible para iniciar el seguimiento.'}
         </Text>
       </View>
-    </View>
+
+      {/* ESTADÍSTICAS */}
+
+      <View style={styles.statsCard}>
+        <View style={styles.statItem}>
+          <Text style={styles.statNumber}>
+            0
+          </Text>
+
+          <Text style={styles.statLabel}>
+            Viajes hoy
+          </Text>
+        </View>
+
+        <View style={styles.divider} />
+
+        <View style={styles.statItem}>
+          <Text style={styles.statNumber}>
+            $0
+          </Text>
+
+          <Text style={styles.statLabel}>
+            Ganancias
+          </Text>
+        </View>
+
+        <View style={styles.divider} />
+
+        <View style={styles.statItem}>
+          <Text
+            style={[
+              styles.statNumber,
+              {
+                color: disponible
+                  ? Colors.primary
+                  : Colors.error,
+              },
+            ]}
+          >
+            {disponible
+              ? 'ON'
+              : 'OFF'}
+          </Text>
+
+          <Text style={styles.statLabel}>
+            Estado
+          </Text>
+        </View>
+      </View>
+
+      <View style={styles.card}>
+        <Text style={styles.label}>
+          Desarrollo
+        </Text>
+
+        <CustomButton
+          title="Probar solicitud 🚕"
+          onPress={() =>
+            navigation.navigate('Request')
+          }
+        />
+      </View>
+
+
+
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     backgroundColor: Colors.background,
+  },
+
+  content: {
+    padding: 20,
+    paddingBottom: 40,
+  },
+
+  subtitulo: {
+    fontSize: 14,
+    color: Colors.gray,
+    marginTop: -6,
+    marginBottom: 20,
+    lineHeight: 20,
   },
 
   card: {
     backgroundColor: Colors.white,
-    borderRadius: 16,
+    borderRadius: 20,
     padding: 20,
-    marginBottom: 16,
-    elevation: 3,
+    marginBottom: 18,
+
+    shadowColor: '#000',
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+
+    elevation: 4,
   },
 
   label: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '700',
     color: Colors.secondary,
-    marginBottom: 12,
+    marginBottom: 10,
+  },
+
+  estadoGrande: {
+    fontSize: 22,
+    fontWeight: '700',
+    marginBottom: 6,
+  },
+
+  descripcionEstado: {
+    fontSize: 14,
+    color: Colors.gray,
+    marginBottom: 18,
+    lineHeight: 20,
   },
 
   estadoContainer: {
@@ -170,28 +306,85 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  estado: {
+  switchLabel: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: Colors.secondary,
+  },
+
+  switchDescription: {
+    fontSize: 12,
+    color: Colors.gray,
+    marginTop: 4,
+    width: 190,
+  },
+
+  ciudad: {
     fontSize: 16,
     fontWeight: '700',
+    color: Colors.secondary,
+    marginBottom: 10,
   },
 
-  info: {
-    fontSize: 14,
+  coordenadas: {
+    fontSize: 12,
     color: Colors.gray,
-    marginBottom: 6,
-  },
-
-  pending: {
-    marginTop: 10,
-    color: Colors.primary,
-    fontWeight: '600',
+    marginBottom: 4,
   },
 
   map: {
     width: '100%',
-    height: 300,
-    borderRadius: 12,
+    height: 250,
+    borderRadius: 16,
     marginTop: 15,
-    marginBottom: 10,
+    marginBottom: 12,
+  },
+
+  pending: {
+    fontSize: 12,
+    color: Colors.primary,
+    fontWeight: '600',
+  },
+
+  statsCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.white,
+    borderRadius: 20,
+    paddingVertical: 24,
+    marginBottom: 20,
+
+    shadowColor: '#000',
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+
+    elevation: 4,
+  },
+
+  statItem: {
+    flex: 1,
+    alignItems: 'center',
+  },
+
+  statNumber: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: Colors.primary,
+  },
+
+  statLabel: {
+    fontSize: 12,
+    color: Colors.gray,
+    marginTop: 6,
+  },
+
+  divider: {
+    width: 1,
+    height: 35,
+    backgroundColor: Colors.border,
   },
 });
