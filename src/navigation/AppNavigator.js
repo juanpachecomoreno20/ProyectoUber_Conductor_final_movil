@@ -15,6 +15,8 @@ import TabNavigator from './TabNavigator';
 import RequestScreen from '../screens/RequestScreen';
 import TripScreen from '../screens/TripScreen';
 import SummaryScreen from '../screens/SummaryScreen';
+import EarningsScreen from '../screens/EarningsScreen';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -55,6 +57,15 @@ export default function AppNavigator() {
           title: 'Resumen',
         }}
       />
+
+      <Stack.Screen
+        name={ROUTES.EARNINGS}
+        component={EarningsScreen}
+        options={{
+          title: 'Ganancias',
+        }}
+      />
+
     </Stack.Navigator>
   );
 }

@@ -13,4 +13,5 @@ export const ROUTES = {
   REQUEST: 'Request',
   TRIP: 'Trip',
   SUMMARY: 'Summary',
+  EARNINGS: 'Earnings',
 };
