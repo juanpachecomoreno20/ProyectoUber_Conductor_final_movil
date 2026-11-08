@@ -283,8 +283,9 @@ export default function VehicleScreen() {
       behavior={
         Platform.OS === 'ios'
           ? 'padding'
-          : undefined
+          : 'height'
       }
+      keyboardVerticalOffset={50}
     >
       <ScrollView
         style={styles.flex}
@@ -432,6 +433,7 @@ const styles = StyleSheet.create({
   },
 
   contenido: {
+    flexGrow: 1,
     padding: 20,
     paddingBottom: 40,
   },

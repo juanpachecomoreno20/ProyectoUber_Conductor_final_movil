@@ -211,7 +211,12 @@ export default function RegisterScreen() {
   return (
     <KeyboardAvoidingView
       style={styles.flex}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      behavior={
+        Platform.OS === 'ios'
+          ? 'padding'
+          : 'height'
+      }
+      keyboardVerticalOffset={50}
     >
       <ScrollView
         style={styles.flex}
@@ -387,6 +392,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F3F4F6',
   },
   contenido: {
+    flexGrow: 1,
     padding: 20,
     paddingBottom: 40,
   },
