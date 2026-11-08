@@ -215,3 +215,6 @@ Implementación de temporizador de 15 segundos para solicitudes.
 Creación de TripScreen.
 Implementación de estados "Conductor en camino" y "Viaje en progreso".
 Navegación Home → Solicitud → Viaje.
+
+Aprendizaje
+Se fortalecieron conocimientos sobre geolocalización en React Native, uso de hooks personalizados, integración de mapas interactivos, gestión de permisos del dispositivo y construcción de flujos de navegación similares a plataformas de transporte como Uber o InDrive.

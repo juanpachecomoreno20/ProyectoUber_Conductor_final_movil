@@ -12,4 +12,5 @@ export const ROUTES = {
   VEHICLE: 'Vehicle',
   REQUEST: 'Request',
   TRIP: 'Trip',
+  SUMMARY: 'Summary',
 };

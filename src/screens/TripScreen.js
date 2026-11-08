@@ -12,8 +12,11 @@ import { Ionicons } from '@expo/vector-icons';
 import CustomButton from '../components/CustomButton';
 import SectionTitle from '../components/SectionTitle';
 import Colors from '../constants/colors';
+import { ROUTES } from '../constants/routes';
 
-export default function TripScreen() {
+export default function TripScreen({
+    navigation,
+  }) {
   const [pasajeroAbordo, setPasajeroAbordo] =
     useState(false);
 
@@ -128,10 +131,10 @@ export default function TripScreen() {
           <CustomButton
             title="Finalizar viaje"
             onPress={() =>
-              console.log(
-                'Viaje finalizado'
-              )
-            }
+                navigation.navigate(
+                  ROUTES.SUMMARY
+                )
+              }
           />
         )}
       </View>

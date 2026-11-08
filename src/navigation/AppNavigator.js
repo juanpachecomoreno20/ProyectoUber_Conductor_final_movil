@@ -14,6 +14,7 @@ import RegisterScreen from '../screens/RegisterScreen';
 import TabNavigator from './TabNavigator';
 import RequestScreen from '../screens/RequestScreen';
 import TripScreen from '../screens/TripScreen';
+import SummaryScreen from '../screens/SummaryScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -47,6 +48,13 @@ export default function AppNavigator() {
         }}
       />
 
+      <Stack.Screen
+        name={ROUTES.SUMMARY}
+        component={SummaryScreen}
+        options={{
+          title: 'Resumen',
+        }}
+      />
     </Stack.Navigator>
   );
 }
