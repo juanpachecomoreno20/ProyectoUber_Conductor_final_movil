@@ -27,6 +27,7 @@ import CustomInput from '../components/CustomInput';
 import CustomPicker from '../components/CustomPicker';
 import { ROUTES } from '../constants/routes';
 import ProfileImagePicker from '../components/ProfileImagePicker';
+import { CommonActions } from '@react-navigation/native';
 
 const CATEGORIAS = [
   'Económico',
@@ -209,8 +210,14 @@ export default function VehicleScreen() {
     if (!valido) {
       return;
     }
-  
 
+  if (!datosPersonales) {
+    Alert.alert(
+      'Información incompleta',
+      'Debes registrar primero los datos personales.'
+    );
+    return;
+  }
     try {
 
       setGuardando(true);
@@ -239,7 +246,17 @@ export default function VehicleScreen() {
         [
           {
             text: 'OK',
-            onPress: () => navigation.navigate(ROUTES.PROFILE),
+            onPress: () =>
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [
+                    {
+                      name: ROUTES.PROFILE,
+                    },
+                  ],
+                })
+              )
           },
         ]
       );
