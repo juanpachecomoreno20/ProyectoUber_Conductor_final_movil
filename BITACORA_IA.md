@@ -176,4 +176,42 @@ Se logró almacenar información del conductor en Firebase Firestore y mostrarla
 - Acceso a Registro desde Perfil cuando no existen conductores registrados.
 
 ### Aprendizaje
-Se comprendió el flujo completo de captura, almacenamiento y lectura de datos utilizando React Native y Firebase Firestore. Tambi
+Se comprendió el flujo completo de captura, almacenamiento y lectura de datos utilizando React Native y Firebase Firestore.
+
+## 08/11/2026
+
+### Actividad realizada
+Implementación de la pantalla Inicio del conductor con geolocalización en tiempo real, mapa interactivo y construcción del flujo inicial de viajes mediante Solicitud Entrante y Viaje en Curso.
+
+### Herramientas utilizadas
+- Cursor IDE
+- Microsoft Copilot
+- Expo
+- React Native
+- Expo Location
+- React Native Maps
+- Firebase
+- Firestore
+- GitHub
+
+### Uso de IA
+Se utilizó IA como apoyo para la implementación del hook personalizado useDriverLocation, integración de geolocalización con Expo Location, visualización de mapas con React Native Maps, mejoras visuales de HomeScreen y construcción del flujo de navegación Home → Solicitud → Viaje.
+
+### Resultado obtenido
+Se logró mostrar la ubicación real del conductor mediante GPS, visualizarla en un mapa interactivo y construir el flujo principal entre Inicio, Solicitud Entrante y Viaje en Curso.
+
+### Mejoras realizadas
+Mejoras realizadas
+Creación del hook personalizado useDriverLocation.
+Solicitud y gestión de permisos de ubicación.
+Obtención de coordenadas GPS en tiempo real.
+Integración de React Native Maps.
+Visualización de marcador en la ubicación actual.
+Implementación del estado Disponible / No disponible.
+Aplicación de función de limpieza (cleanup) en useEffect.
+Rediseño visual de HomeScreen.
+Creación de RequestScreen.
+Implementación de temporizador de 15 segundos para solicitudes.
+Creación de TripScreen.
+Implementación de estados "Conductor en camino" y "Viaje en progreso".
+Navegación Home → Solicitud → Viaje.
