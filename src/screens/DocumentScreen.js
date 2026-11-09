@@ -8,6 +8,9 @@ import {
     View,
 } from 'react-native';
 
+import * as ImagePicker from 'expo-image-picker';
+import { Alert } from 'react-native';
+
 import { Ionicons } from '@expo/vector-icons';
 
 import Colors from '../constants/colors';
@@ -139,6 +142,103 @@ export default function DocumentScreen() {
         );
     };
 
+
+    const seleccionarLicencia = async () => {
+        const permiso =
+            await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+        if (!permiso.granted) {
+            Alert.alert(
+                'Permiso requerido',
+                'Debes permitir acceso a la galería.'
+            );
+            return;
+        }
+
+        const resultado =
+            await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ['images'],
+                allowsEditing: true,
+                quality: 0.8,
+            });
+
+        if (
+            !resultado.canceled &&
+            resultado.assets?.[0]?.uri
+        ) {
+            setLicenciaUri(
+                resultado.assets[0].uri
+            );
+
+            limpiarError('licencia');
+        }
+    };
+
+
+    const seleccionarSoat = async () => {
+        const permiso =
+            await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+        if (!permiso.granted) {
+            Alert.alert(
+                'Permiso requerido',
+                'Debes permitir acceso a la galería.'
+            );
+            return;
+        }
+
+        const resultado =
+            await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ['images'],
+                allowsEditing: true,
+                quality: 0.8,
+            });
+
+        if (
+            !resultado.canceled &&
+            resultado.assets?.[0]?.uri
+        ) {
+            setSoatUri(
+                resultado.assets[0].uri
+            );
+
+            limpiarError('soat');
+        }
+    };
+
+
+    const seleccionarTecnico = async () => {
+        const permiso =
+            await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+        if (!permiso.granted) {
+            Alert.alert(
+                'Permiso requerido',
+                'Debes permitir acceso a la galería.'
+            );
+            return;
+        }
+
+        const resultado =
+            await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ['images'],
+                allowsEditing: true,
+                quality: 0.8,
+            });
+
+        if (
+            !resultado.canceled &&
+            resultado.assets?.[0]?.uri
+        ) {
+            setTecnicoUri(
+                resultado.assets[0].uri
+            );
+
+            limpiarError('tecnico');
+        }
+    };
+
+
     return (
         <ScrollView
             style={styles.container}
@@ -172,7 +272,7 @@ export default function DocumentScreen() {
                 <ProfileImagePicker
                     label="Fotografía de la licencia"
                     imageUri={licenciaUri}
-                    onSelectImage={setLicenciaUri}
+                    onSelectImage={seleccionarLicencia}
                 />
 
                 {errores.licencia && (
@@ -232,7 +332,7 @@ export default function DocumentScreen() {
                 <ProfileImagePicker
                     label="Fotografía del SOAT"
                     imageUri={soatUri}
-                    onSelectImage={setSoatUri}
+                    onSelectImage={seleccionarSoat}
                 />
                 {errores.soat && (
                     <Text style={styles.error}>
@@ -275,7 +375,7 @@ export default function DocumentScreen() {
                 <ProfileImagePicker
                     label="Fotografía del certificado"
                     imageUri={tecnicoUri}
-                    onSelectImage={setTecnicoUri}
+                    onSelectImage={seleccionarTecnico}
                 />
                 {errores.tecnico && (
                     <Text style={styles.error}>

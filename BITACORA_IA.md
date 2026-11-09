@@ -264,3 +264,52 @@ Se completó la pantalla de Documentos permitiendo registrar la información obl
 
 ### Aprendizaje
 Se fortalecieron conocimientos sobre validación de formularios en React Native, manejo de estados de error, retroalimentación visual para el usuario, reutilización de componentes y organización modular de pantallas dentro de una aplicación móvil de transporte.
+
+## 09/11/2026
+
+### Actividad realizada
+Implementación y fortalecimiento del módulo de documentos del conductor, incorporando captura de información obligatoria, gestión de imágenes de documentos y validaciones completas del formulario.
+
+### Herramientas utilizadas
+- Visual Studio Code
+- Cursor IDE
+- Microsoft Copilot
+- Expo
+- React Native
+- Expo Image Picker
+- Firebase
+- Firestore
+- GitHub
+
+### Uso de IA
+Se utilizó IA únicamente como apoyo para revisar la estructura del formulario, proponer validaciones, corregir errores relacionados con la selección de imágenes, organizar componentes reutilizables y mejorar la experiencia de usuario. La integración final, adaptación al proyecto, validación funcional y pruebas fueron realizadas manualmente por el desarrollador.
+
+### Prompt utilizado
+"Completar la pantalla DocumentScreen reutilizando los componentes existentes del proyecto. Agregar validaciones para licencia, SOAT, revisión técnico mecánica, correo Mercado Pago y aceptación de términos, mostrando los errores debajo de cada campo y manteniendo la identidad visual actual de la aplicación."
+
+### Resultado obtenido
+Se completó el módulo de documentos permitiendo registrar la información obligatoria del conductor, cargar imágenes desde la galería, validar todos los campos requeridos y controlar errores antes del almacenamiento de la información.
+
+### Mejoras realizadas
+- Creación de DocumentScreen.
+- Integración de ProfileImagePicker para documentos.
+- Implementación de carga de imágenes desde la galería.
+- Registro de número de licencia.
+- Registro de vencimiento de licencia.
+- Registro de vencimiento de SOAT.
+- Registro de vencimiento de revisión técnico mecánica.
+- Registro de correo asociado a Mercado Pago.
+- Implementación de validaciones para imágenes obligatorias.
+- Implementación de validaciones para fechas obligatorias.
+- Implementación de validación de correo electrónico.
+- Implementación de validación de aceptación de términos.
+- Visualización de mensajes de error debajo de cada campo.
+- Limpieza automática de errores cuando el usuario corrige la información.
+- Corrección del flujo de selección de imágenes mediante Expo Image Picker.
+- Integración de acceso a Documentos desde el menú principal HomeMenu.
+
+### Commit asociado
+feat: implementar modulo de documentos con validaciones
+
+### Aprendizaje
+Se fortalecieron conocimientos sobre validación de formularios en React Native, manejo de estados de error, selección de imágenes con Expo Image Picker, reutilización de componentes y organización modular de funcionalidades dentro de una aplicación móvil de transporte.
