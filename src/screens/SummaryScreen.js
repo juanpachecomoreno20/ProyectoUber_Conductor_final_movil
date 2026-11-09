@@ -13,6 +13,7 @@ import SectionTitle from '../components/SectionTitle';
 import CustomButton from '../components/CustomButton';
 import Colors from '../constants/colors';
 import { ROUTES } from '../constants/routes';
+import { CommonActions } from '@react-navigation/native';
 
 export default function SummaryScreen({
     navigation,
@@ -30,9 +31,14 @@ export default function SummaryScreen({
     setPaymentStatus('APROBADO');
   
     setTimeout(() => {
-      navigation.navigate(
-        ROUTES.EARNINGS
-      );
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: ROUTES.HOME,
+          },
+        ],
+      });
     }, 1000);
   };
 

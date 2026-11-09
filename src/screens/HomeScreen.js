@@ -2,7 +2,6 @@
  * HomeScreen
  * Pantalla inicial del conductor (pestaña Home).
  */
-
 import React, {
   useEffect,
   useState,
@@ -24,8 +23,11 @@ import SectionTitle from '../components/SectionTitle';
 import Colors from '../constants/colors';
 import useDriverLocation from '../hooks/useDriverLocation';
 import CustomButton from '../components/CustomButton';
+import HomeMenu from '../components/HomeMenu';
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({
+  navigation,
+}) {
   const [disponible, setDisponible] =
     useState(false);
 
@@ -52,11 +54,22 @@ export default function HomeScreen({ navigation }) {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      <SectionTitle title="Bienvenido Conductor 👋" />
+      <View style={styles.header}>
+        <View style={styles.headerContent}>
+          <SectionTitle
+            title="Bienvenido Conductor 👋"
+          />
 
-      <Text style={styles.subtitulo}>
-        Todo está listo para comenzar a recibir solicitudes.
-      </Text>
+          <Text style={styles.subtitulo}>
+            Todo está listo para comenzar a
+            recibir solicitudes.
+          </Text>
+        </View>
+
+        <HomeMenu
+          navigation={navigation}
+        />
+      </View>
 
       {/* ESTADO DEL CONDUCTOR */}
 
@@ -238,8 +251,6 @@ export default function HomeScreen({ navigation }) {
         />
       </View>
 
-
-
     </ScrollView>
   );
 }
@@ -251,8 +262,9 @@ const styles = StyleSheet.create({
   },
 
   content: {
-    padding: 20,
-    paddingBottom: 40,
+    paddingHorizontal: 20,
+    paddingTop: 90,
+    paddingBottom: 65,
   },
 
   subtitulo: {
@@ -387,4 +399,17 @@ const styles = StyleSheet.create({
     height: 35,
     backgroundColor: Colors.border,
   },
+
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 25,
+  },
+  
+  headerContent: {
+    flex: 1,
+    marginRight: 15,
+  },
+
 });

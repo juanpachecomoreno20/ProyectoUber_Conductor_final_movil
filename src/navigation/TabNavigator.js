@@ -41,7 +41,9 @@ export default function TabNavigator() {
       <Tab.Screen
         name={ROUTES.HOME}
         component={HomeScreen}
-        options={{ title: 'Inicio' }}
+        options={{
+          headerShown: false,
+        }}
       />
 
       <Tab.Screen
