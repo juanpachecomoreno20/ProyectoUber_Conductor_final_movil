@@ -1,16 +1,27 @@
-import React, { useState } from 'react';
-
-import {
+import React, {
+    useContext,
+    useState,
+  } from 'react';
+  
+  import {
+    Alert,
     ScrollView,
     StyleSheet,
     Switch,
     Text,
     View,
-} from 'react-native';
+  } from 'react-native';
+
+import {
+  AppContext,
+} from '../context/AppContext';
+
+import {
+  updateDriver,
+} from '../services/firestoreService';
+
 
 import * as ImagePicker from 'expo-image-picker';
-import { Alert } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 
 import Colors from '../constants/colors';
@@ -129,18 +140,58 @@ export default function DocumentScreen() {
         );
     };
 
-    const onGuardarDocumentos = () => {
+    const onGuardarDocumentos = async () => {
         const valido =
-            validarFormulario();
-
+          validarFormulario();
+      
         if (!valido) {
-            return;
+          return;
         }
-
-        console.log(
-            'Documentos guardados'
-        );
-    };
+      
+        try {
+          const documentos = {
+            licenciaUri,
+            numeroLicencia,
+            fechaLicencia,
+      
+            soatUri,
+            fechaSoat,
+      
+            tecnicoUri,
+            fechaTecnico,
+      
+            correoPago,
+            terminos,
+          };
+      
+          await updateDriver(
+            driver.id,
+            {
+              documentos,
+            }
+          );
+      
+          setDriver({
+            ...driver,
+            documentos,
+          });
+      
+          Alert.alert(
+            'Éxito',
+            'Documentos guardados correctamente.'
+          );
+        } catch (error) {
+          console.log(
+            'ERROR DOCUMENTOS:',
+            error
+          );
+      
+          Alert.alert(
+            'Error',
+            'No fue posible guardar los documentos.'
+          );
+        }
+      };
 
 
     const seleccionarLicencia = async () => {
@@ -238,6 +289,15 @@ export default function DocumentScreen() {
         }
     };
 
+    const {
+        driver,
+        setDriver,
+      } = useContext(AppContext);
+
+      console.log(
+        'DRIVER ID:',
+        driver?.id
+      );
 
     return (
         <ScrollView

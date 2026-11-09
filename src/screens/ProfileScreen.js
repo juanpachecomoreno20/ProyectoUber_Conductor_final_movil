@@ -10,7 +10,16 @@ import { useNavigation } from '@react-navigation/native';
 import CustomButton from '../components/CustomButton';
 import { ROUTES } from '../constants/routes';
 
-import { useEffect, useState } from 'react';
+import {
+  useContext,
+  useState,
+} from 'react';
+
+import {
+  AppContext,
+} from '../context/AppContext';
+
+
 import {
   ActivityIndicator,
   Image,
@@ -28,41 +37,18 @@ import SectionTitle from '../components/SectionTitle';
 import Colors from '../constants/colors';
 import Typography from '../constants/typography';
 import Dimensions from '../constants/dimensions';
-import { getDrivers } from '../services/firestoreService';
 
 export default function ProfileScreen() {
-  const [driver, setDriver] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [showImage, setShowImage] =
     useState(false);
   const navigation = useNavigation();
 
-  useEffect(() => {
-    loadDriver();
-  }, []);
+  const {
+    driver,
+    loadingDriver,
+  } = useContext(AppContext);
 
-  const loadDriver = async () => {
-    try {
-      const drivers = await getDrivers();
-      console.log(
-        'DRIVERS:',
-        drivers
-      );
-
-      if (drivers.length > 0) {
-        const lastDriver =
-          drivers[drivers.length - 1];
-
-        setDriver(lastDriver);
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (loading) {
+  if (loadingDriver) {
     return (
       <View style={styles.center}>
         <ActivityIndicator size="large" />
@@ -298,17 +284,6 @@ export default function ProfileScreen() {
           {' '}
           pasajeros
         </Text>
-
-
-        <CustomButton
-          title="Registrar conductor"
-          onPress={() =>
-            navigation.navigate(
-              ROUTES.REGISTER
-            )
-          }
-        />
-
 
       </View>
     </View>

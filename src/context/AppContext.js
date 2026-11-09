@@ -1,10 +1,64 @@
 /**
  * Contexto global de la aplicación.
  *
- * INTENCIONALMENTE VACÍO EN ESTA ENTREGA.
  * Envuelve a los hijos sin estado. Más adelante podrá guardar
- * sesión del conductor u otros datos compartidos (sin Firebase aún).
+ * 
  */
-export default function AppProvider({ children }) {
-  return children;
+import React, {
+  createContext,
+  useEffect,
+  useState,
+} from 'react';
+
+import {
+  getDrivers,
+} from '../services/firestoreService';
+
+export const AppContext =
+  createContext();
+
+export default function AppProvider({
+  children,
+}) {
+  const [driver, setDriver] =
+    useState(null);
+
+  const [loadingDriver, setLoadingDriver] =
+    useState(true);
+
+  useEffect(() => {
+    cargarConductor();
+  }, []);
+
+  const cargarConductor =
+    async () => {
+      try {
+        const drivers =
+          await getDrivers();
+
+        if (drivers.length > 0) {
+          const lastDriver =
+            drivers[drivers.length - 1];
+
+          setDriver(lastDriver);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoadingDriver(false);
+      }
+    };
+
+  return (
+    <AppContext.Provider
+      value={{
+        driver,
+        setDriver,
+        loadingDriver,
+        cargarConductor,
+      }}
+    >
+      {children}
+    </AppContext.Provider>
+  );
 }

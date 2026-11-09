@@ -313,3 +313,55 @@ feat: implementar modulo de documentos con validaciones
 
 ### Aprendizaje
 Se fortalecieron conocimientos sobre validación de formularios en React Native, manejo de estados de error, selección de imágenes con Expo Image Picker, reutilización de componentes y organización modular de funcionalidades dentro de una aplicación móvil de transporte.
+
+
+## 09/11/2026
+
+### Actividad realizada
+Implementación de la persistencia del módulo de documentos del conductor mediante Firebase Firestore y optimización de la arquitectura de acceso a datos utilizando AppContext.
+
+### Herramientas utilizadas
+- Visual Studio Code
+- Cursor IDE
+- Microsoft Copilot
+- Expo
+- React Native
+- Expo Image Picker
+- Firebase
+- Firestore
+- GitHub
+
+### Uso de IA
+Se utilizó IA únicamente como apoyo para revisar la arquitectura de la aplicación, proponer mejoras de rendimiento, estructurar el uso de AppContext, corregir errores relacionados con la gestión de imágenes y definir la integración de documentos con Firestore. La implementación final, validación funcional y pruebas fueron realizadas manualmente por el desarrollador.
+
+### Prompt utilizado
+"Integrar DocumentScreen con Firebase Firestore utilizando el conductor cargado en AppContext. Guardar la información de licencia, SOAT, revisión técnico mecánica, correo de pagos y aceptación de términos dentro del documento del conductor existente, manteniendo las validaciones actuales y la arquitectura del proyecto."
+
+### Resultado obtenido
+Se logró almacenar correctamente la información documental del conductor dentro del documento correspondiente en Firestore, reutilizando AppContext para acceder al conductor activo sin necesidad de consultas repetidas a la base de datos.
+
+### Mejoras realizadas
+- Integración de DocumentScreen con Firestore.
+- Uso de updateDriver() para actualizar el conductor existente.
+- Creación del objeto documentos dentro de Firestore.
+- Almacenamiento de información documental en el mismo registro del conductor.
+- Persistencia de licencia, SOAT y técnico mecánica.
+- Persistencia de correo Mercado Pago.
+- Persistencia de aceptación de términos.
+- Corrección del flujo de carga de imágenes mediante Expo Image Picker.
+- Implementación de AppContext para compartir información del conductor entre pantallas.
+- Eliminación de dependencias innecesarias de ProfileScreen hacia Firestore.
+- Optimización de acceso al conductor mediante estado global compartido.
+
+### Resultado de pruebas
+- Registro del conductor almacenado correctamente en Firestore.
+- Obtención del driverId desde AppContext.
+- Guardado exitoso de documentos.
+- Verificación manual del objeto documentos en Firestore.
+- Correcto almacenamiento de imágenes, fechas, número de licencia y datos de pago.
+
+### Commit asociado
+feat: integrar documentos del conductor con firestore
+
+### Aprendizaje
+Se fortalecieron conocimientos sobre gestión centralizada de estado mediante Context API, actualización parcial de documentos en Firestore, reutilización de datos compartidos entre pantallas y persistencia de información documental en aplicaciones móviles con React Native y Firebase.
