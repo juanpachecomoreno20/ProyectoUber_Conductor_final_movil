@@ -16,6 +16,7 @@ import RequestScreen from '../screens/RequestScreen';
 import TripScreen from '../screens/TripScreen';
 import SummaryScreen from '../screens/SummaryScreen';
 import EarningsScreen from '../screens/EarningsScreen';
+import HistoryScreen from '../screens/HistoryScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -66,6 +67,13 @@ export default function AppNavigator() {
         }}
       />
 
+      <Stack.Screen
+        name={ROUTES.HISTORY}
+        component={HistoryScreen}
+        options={{
+          title: 'Historial',
+        }}
+      />
     </Stack.Navigator>
   );
 }

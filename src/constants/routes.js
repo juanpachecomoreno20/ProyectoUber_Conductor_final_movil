@@ -14,4 +14,5 @@ export const ROUTES = {
   TRIP: 'Trip',
   SUMMARY: 'Summary',
   EARNINGS: 'Earnings',
+  HISTORY: 'History',
 };
