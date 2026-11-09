@@ -11,6 +11,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/colors';
 import { ROUTES } from '../constants/routes';
 
+
 export default function HomeMenu({
   navigation,
 }) {
@@ -34,11 +35,19 @@ export default function HomeMenu({
             ),
         },
         {
+            text: '📄 Documentos',
+            onPress: () =>
+              navigation.navigate(
+                ROUTES.DOCUMENTS
+              ),
+          },
+
+        {
           text: '⚙️ Configuración',
           onPress: () =>
-            console.log(
-              'Configuración'
-            ),
+            navigation.navigate(
+                ROUTES.SETTINGS
+              )
         },
         {
           text: '🚪 Cerrar sesión',

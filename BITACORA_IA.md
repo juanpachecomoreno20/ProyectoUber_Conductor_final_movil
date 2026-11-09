@@ -218,3 +218,49 @@ Navegación Home → Solicitud → Viaje.
 
 Aprendizaje
 Se fortalecieron conocimientos sobre geolocalización en React Native, uso de hooks personalizados, integración de mapas interactivos, gestión de permisos del dispositivo y construcción de flujos de navegación similares a plataformas de transporte como Uber o InDrive.
+
+
+## 08/11/2026
+
+### Actividad realizada
+Implementación y fortalecimiento del módulo de documentos del conductor, incorporando validaciones completas para la documentación obligatoria exigida por la aplicación y reorganización de accesos secundarios del sistema mediante el menú principal.
+
+### Herramientas utilizadas
+- Visual Studio Code
+- Cursor IDE
+- Microsoft Copilot
+- Expo
+- React Native
+- Firebase
+- Firestore
+- GitHub
+
+### Uso de IA
+Se utilizó IA únicamente como apoyo para revisar la estructura del formulario, proponer validaciones, organizar componentes reutilizables y sugerir mejoras de experiencia de usuario. La integración final, adaptación al proyecto, validación funcional y pruebas fueron realizadas manualmente por el desarrollador.
+
+### Prompt utilizado
+"Completar la pantalla DocumentScreen reutilizando los componentes existentes del proyecto. Agregar validaciones para licencia, SOAT, revisión técnico mecánica, correo Mercado Pago y aceptación de términos, mostrando los errores debajo de cada campo y manteniendo la identidad visual actual de la aplicación."
+
+### Resultado obtenido
+Se completó la pantalla de Documentos permitiendo registrar la información obligatoria del conductor, validar los campos requeridos y controlar errores antes de permitir el almacenamiento de la información.
+
+### Mejoras realizadas
+- Creación de la pantalla DocumentScreen.
+- Integración de ProfileImagePicker para documentos.
+- Integración de CustomInput para captura de información.
+- Registro de número de licencia.
+- Registro de vencimiento de licencia.
+- Registro de vencimiento de SOAT.
+- Registro de vencimiento de revisión técnico mecánica.
+- Registro de correo asociado a Mercado Pago.
+- Implementación de validación para imágenes obligatorias.
+- Implementación de validación para número de licencia.
+- Implementación de validación para fechas obligatorias.
+- Implementación de validación para correo electrónico.
+- Implementación de validación de aceptación de términos.
+- Visualización de mensajes de error debajo de cada campo.
+- Limpieza automática de errores cuando el usuario corrige la información.
+- Reorganización del acceso a Documentos desde el menú principal de la aplicación.
+
+### Aprendizaje
+Se fortalecieron conocimientos sobre validación de formularios en React Native, manejo de estados de error, retroalimentación visual para el usuario, reutilización de componentes y organización modular de pantallas dentro de una aplicación móvil de transporte.

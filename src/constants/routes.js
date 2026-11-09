@@ -15,4 +15,6 @@ export const ROUTES = {
   SUMMARY: 'Summary',
   EARNINGS: 'Earnings',
   HISTORY: 'History',
+  SETTINGS: 'Settings',
+  DOCUMENTS: 'Documents',
 };
