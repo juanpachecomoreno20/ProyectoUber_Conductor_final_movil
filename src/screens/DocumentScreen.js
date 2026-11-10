@@ -1,23 +1,25 @@
 import React, {
     useContext,
     useState,
-  } from 'react';
-  
-  import {
+} from 'react';
+
+import {
     Alert,
+    Platform,
+    Pressable,
     ScrollView,
     StyleSheet,
     Switch,
     Text,
     View,
-  } from 'react-native';
+} from 'react-native';
 
 import {
-  AppContext,
+    AppContext,
 } from '../context/AppContext';
 
 import {
-  updateDriver,
+    updateDriver,
 } from '../services/firestoreService';
 
 
@@ -29,6 +31,7 @@ import CustomButton from '../components/CustomButton';
 import CustomInput from '../components/CustomInput';
 import ProfileImagePicker from '../components/ProfileImagePicker';
 import SectionTitle from '../components/SectionTitle';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function DocumentScreen() {
     const [licenciaUri, setLicenciaUri] =
@@ -65,6 +68,8 @@ export default function DocumentScreen() {
     const [errores, setErrores] =
         useState({});
 
+    const [guardando, setGuardando] =
+        useState(false);
 
     const limpiarError = (campo) => {
         setErrores((prev) => ({
@@ -72,6 +77,22 @@ export default function DocumentScreen() {
             [campo]: '',
         }));
     };
+
+    const [
+        mostrarFechaLicencia,
+        setMostrarFechaLicencia,
+    ] = useState(false);
+
+    const [
+        mostrarFechaSoat,
+        setMostrarFechaSoat,
+    ] = useState(false);
+
+    const [
+        mostrarFechaTecnico,
+        setMostrarFechaTecnico,
+    ] = useState(false);
+
 
     const validarFormulario = () => {
         const nuevosErrores = {};
@@ -140,58 +161,126 @@ export default function DocumentScreen() {
         );
     };
 
+
+    const formatearFecha = (fecha) => {
+        return fecha.toLocaleDateString('es-CO');
+    };
+
+    const cambiarFechaLicencia = (
+        event,
+        fechaSeleccionada
+    ) => {
+        setMostrarFechaLicencia(false);
+
+        if (fechaSeleccionada) {
+            setFechaLicencia(
+                formatearFecha(
+                    fechaSeleccionada
+                )
+            );
+
+            limpiarError(
+                'fechaLicencia'
+            );
+        }
+    };
+
+    const cambiarFechaSoat = (
+        event,
+        fechaSeleccionada
+    ) => {
+        setMostrarFechaSoat(false);
+
+        if (fechaSeleccionada) {
+            setFechaSoat(
+                formatearFecha(
+                    fechaSeleccionada
+                )
+            );
+
+            limpiarError(
+                'fechaSoat'
+            );
+        }
+    };
+
+    const cambiarFechaTecnico = (
+        event,
+        fechaSeleccionada
+    ) => {
+        setMostrarFechaTecnico(false);
+
+        if (fechaSeleccionada) {
+            setFechaTecnico(
+                formatearFecha(
+                    fechaSeleccionada
+                )
+            );
+
+            limpiarError(
+                'fechaTecnico'
+            );
+        }
+    };
+
     const onGuardarDocumentos = async () => {
         const valido =
-          validarFormulario();
-      
+            validarFormulario();
+
+        if (guardando) {
+            return;
+        }
+
         if (!valido) {
-          return;
+            return;
         }
-      
+
         try {
-          const documentos = {
-            licenciaUri,
-            numeroLicencia,
-            fechaLicencia,
-      
-            soatUri,
-            fechaSoat,
-      
-            tecnicoUri,
-            fechaTecnico,
-      
-            correoPago,
-            terminos,
-          };
-      
-          await updateDriver(
-            driver.id,
-            {
-              documentos,
-            }
-          );
-      
-          setDriver({
-            ...driver,
-            documentos,
-          });
-      
-          Alert.alert(
-            'Éxito',
-            'Documentos guardados correctamente.'
-          );
+            const documentos = {
+                licenciaUri,
+                numeroLicencia,
+                fechaLicencia,
+
+                soatUri,
+                fechaSoat,
+
+                tecnicoUri,
+                fechaTecnico,
+
+                correoPago,
+                terminos,
+            };
+
+            setGuardando(true);
+
+            await updateDriver(
+                driver.id,
+                {
+                    documentos,
+                }
+            );
+
+            setDriver({
+                ...driver,
+                documentos,
+            });
+
+            Alert.alert(
+                'Éxito',
+                'Documentos guardados correctamente.'
+            );
         } catch (error) {
-          console.log(
-            'ERROR DOCUMENTOS:',
-            error
-          );
-      
-          Alert.alert(
-            'Error',
-            'No fue posible guardar los documentos.'
-          );
+            console.log(
+                'ERROR DOCUMENTOS:',
+                error
+            );
+
+            Alert.alert(
+                'Error',
+                'No fue posible guardar los documentos.'
+            );
         }
-      };
+    };
 
 
     const seleccionarLicencia = async () => {
@@ -292,12 +381,13 @@ export default function DocumentScreen() {
     const {
         driver,
         setDriver,
-      } = useContext(AppContext);
+    } = useContext(AppContext);
 
-      console.log(
+    console.log(
         'DRIVER ID:',
         driver?.id
-      );
+    );
+
 
     return (
         <ScrollView
@@ -356,16 +446,37 @@ export default function DocumentScreen() {
                         {errores.numeroLicencia}
                     </Text>
                 )}
-                <CustomInput
-                    icon="calendar-outline"
-                    label="Vencimiento licencia"
-                    value={fechaLicencia}
-                    onChangeText={(texto) => {
-                        setFechaLicencia(texto);
-                        limpiarError('fechaLicencia');
-                    }}
-                    placeholder="DD/MM/AAAA"
-                />
+                <Text style={styles.fechaLabel}>
+                    Vencimiento licencia
+                </Text>
+
+                <Pressable
+                    style={styles.fechaButton}
+                    onPress={() =>
+                        setMostrarFechaLicencia(true)
+                    }
+                >
+                    <Ionicons
+                        name="calendar-outline"
+                        size={20}
+                        color={Colors.gray}
+                    />
+
+                    <Text style={styles.fechaText}>
+                        {fechaLicencia ||
+                            'Seleccionar fecha'}
+                    </Text>
+                </Pressable>
+
+                {mostrarFechaLicencia && (
+                    <DateTimePicker
+                        value={new Date()}
+                        mode="date"
+                        onChange={
+                            cambiarFechaLicencia
+                        }
+                    />
+                )}
                 {errores.fechaLicencia && (
                     <Text style={styles.error}>
                         {errores.fechaLicencia}
@@ -399,16 +510,46 @@ export default function DocumentScreen() {
                         {errores.soat}
                     </Text>
                 )}
-                <CustomInput
-                    icon="calendar-outline"
-                    label="Vencimiento SOAT"
-                    value={fechaSoat}
-                    onChangeText={(texto) => {
-                        setFechaSoat(texto);
-                        limpiarError('fechaSoat');
-                    }}
-                    placeholder="DD/MM/AAAA"
-                />
+                <Text style={styles.fechaLabel}>
+                    Vencimiento SOAT
+                </Text>
+
+                <Pressable
+                    style={styles.fechaButton}
+                    onPress={() =>
+                        setMostrarFechaSoat(true)
+                    }
+                >
+                    <Ionicons
+                        name="calendar-outline"
+                        size={20}
+                        color={Colors.gray}
+                    />
+
+                    <Text style={styles.fechaText}>
+                        {fechaSoat ||
+                            'Seleccionar fecha'}
+                    </Text>
+                </Pressable>
+
+                {mostrarFechaSoat && (
+                    <DateTimePicker
+                        value={new Date()}
+                        mode="date"
+                        display={
+                            Platform.OS === 'ios'
+                                ? 'spinner'
+                                : 'default'
+                        }
+                        onChange={cambiarFechaSoat}
+                    />
+                )}
+
+                {errores.fechaSoat && (
+                    <Text style={styles.error}>
+                        {errores.fechaSoat}
+                    </Text>
+                )}
                 {errores.fechaSoat && (
                     <Text style={styles.error}>
                         {errores.fechaSoat}
@@ -443,16 +584,46 @@ export default function DocumentScreen() {
                     </Text>
                 )}
 
-                <CustomInput
-                    icon="calendar-outline"
-                    label="Vencimiento técnico mecánica"
-                    value={fechaTecnico}
-                    onChangeText={(texto) => {
-                        setFechaTecnico(texto);
-                        limpiarError('fechaTecnico');
-                    }}
-                    placeholder="DD/MM/AAAA"
-                />
+                <Text style={styles.fechaLabel}>
+                    Vencimiento técnico mecánica
+                </Text>
+
+                <Pressable
+                    style={styles.fechaButton}
+                    onPress={() =>
+                        setMostrarFechaTecnico(true)
+                    }
+                >
+                    <Ionicons
+                        name="calendar-outline"
+                        size={20}
+                        color={Colors.gray}
+                    />
+
+                    <Text style={styles.fechaText}>
+                        {fechaTecnico ||
+                            'Seleccionar fecha'}
+                    </Text>
+                </Pressable>
+
+                {mostrarFechaTecnico && (
+                    <DateTimePicker
+                        value={new Date()}
+                        mode="date"
+                        display={
+                            Platform.OS === 'ios'
+                                ? 'spinner'
+                                : 'default'
+                        }
+                        onChange={cambiarFechaTecnico}
+                    />
+                )}
+
+                {errores.fechaTecnico && (
+                    <Text style={styles.error}>
+                        {errores.fechaTecnico}
+                    </Text>
+                )}
                 {errores.fechaTecnico && (
                     <Text style={styles.error}>
                         {errores.fechaTecnico}
@@ -551,7 +722,11 @@ export default function DocumentScreen() {
             </View>
 
             <CustomButton
-                title="Guardar documentos"
+                title={
+                    guardando
+                        ? 'Guardando...'
+                        : 'Guardar documentos'
+                }
                 onPress={onGuardarDocumentos}
             />
         </ScrollView>
@@ -629,5 +804,29 @@ const styles = StyleSheet.create({
         marginTop: 5,
         marginBottom: 10,
     },
+
+    fechaLabel: {
+        fontSize: 14,
+        fontWeight: '600',
+        color: Colors.secondary,
+        marginBottom: 6,
+      },
+      
+      fechaButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: '#E5E7EB',
+        backgroundColor: '#F9FAFB',
+        borderRadius: 12,
+        paddingHorizontal: 14,
+        paddingVertical: 12,
+        marginBottom: 5,
+      },
+      
+      fechaText: {
+        marginLeft: 10,
+        color: Colors.secondary,
+      },
 
 });
