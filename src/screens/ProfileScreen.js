@@ -28,6 +28,7 @@ import {
   StyleSheet,
   Text,
   View,
+  ScrollView
 } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
@@ -63,7 +64,7 @@ export default function ProfileScreen() {
           <Text style={styles.emptyText}>
             No existen conductores registrados.
           </Text>
-  
+
           <View style={styles.buttonContainer}>
             <CustomButton
               title="Registrar conductor"
@@ -80,7 +81,11 @@ export default function ProfileScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.content}
+      showsVerticalScrollIndicator={false}
+    >
       {driver.datosPersonales?.fotoUri ? (
         <Pressable
           onPress={() => setShowImage(true)}
@@ -284,17 +289,81 @@ export default function ProfileScreen() {
           {' '}
           pasajeros
         </Text>
-
       </View>
-    </View>
-  );
+        <SectionTitle
+          title="Documentación"
+        />
+
+        <View style={styles.row}>
+          <Ionicons
+            name={
+              driver.documentos?.licenciaUri
+                ? 'checkmark-circle'
+                : 'close-circle'
+            }
+            size={20}
+            color={
+              driver.documentos?.licenciaUri
+                ? '#059669'
+                : '#DC2626'
+            }
+          />
+
+          <Text style={styles.item}>
+            Licencia de conducción
+          </Text>
+        </View>
+
+        <View style={styles.row}>
+          <Ionicons
+            name={
+              driver.documentos?.soatUri
+                ? 'checkmark-circle'
+                : 'close-circle'
+            }
+            size={20}
+            color={
+              driver.documentos?.soatUri
+                ? '#059669'
+                : '#DC2626'
+            }
+          />
+
+          <Text style={styles.item}>
+            SOAT
+          </Text>
+        </View>
+
+        <View style={styles.row}>
+          <Ionicons
+            name={
+              driver.documentos?.tecnicoUri
+                ? 'checkmark-circle'
+                : 'close-circle'
+            }
+            size={20}
+            color={
+              driver.documentos?.tecnicoUri
+                ? '#059669'
+                : '#DC2626'
+            }
+          />
+
+          <Text style={styles.item}>
+            Técnico mecánica
+          </Text>
+        </View>
+
+  
+      </ScrollView>
+);
 }
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
-    padding: 20,
+    backgroundColor: '#FFFFFF'
   },
 
   center: {

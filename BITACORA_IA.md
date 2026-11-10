@@ -365,3 +365,58 @@ feat: integrar documentos del conductor con firestore
 
 ### Aprendizaje
 Se fortalecieron conocimientos sobre gestión centralizada de estado mediante Context API, actualización parcial de documentos en Firestore, reutilización de datos compartidos entre pantallas y persistencia de información documental en aplicaciones móviles con React Native y Firebase.
+
+## 10/11/2026
+
+### Actividad realizada
+Implementación de persistencia de documentos del conductor en Firebase Firestore y optimización de la arquitectura mediante Context API para compartir la información del conductor entre pantallas.
+
+### Herramientas utilizadas
+- Visual Studio Code
+- Cursor IDE
+- Microsoft Copilot
+- Expo
+- React Native
+- Expo Image Picker
+- Firebase
+- Firestore
+- Context API
+- GitHub
+
+### Uso de IA
+Se utilizó IA únicamente como apoyo para revisar la arquitectura de la aplicación, optimizar la carga de información del conductor, integrar AppContext, corregir errores durante la persistencia de documentos y proponer mejoras de rendimiento. La implementación final, validación funcional y pruebas fueron realizadas manualmente por el desarrollador.
+
+### Prompt utilizado
+"Integrar DocumentScreen con Firestore utilizando AppContext para acceder al conductor activo. Guardar la información documental dentro del mismo documento del conductor y optimizar ProfileScreen para utilizar datos compartidos desde contexto en lugar de consultar Firestore repetidamente."
+
+### Resultado obtenido
+Se logró almacenar correctamente la información documental dentro del documento del conductor en Firestore. Además, se implementó AppContext para compartir la información cargada del conductor entre las diferentes pantallas de la aplicación, reduciendo consultas innecesarias a la base de datos.
+
+### Mejoras realizadas
+- Implementación de AppContext para gestionar el conductor activo.
+- Carga global del conductor desde Firestore al iniciar la aplicación.
+- Disponibilidad de `driver` y `driver.id` en todas las pantallas.
+- Integración de DocumentScreen con Firestore.
+- Uso de `updateDriver()` para actualizar el conductor existente.
+- Persistencia de licencia, SOAT y revisión técnico mecánica.
+- Persistencia de fechas de vencimiento.
+- Persistencia de correo Mercado Pago.
+- Persistencia de aceptación de términos.
+- Corrección de errores de carga de imágenes.
+- Corrección de errores de navegación y contexto.
+- Incorporación de estado documental en ProfileScreen.
+- Optimización de ProfileScreen para reutilizar información compartida desde AppContext.
+
+### Resultado de pruebas
+- Registro de conductor almacenado correctamente en Firestore.
+- Obtención correcta del conductor mediante AppContext.
+- Visualización correcta del `driver.id`.
+- Guardado exitoso de documentos.
+- Verificación manual del objeto `documentos` dentro de Firestore.
+- Visualización correcta del estado documental desde Perfil.
+
+### Commit asociado
+feat: integrar documentos firestore y optimizar contexto global
+
+### Aprendizaje
+Se fortalecieron conocimientos sobre Context API, centralización de estado global, actualización parcial de documentos en Firestore, reutilización de información compartida entre pantallas y optimización de consultas a bases de datos en aplicaciones React Native.
