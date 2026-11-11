@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "722961238638",
+    "project_id": "proyectouberconductor",
+    "storage_bucket": "proyectouberconductor.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:722961238638:android:28b3f2b7a70b0e8f5d347f",
+        "android_client_info": {
+          "package_name": "com.juancamilo.proyectouberconductor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAUWE7zr1AQrPO7wuVs1Y9YXV4CDxz4r8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

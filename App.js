@@ -5,7 +5,6 @@
  * Monta el NavigationContainer de React Navigation
  * y el Stack Navigator raíz (con Bottom Tabs anidadas).
  *
- * No configura Firebase, mapas, pagos ni lógica de viajes.
  */
 /**
  * Contexto global de la aplicación.

@@ -10,6 +10,8 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.juancamilo.proyectouberconductor",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png",
@@ -30,6 +32,11 @@
           "microphonePermission": false
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "87d73b16-edbd-4c48-8ac7-b19c6d2419d0"
+      }
+    }
   }
 }

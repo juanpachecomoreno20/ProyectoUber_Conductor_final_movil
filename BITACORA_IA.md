@@ -652,3 +652,87 @@ feat: mejorar configuracion y preparar infraestructura de notificaciones
 
 ### Aprendizaje
 Se fortalecieron conocimientos sobre permisos, notificaciones móviles en Expo y organización de servicios reutilizables.
+
+## 11/11/2026
+
+### Actividad realizada
+Integración del dashboard de HomeScreen con los datos reales de viajes y ganancias.
+
+### Herramientas utilizadas
+- Visual Studio Code
+- Cursor IDE
+- Microsoft Copilot
+- Expo
+- React Native
+- Context API
+- Firebase
+- Firestore
+- GitHub
+
+### Uso de IA
+Se utilizó IA únicamente como apoyo para conectar las estadísticas del Home con los viajes almacenados y las métricas ya calculadas por la aplicación. La integración final y las pruebas fueron realizadas manualmente.
+
+### Prompt utilizado
+"Conectar la tarjeta de estadísticas de HomeScreen con los datos reales provenientes del historial de viajes, reutilizando TripContext y manteniendo el diseño actual."
+
+### Resultado obtenido
+HomeScreen ahora muestra la cantidad real de viajes del día y las ganancias acumuladas, utilizando la misma información que alimenta Historial y Ganancias.
+
+### Mejoras realizadas
+- Integración de HomeScreen con TripContext.
+- Conteo real de viajes del día.
+- Cálculo real de ganancias del día.
+- Eliminación de valores simulados en el dashboard principal.
+
+### Commit asociado
+feat: conectar dashboard home con datos reales
+
+### Aprendizaje
+Se fortalecieron conocimientos sobre reutilización de estado compartido y sincronización de métricas entre múltiples pantallas de la aplicación.
+
+Nota: 
+La infraestructura de notificaciones y Cloud Messaging fue preparada.
+La obtención y validación del token push requiere dispositivo físico o Development Build debido a las limitaciones de Expo Go.
+
+## 11/11/2026
+
+### Actividad realizada
+Implementación de persistencia de viajes, sincronización en tiempo real y preparación de notificaciones push.
+
+### Herramientas utilizadas
+- Visual Studio Code
+- Cursor IDE
+- Microsoft Copilot
+- Expo
+- Firebase
+- Firestore
+- Expo Notifications
+- Expo Device
+- EAS Build
+- GitHub
+
+### Uso de IA
+Se utilizó IA únicamente como apoyo para integrar sincronización en tiempo real, persistencia de viajes y configurar la infraestructura de notificaciones. La implementación final y las pruebas fueron realizadas manualmente.
+
+### Prompt utilizado
+"Implementar sincronización en tiempo real con Firestore, persistir viajes en la colección trips, registrar el token del dispositivo y preparar la infraestructura para Firebase Cloud Messaging."
+
+### Resultado obtenido
+Los viajes ahora se almacenan en Firestore, Historial y Ganancias se sincronizan automáticamente y el conductor registra correctamente un token push dentro de Firestore.
+
+### Mejoras realizadas
+- Persistencia de viajes en Firestore.
+- Sincronización mediante onSnapshot.
+- Ubicación del conductor guardada en Firestore.
+- Creación de notificationService.js.
+- Implementación de Expo Notifications.
+- Implementación de Expo Device.
+- Obtención de Expo Push Token.
+- Guardado de pushToken y tokenUpdatedAt en Firestore.
+- Configuración de EAS Build para pruebas fuera de Expo Go.
+
+### Commit asociado
+feat: integrar tiempo real, ubicacion y preparacion de notificaciones
+
+### Aprendizaje
+Se fortalecieron conocimientos sobre Firestore en tiempo real, persistencia de datos, Expo Notifications, EAS Build y preparación de infraestructura para notificaciones push.
