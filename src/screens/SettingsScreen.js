@@ -1,23 +1,34 @@
-import React from 'react';
+import React, {
+  useContext,
+} from 'react';
 
 import {
   ScrollView,
   StyleSheet,
   Text,
   View,
+  TouchableOpacity,
 } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
 import SectionTitle from '../components/SectionTitle';
 import Colors from '../constants/colors';
+import {
+  AppContext,
+} from '../context/AppContext';
 
 export default function SettingsScreen() {
+  const {
+    idioma,
+    setIdioma,
+  } = useContext(AppContext);
+
   const options = [
     {
       icon: 'language-outline',
       title: 'Idioma',
-      description: 'Español',
+      description: idioma || 'Español',
     },
     {
       icon: 'location-outline',
@@ -39,6 +50,15 @@ export default function SettingsScreen() {
     },
   ];
 
+  const alternarIdioma = () => {
+    const siguienteIdioma =
+      idioma === 'Español'
+        ? 'Inglés'
+        : 'Español';
+
+    setIdioma(siguienteIdioma);
+  };
+
   return (
     <ScrollView
       style={styles.container}
@@ -53,34 +73,55 @@ export default function SettingsScreen() {
         Gestiona las preferencias de la aplicación.
       </Text>
 
-      {options.map((item, index) => (
-        <View
-          key={index}
-          style={styles.card}
-        >
-          <Ionicons
-            name={item.icon}
-            size={24}
-            color={Colors.primary}
-          />
+      {options.map((item, index) => {
+        const contenido = (
+          <>
+            <Ionicons
+              name={item.icon}
+              size={24}
+              color={Colors.primary}
+            />
 
-          <View style={styles.texts}>
-            <Text style={styles.title}>
-              {item.title}
-            </Text>
+            <View style={styles.texts}>
+              <Text style={styles.title}>
+                {item.title}
+              </Text>
 
-            <Text style={styles.description}>
-              {item.description}
-            </Text>
+              <Text style={styles.description}>
+                {item.description}
+              </Text>
+            </View>
+
+            <Ionicons
+              name="chevron-forward"
+              size={20}
+              color={Colors.gray}
+            />
+          </>
+        );
+
+        if (item.title === 'Idioma') {
+          return (
+            <TouchableOpacity
+              key={index}
+              style={styles.card}
+              activeOpacity={0.8}
+              onPress={alternarIdioma}
+            >
+              {contenido}
+            </TouchableOpacity>
+          );
+        }
+
+        return (
+          <View
+            key={index}
+            style={styles.card}
+          >
+            {contenido}
           </View>
-
-          <Ionicons
-            name="chevron-forward"
-            size={20}
-            color={Colors.gray}
-          />
-        </View>
-      ))}
+        );
+      })}
 
       <View style={styles.logoutCard}>
         <Ionicons

@@ -3,8 +3,8 @@
  * Pantalla inicial del conductor (pestaña Home).
  */
 import React, {
+  useContext,
   useEffect,
-  useState,
 } from 'react';
 
 import {
@@ -14,6 +14,10 @@ import {
   View,
   ScrollView,
 } from 'react-native';
+
+import {
+  AppContext,
+} from '../context/AppContext';
 
 import MapView, {
   Marker,
@@ -28,8 +32,10 @@ import HomeMenu from '../components/HomeMenu';
 export default function HomeScreen({
   navigation,
 }) {
-  const [disponible, setDisponible] =
-    useState(false);
+  const {
+    disponible,
+    setDisponible,
+  } = useContext(AppContext);
 
   const location =
     useDriverLocation(disponible);
@@ -240,7 +246,7 @@ export default function HomeScreen({
 
       <View style={styles.card}>
         <Text style={styles.label}>
-          Desarrollo
+          Solicitudes de prueba
         </Text>
 
         <CustomButton

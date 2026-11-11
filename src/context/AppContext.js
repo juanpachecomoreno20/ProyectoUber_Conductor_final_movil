@@ -10,9 +10,17 @@ import React, {
   useState,
 } from 'react';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {
   getDrivers,
 } from '../services/firestoreService';
+
+const STORAGE_KEYS = {
+  idioma: '@driver_preferences:idioma',
+  disponible:
+    '@driver_preferences:disponible',
+};
 
 export const AppContext =
   createContext();
@@ -26,9 +34,46 @@ export default function AppProvider({
   const [loadingDriver, setLoadingDriver] =
     useState(true);
 
+  const [idioma, setIdioma] =
+    useState('Español');
+
+  const [disponible, setDisponible] =
+    useState(false);
+
+  const [settingsLoaded, setSettingsLoaded] =
+    useState(false);
+
   useEffect(() => {
     cargarConductor();
+    cargarPreferencias();
   }, []);
+
+  useEffect(() => {
+    if (!settingsLoaded) {
+      return;
+    }
+
+    const guardarPreferencias = async () => {
+      try {
+        await AsyncStorage.setItem(
+          STORAGE_KEYS.idioma,
+          idioma
+        );
+
+        await AsyncStorage.setItem(
+          STORAGE_KEYS.disponible,
+          String(disponible)
+        );
+      } catch (error) {
+        console.log(
+          'Error guardando preferencias',
+          error
+        );
+      }
+    };
+
+    guardarPreferencias();
+  }, [idioma, disponible, settingsLoaded]);
 
   const cargarConductor =
     async () => {
@@ -49,6 +94,38 @@ export default function AppProvider({
       }
     };
 
+  const cargarPreferencias =
+    async () => {
+      try {
+        const idiomaGuardado =
+          await AsyncStorage.getItem(
+            STORAGE_KEYS.idioma
+          );
+
+        const disponibleGuardado =
+          await AsyncStorage.getItem(
+            STORAGE_KEYS.disponible
+          );
+
+        if (idiomaGuardado) {
+          setIdioma(idiomaGuardado);
+        }
+
+        if (disponibleGuardado !== null) {
+          setDisponible(
+            disponibleGuardado === 'true'
+          );
+        }
+      } catch (error) {
+        console.log(
+          'Error cargando preferencias',
+          error
+        );
+      } finally {
+        setSettingsLoaded(true);
+      }
+    };
+
   return (
     <AppContext.Provider
       value={{
@@ -56,6 +133,10 @@ export default function AppProvider({
         setDriver,
         loadingDriver,
         cargarConductor,
+        idioma,
+        setIdioma,
+        disponible,
+        setDisponible,
       }}
     >
       {children}
