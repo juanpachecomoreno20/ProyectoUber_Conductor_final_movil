@@ -14,7 +14,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   getDrivers,
+  updateDriverPushToken,
 } from '../services/firestoreService';
+import { registerForPushNotificationsAsync } from '../services/notificationService';
 
 const STORAGE_KEYS = {
   idioma: '@driver_preferences:idioma',
@@ -47,6 +49,41 @@ export default function AppProvider({
     cargarConductor();
     cargarPreferencias();
   }, []);
+
+  useEffect(() => {
+    if (loadingDriver || !driver?.id) {
+      return;
+    }
+
+    let isActive = true;
+
+    const registrarTokenConductor = async () => {
+
+      try {
+
+        const token = await registerForPushNotificationsAsync();
+        console.log(
+          'PUSH TOKEN:',
+          token
+        );
+
+        if (isActive && token) {
+          await updateDriverPushToken(driver.id, token);
+        }
+      } catch (error) {
+        console.log(
+          'Error registrando el token de notificaciones del conductor:',
+          error
+        );
+      }
+    };
+
+    registrarTokenConductor();
+
+    return () => {
+      isActive = false;
+    };
+  }, [driver?.id, loadingDriver]);
 
   useEffect(() => {
     if (!settingsLoaded) {

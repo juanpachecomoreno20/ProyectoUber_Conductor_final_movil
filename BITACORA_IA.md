@@ -611,3 +611,44 @@ Historial y Ganancias ahora se sincronizan automáticamente con la colección tr
 
 ### Commit asociado
 feat: integrar firestore tiempo real para viajes y ganancias
+
+## 11/11/2026
+
+### Actividad realizada
+Mejora funcional de SettingsScreen y preparación de la infraestructura de notificaciones mediante Expo Notifications.
+
+### Herramientas utilizadas
+- Visual Studio Code
+- Cursor IDE
+- Microsoft Copilot
+- Expo
+- React Native
+- Expo Notifications
+- Expo Device
+- Firebase
+- GitHub
+
+### Uso de IA
+Se utilizó IA únicamente como apoyo para estructurar el servicio de notificaciones y convertir las opciones de Configuración en funcionalidades reales. La implementación final y las pruebas fueron realizadas manualmente.
+
+### Prompt utilizado
+"Implementar la base de notificaciones utilizando Expo Notifications y convertir las opciones de SettingsScreen en funcionalidades reales, sin modificar la arquitectura existente."
+
+### Resultado obtenido
+Se mejoró la pantalla Configuración mostrando información dinámica de ubicación, notificaciones e información de la aplicación. Además, se creó la infraestructura inicial para futuras notificaciones push.
+
+### Mejoras realizadas
+- Actualización funcional de SettingsScreen.
+- Estado de ubicación.
+- Estado de notificaciones.
+- Información de la aplicación.
+- Confirmación de cierre de sesión.
+- Creación de notificationService.js.
+- Implementación de registerForPushNotificationsAsync().
+- Implementación de scheduleLocalNotification().
+
+### Commit asociado
+feat: mejorar configuracion y preparar infraestructura de notificaciones
+
+### Aprendizaje
+Se fortalecieron conocimientos sobre permisos, notificaciones móviles en Expo y organización de servicios reutilizables.

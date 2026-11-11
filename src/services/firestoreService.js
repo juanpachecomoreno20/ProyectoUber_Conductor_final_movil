@@ -86,6 +86,22 @@ export const updateDriverLocation = async (
   });
 };
 
+export const updateDriverPushToken = async (
+  id,
+  token
+) => {
+  const documentRef = doc(
+    db,
+    COLLECTION,
+    id
+  );
+
+  await updateDoc(documentRef, {
+    pushToken: token,
+    tokenUpdatedAt: serverTimestamp(),
+  });
+};
+
 /**
  * Eliminar conductor
  */
