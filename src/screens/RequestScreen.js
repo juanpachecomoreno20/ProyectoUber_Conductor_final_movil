@@ -79,6 +79,7 @@ export default function RequestScreen({
       driverEarnings: tripQuote.driverEarnings,
       earnings: tripQuote.driverEarnings,
       tip: tripQuote.tip,
+      rating: 4.9,
       commissionRate: PRICING.COMMISSION_RATE,
       amount: tripQuote.fare,
       date: now.toLocaleDateString('es-CO'),

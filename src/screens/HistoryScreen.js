@@ -9,6 +9,7 @@ import {
   Pressable,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from 'react-native';
 
@@ -24,6 +25,8 @@ export default function HistoryScreen() {
   const [selectedPaymentFilter, setSelectedPaymentFilter] =
     useState('Todos');
   const [selectedTrip, setSelectedTrip] = useState(null);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   const { tripHistory } = useTripContext();
 
@@ -36,10 +39,23 @@ export default function HistoryScreen() {
 
     let filtered = byDate;
 
-    if (selectedFilter !== 'Todos') {
+    if (selectedFilter !== 'Todos' && selectedFilter !== 'Rango') {
       filtered = filtered.filter(
         (trip) => trip.filter === selectedFilter
       );
+    }
+
+    if (selectedFilter === 'Rango' && startDate && endDate) {
+      const start = new Date(startDate).getTime();
+      const end = new Date(endDate).getTime();
+
+      filtered = filtered.filter((trip) => {
+        const tripTime = new Date(
+          trip.createdAt || trip.date
+        ).getTime();
+
+        return tripTime >= start && tripTime <= end;
+      });
     }
 
     if (selectedPaymentFilter !== 'Todos') {
@@ -49,7 +65,13 @@ export default function HistoryScreen() {
     }
 
     return filtered;
-  }, [selectedFilter, selectedPaymentFilter, tripHistory]);
+  }, [
+    endDate,
+    selectedFilter,
+    selectedPaymentFilter,
+    startDate,
+    tripHistory,
+  ]);
 
   const renderItem = ({ item }) => (
     <Pressable
@@ -115,7 +137,7 @@ export default function HistoryScreen() {
       </Text>
 
       <View style={styles.filters}>
-        {['Hoy', 'Semana', 'Mes', 'Todos'].map((filter) => (
+        {['Hoy', 'Semana', 'Mes', 'Rango', 'Todos'].map((filter) => (
           <Pressable
             key={filter}
             style={[
@@ -135,6 +157,26 @@ export default function HistoryScreen() {
           </Pressable>
         ))}
       </View>
+
+      {selectedFilter === 'Rango' && (
+        <View style={styles.dateRangeContainer}>
+          <TextInput
+            style={styles.dateInput}
+            value={startDate}
+            onChangeText={setStartDate}
+            placeholder="Desde yyyy-mm-dd"
+            placeholderTextColor={Colors.gray}
+          />
+
+          <TextInput
+            style={styles.dateInput}
+            value={endDate}
+            onChangeText={setEndDate}
+            placeholder="Hasta yyyy-mm-dd"
+            placeholderTextColor={Colors.gray}
+          />
+        </View>
+      )}
 
       <View style={styles.filters}>
         {['Todos', 'Efectivo', 'Tarjeta', 'Mercado Pago'].map(
@@ -270,6 +312,15 @@ export default function HistoryScreen() {
                     {selectedTrip.category}
                   </Text>
                 </View>
+
+                <View style={styles.modalRow}>
+                  <Text style={styles.modalLabel}>Calificación:</Text>
+                  <Text style={styles.modalValue}>
+                    {selectedTrip.rating
+                      ? `${selectedTrip.rating} / 5`
+                      : 'Sin calificación'}
+                  </Text>
+                </View>
               </>
             )}
           </Pressable>
@@ -318,6 +369,19 @@ const styles = StyleSheet.create({
 
   activeText: {
     color: Colors.white,
+  },
+
+  dateRangeContainer: {
+    marginBottom: 20,
+  },
+
+  dateInput: {
+    backgroundColor: Colors.white,
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    marginBottom: 10,
+    color: Colors.secondary,
   },
 
   tripCard: {

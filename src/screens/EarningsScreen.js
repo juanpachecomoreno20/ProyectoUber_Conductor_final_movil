@@ -70,6 +70,7 @@ export default function EarningsScreen({ navigation }) {
         : 0;
 
     return {
+      totalViajes: tripHistory.length,
       viajesHoy: viajesHoy.length,
       viajesSemana: viajesSemana.length,
       viajesMes: viajesMes.length,
@@ -109,6 +110,14 @@ export default function EarningsScreen({ navigation }) {
           ${metrics.totalGananciasNetas.toLocaleString(
             'es-CO'
           )}
+        </Text>
+      </View>
+
+      <View style={styles.card}>
+        <Text style={styles.cardTitle}>Total de viajes</Text>
+
+        <Text style={styles.value}>
+          {metrics.totalViajes} viajes
         </Text>
       </View>
 
