@@ -28,6 +28,7 @@ import Colors from '../constants/colors';
 import useDriverLocation from '../hooks/useDriverLocation';
 import CustomButton from '../components/CustomButton';
 import HomeMenu from '../components/HomeMenu';
+import { updateDriverLocation } from '../services/firestoreService';
 
 export default function HomeScreen({
   navigation,
@@ -35,24 +36,50 @@ export default function HomeScreen({
   const {
     disponible,
     setDisponible,
+    driver,
   } = useContext(AppContext);
 
   const location =
     useDriverLocation(disponible);
 
   useEffect(() => {
-    if (disponible) {
-      console.log('Seguimiento iniciado');
-    } else {
+    if (!disponible) {
       console.log('Seguimiento detenido');
+      return;
     }
 
-    return () => {
-      console.log(
-        'Cleanup seguimiento'
-      );
+    if (
+      !driver?.id ||
+      typeof location?.coords?.latitude !== 'number' ||
+      typeof location?.coords?.longitude !== 'number'
+    ) {
+      return;
+    }
+
+    const syncLocation = async () => {
+      try {
+        await updateDriverLocation(
+          driver.id,
+          location.coords.latitude,
+          location.coords.longitude
+        );
+      } catch (error) {
+        console.log(
+          'Error actualizando ubicación del conductor en Firestore:',
+          error
+        );
+      }
     };
-  }, [disponible]);
+
+    syncLocation();
+
+    console.log('Seguimiento iniciado');
+  }, [
+    disponible,
+    driver?.id,
+    location?.coords?.latitude,
+    location?.coords?.longitude,
+  ]);
 
   return (
     <ScrollView

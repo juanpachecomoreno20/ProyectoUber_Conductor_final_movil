@@ -66,6 +66,26 @@ export const updateDriver = async (
   );
 };
 
+export const updateDriverLocation = async (
+  id,
+  latitude,
+  longitude
+) => {
+  const documentRef = doc(
+    db,
+    COLLECTION,
+    id
+  );
+
+  await updateDoc(documentRef, {
+    location: {
+      latitude,
+      longitude,
+    },
+    updatedAt: serverTimestamp(),
+  });
+};
+
 /**
  * Eliminar conductor
  */

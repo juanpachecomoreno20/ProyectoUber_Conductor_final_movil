@@ -578,3 +578,36 @@ feat: integrar calculo de tarifas y flujo dinamico de viajes
 
 ### Aprendizaje
 Se fortalecieron conocimientos sobre centralización de reglas de negocio, cálculo dinámico de tarifas, manejo de estados compartidos mediante contexto y reutilización de información entre múltiples pantallas de la aplicación.
+
+
+## 10/11/2026
+
+### Actividad realizada
+Implementación de sincronización en tiempo real de viajes mediante Firestore y optimización de las métricas de Ganancias.
+
+### Herramientas utilizadas
+- Visual Studio Code
+- Cursor IDE
+- Microsoft Copilot
+- Expo
+- React Native
+- Firebase
+- Firestore
+- Context API
+- GitHub
+
+### Uso de IA
+Se utilizó IA únicamente como apoyo para integrar Firestore en tiempo real mediante onSnapshot y ajustar el cálculo de métricas financieras del conductor. La implementación final y las pruebas funcionales fueron realizadas manualmente.
+
+### Resultado obtenido
+Historial y Ganancias ahora se sincronizan automáticamente con la colección trips de Firestore sin necesidad de reiniciar la aplicación.
+
+### Mejoras realizadas
+- Integración de onSnapshot en TripContext.
+- Sincronización automática de HistoryScreen.
+- Sincronización automática de EarningsScreen.
+- Corrección del saldo del conductor.
+- Actualización automática de métricas financieras.
+
+### Commit asociado
+feat: integrar firestore tiempo real para viajes y ganancias
