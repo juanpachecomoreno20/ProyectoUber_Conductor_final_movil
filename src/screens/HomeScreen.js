@@ -42,6 +42,7 @@ export default function HomeScreen({
   const location =
     useDriverLocation(disponible);
 
+
   useEffect(() => {
     if (!disponible) {
       console.log('Seguimiento detenido');
@@ -282,6 +283,7 @@ export default function HomeScreen({
             navigation.navigate('Request')
           }
         />
+
       </View>
 
     </ScrollView>
