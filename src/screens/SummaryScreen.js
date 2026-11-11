@@ -13,33 +13,69 @@ import SectionTitle from '../components/SectionTitle';
 import CustomButton from '../components/CustomButton';
 import Colors from '../constants/colors';
 import { ROUTES } from '../constants/routes';
-import { CommonActions } from '@react-navigation/native';
+import { useTripContext } from '../context/TripContext';
 
-export default function SummaryScreen({
-    navigation,
-  }) {
+export default function SummaryScreen({ navigation }) {
   const [paymentStatus, setPaymentStatus] =
     useState('PENDIENTE');
 
-  const paymentMethod = 'Efectivo';
+  const {
+    activeTrip,
+    setActiveTrip,
+    setTripHistory,
+  } = useTripContext();
 
-  const fare = 18500;
-  const commission = 3700;
-  const driverEarnings = 14800;
+  if (!activeTrip) {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyText}>
+          No hay un viaje activo para resumir.
+        </Text>
+      </View>
+    );
+  }
+
+  const fare = activeTrip.fare || 0;
+  const commission = activeTrip.commission || 0;
+  const driverEarnings = activeTrip.earnings || 0;
 
   const confirmarCobro = () => {
+    const paidTrip = {
+      ...activeTrip,
+      status: 'paid',
+      paymentStatus: 'APROBADO',
+      filter:
+        activeTrip.filter || 'Hoy',
+    };
+
     setPaymentStatus('APROBADO');
-  
+    setTripHistory((prevTrips) => {
+  const existe = prevTrips.some(
+    (trip) => trip.id === paidTrip.id
+  );
+
+  if (existe) {
+    return prevTrips;
+  }
+
+  return [
+    paidTrip,
+    ...prevTrips,
+  ];
+});
+    
     setTimeout(() => {
-      navigation.reset({
-        index: 0,
-        routes: [
-          {
-            name: ROUTES.HOME,
-          },
-        ],
-      });
+    
+      setActiveTrip(null);
+
+      navigation.navigate(
+        ROUTES.MAIN_TABS,
+        {
+          screen: ROUTES.HOME,
+        }
+      );
     }, 1000);
+
   };
 
   return (
@@ -53,8 +89,6 @@ export default function SummaryScreen({
       <Text style={styles.subtitulo}>
         Revisa la información final del viaje y confirma el cobro.
       </Text>
-
-      {/* ESTADO DEL VIAJE */}
 
       <View style={styles.statusCard}>
         <Ionicons
@@ -72,8 +106,6 @@ export default function SummaryScreen({
         </Text>
       </View>
 
-      {/* TARIFA */}
-
       <View style={styles.card}>
         <View style={styles.row}>
           <Ionicons
@@ -82,17 +114,13 @@ export default function SummaryScreen({
             color={Colors.primary}
           />
 
-          <Text style={styles.label}>
-            Tarifa final
-          </Text>
+          <Text style={styles.label}>Tarifa final</Text>
         </View>
 
         <Text style={styles.value}>
           ${fare.toLocaleString('es-CO')}
         </Text>
       </View>
-
-      {/* COMISIÓN */}
 
       <View style={styles.card}>
         <View style={styles.row}>
@@ -112,8 +140,6 @@ export default function SummaryScreen({
         </Text>
       </View>
 
-      {/* GANANCIA */}
-
       <View style={styles.card}>
         <View style={styles.row}>
           <Ionicons
@@ -122,17 +148,13 @@ export default function SummaryScreen({
             color={Colors.primary}
           />
 
-          <Text style={styles.label}>
-            Ganancia neta
-          </Text>
+          <Text style={styles.label}>Ganancia neta</Text>
         </View>
 
         <Text style={styles.earnings}>
           ${driverEarnings.toLocaleString('es-CO')}
         </Text>
       </View>
-
-      {/* MÉTODO DE PAGO */}
 
       <View style={styles.card}>
         <View style={styles.row}>
@@ -142,17 +164,13 @@ export default function SummaryScreen({
             color="#2563EB"
           />
 
-          <Text style={styles.label}>
-            Método de pago
-          </Text>
+          <Text style={styles.label}>Método de pago</Text>
         </View>
 
         <Text style={styles.valueSmall}>
-          {paymentMethod}
+          {activeTrip.paymentMethod}
         </Text>
       </View>
-
-      {/* ESTADO DEL PAGO */}
 
       <View style={styles.card}>
         <View style={styles.row}>
@@ -170,9 +188,7 @@ export default function SummaryScreen({
             }
           />
 
-          <Text style={styles.label}>
-            Estado del pago
-          </Text>
+          <Text style={styles.label}>Estado del pago</Text>
         </View>
 
         <Text
@@ -192,8 +208,6 @@ export default function SummaryScreen({
         </Text>
       </View>
 
-      {/* DETALLE DEL VIAJE */}
-
       <View style={styles.summaryCard}>
         <Text style={styles.summaryTitle}>
           Detalle del viaje
@@ -207,7 +221,7 @@ export default function SummaryScreen({
           />
 
           <Text style={styles.summaryText}>
-            Distancia recorrida: 5.3 km
+            Distancia recorrida: {activeTrip.distance}
           </Text>
         </View>
 
@@ -219,7 +233,7 @@ export default function SummaryScreen({
           />
 
           <Text style={styles.summaryText}>
-            Duración total: 14 min
+            Duración total: {activeTrip.duration}
           </Text>
         </View>
 
@@ -231,7 +245,7 @@ export default function SummaryScreen({
           />
 
           <Text style={styles.summaryText}>
-            Categoría: Económico
+            Categoría: {activeTrip.category}
           </Text>
         </View>
 
@@ -243,7 +257,7 @@ export default function SummaryScreen({
           />
 
           <Text style={styles.summaryText}>
-            Parque de El Poblado
+            {activeTrip.origin}
           </Text>
         </View>
 
@@ -255,7 +269,7 @@ export default function SummaryScreen({
           />
 
           <Text style={styles.summaryText}>
-            Centro Comercial Santa Fe
+            {activeTrip.destination}
           </Text>
         </View>
       </View>
@@ -281,6 +295,20 @@ const styles = StyleSheet.create({
   content: {
     padding: 20,
     paddingBottom: 40,
+  },
+
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.background,
+    padding: 20,
+  },
+
+  emptyText: {
+    color: Colors.gray,
+    textAlign: 'center',
+    fontSize: 16,
   },
 
   subtitulo: {

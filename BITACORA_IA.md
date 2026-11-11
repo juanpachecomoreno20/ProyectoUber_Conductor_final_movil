@@ -420,3 +420,59 @@ feat: integrar documentos firestore y optimizar contexto global
 
 ### Aprendizaje
 Se fortalecieron conocimientos sobre Context API, centralización de estado global, actualización parcial de documentos en Firestore, reutilización de información compartida entre pantallas y optimización de consultas a bases de datos en aplicaciones React Native.
+
+## 10/11/2026
+
+### Actividad realizada
+Implementación del contexto global de viajes (TripContext) para conectar el flujo completo entre Solicitud Entrante, Viaje en Curso, Resumen del Viaje, Ganancias e Historial.
+
+### Herramientas utilizadas
+- Visual Studio Code
+- Cursor IDE
+- Microsoft Copilot
+- Expo
+- React Native
+- Context API
+- GitHub
+
+### Uso de IA
+Se utilizó IA únicamente como apoyo para estructurar el contexto global de viajes, conectar las pantallas existentes, reemplazar datos simulados y validar el flujo completo del conductor. La implementación final, adaptación al proyecto, corrección de errores, pruebas funcionales y validaciones fueron realizadas manualmente por el desarrollador.
+
+### Prompt utilizado
+"Implementar TripContext para eliminar datos simulados de RequestScreen, TripScreen, SummaryScreen, EarningsScreen e HistoryScreen. Gestionar activeTrip y tripHistory, registrar viajes completados y utilizar los datos reales para alimentar Ganancias e Historial."
+
+### Resultado obtenido
+Se logró implementar un contexto global de viajes que permite gestionar el viaje activo y el historial de viajes realizados. Las pantallas de Ganancias e Historial ahora consumen información generada por el flujo real de viajes en lugar de utilizar datos simulados.
+
+### Mejoras realizadas
+- Creación de TripContext.
+- Gestión global de activeTrip.
+- Gestión global de tripHistory.
+- Integración de RequestScreen con TripContext.
+- Integración de TripScreen con TripContext.
+- Integración de SummaryScreen con TripContext.
+- Registro automático del viaje al confirmar el cobro.
+- Limpieza automática del viaje activo después del pago.
+- Integración de EarningsScreen con tripHistory.
+- Cálculo dinámico de métricas mediante useMemo.
+- Integración de HistoryScreen con tripHistory.
+- Eliminación de datos simulados en Ganancias.
+- Validación del flujo:
+  Request → Trip → Summary → Earnings → History.
+- Corrección de navegación posterior al cobro.
+- Corrección de duplicados en historial mediante validación de identificadores únicos.
+
+### Resultado de pruebas
+- Creación correcta del viaje activo desde RequestScreen.
+- Cambio correcto de estados del viaje.
+- Registro correcto del viaje al confirmar el cobro.
+- Visualización correcta del historial.
+- Sincronización correcta entre Historial y Ganancias.
+- Incremento automático de métricas al completar nuevos viajes.
+- Navegación estable durante todo el flujo.
+
+### Commit asociado
+feat: implementar trip context y flujo real de viajes
+
+### Aprendizaje
+Se fortalecieron conocimientos sobre Context API, manejo de estado compartido entre múltiples pantallas, diseño de flujos de negocio completos, eliminación de datos simulados y cálculo dinámico de indicadores a partir de información generada por la aplicación.
