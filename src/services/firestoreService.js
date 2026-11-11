@@ -1,10 +1,7 @@
 /**
  * Firestore Service
  *
- * Maneja las operaciones CRUD de la colección conductores.
- *
- * Colección:
- * conductores
+ * Maneja las operaciones CRUD de las colecciones conductores y viajes.
  */
 import {
   collection,
@@ -14,12 +11,14 @@ import {
   deleteDoc,
   doc,
   getDoc,
+  onSnapshot,
   serverTimestamp,
 } from 'firebase/firestore';
 
 import { db } from '../config/firebase';
 
 const COLLECTION = 'conductores';
+const TRIPS_COLLECTION = 'trips';
 
 /**
  * Crear conductor
@@ -102,5 +101,46 @@ export const getDriverById = async (id) => {
     id: documentSnapshot.id,
     ...documentSnapshot.data(),
   };
+};
+
+export const createTrip = async (tripData) => {
+  const timestamp = new Date().toISOString();
+
+  return await addDoc(
+    collection(db, TRIPS_COLLECTION),
+    {
+      ...tripData,
+      createdAt: tripData.createdAt || timestamp,
+      completedAt: tripData.completedAt || timestamp,
+    }
+  );
+};
+
+export const getTrips = async () => {
+  const querySnapshot = await getDocs(
+    collection(db, TRIPS_COLLECTION)
+  );
+
+  return querySnapshot.docs.map((document) => ({
+    id: document.id,
+    ...document.data(),
+  }));
+};
+
+export const subscribeToTrips = (callback) => {
+  return onSnapshot(
+    collection(db, TRIPS_COLLECTION),
+    (querySnapshot) => {
+      const trips = querySnapshot.docs.map((document) => ({
+        id: document.id,
+        ...document.data(),
+      }));
+
+      callback(trips);
+    },
+    (error) => {
+      console.log('Error en onSnapshot trips:', error);
+    }
+  );
 };
 ``

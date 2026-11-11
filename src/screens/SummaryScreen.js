@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, {
+  useContext,
+  useState,
+} from 'react';
 
 import {
   ScrollView,
@@ -14,17 +17,24 @@ import CustomButton from '../components/CustomButton';
 import Colors from '../constants/colors';
 import { ROUTES } from '../constants/routes';
 import { PRICING } from '../config/pricing';
+import { AppContext } from '../context/AppContext';
 import { useTripContext } from '../context/TripContext';
+import { createTrip } from '../services/firestoreService';
 
 export default function SummaryScreen({ navigation }) {
   const [paymentStatus, setPaymentStatus] =
     useState('PENDIENTE');
+
+  const [guardandoViaje, setGuardandoViaje] =
+    useState(false);
 
   const {
     activeTrip,
     setActiveTrip,
     setTripHistory,
   } = useTripContext();
+
+  const { driver } = useContext(AppContext);
 
   if (!activeTrip) {
     return (
@@ -41,35 +51,78 @@ export default function SummaryScreen({ navigation }) {
   const driverEarnings =
     activeTrip.driverEarnings || activeTrip.earnings || 0;
 
-  const confirmarCobro = () => {
-    const paidTrip = {
-      ...activeTrip,
-      status: 'paid',
-      paymentStatus: 'APROBADO',
-      commissionRate: PRICING.COMMISSION_RATE,
-      filter: activeTrip.filter || 'Hoy',
-    };
+  const confirmarCobro = async () => {
 
-    setPaymentStatus('APROBADO');
-    setTripHistory((prevTrips) => {
-      const existe = prevTrips.some(
-        (trip) => trip.id === paidTrip.id
+    if (guardandoViaje) {
+      return;
+    }
+    setGuardandoViaje(true);
+    try {
+
+
+      const completedAt = new Date().toISOString();
+
+      const paidTrip = {
+        ...activeTrip,
+        driverId: driver?.id || activeTrip.driverId || 'unknown-driver',
+        origin: activeTrip.origin,
+        destination: activeTrip.destination,
+        distance: activeTrip.distance,
+        duration: activeTrip.duration,
+        category: activeTrip.category,
+        fare: activeTrip.fare || 0,
+        commission: activeTrip.commission || 0,
+        tip: activeTrip.tip || 0,
+        driverEarnings:
+          activeTrip.driverEarnings ||
+          activeTrip.earnings ||
+          0,
+        commissionRate: PRICING.COMMISSION_RATE,
+        paymentMethod: activeTrip.paymentMethod,
+        paymentStatus: 'APROBADO',
+        status: 'paid',
+        rating: activeTrip.rating || 4.9,
+        createdAt: activeTrip.createdAt || completedAt,
+        completedAt,
+        filter: activeTrip.filter || 'Hoy',
+      };
+
+      await createTrip(paidTrip);
+
+      setPaymentStatus('APROBADO');
+      setTripHistory((prevTrips) => {
+        const existe = prevTrips.some(
+          (trip) => trip.id === paidTrip.id
+        );
+
+        if (existe) {
+          return prevTrips;
+        }
+
+        return [paidTrip, ...prevTrips];
+      });
+
+      setTimeout(() => {
+        setActiveTrip(null);
+
+        navigation.navigate(ROUTES.MAIN_TABS, {
+          screen: ROUTES.HOME,
+        });
+      }, 1000);
+
+    } catch (error) {
+
+      console.log(
+        'Error guardando viaje en Firestore:',
+        error
       );
 
-      if (existe) {
-        return prevTrips;
-      }
+    } finally {
 
-      return [paidTrip, ...prevTrips];
-    });
+      setGuardandoViaje(false);
 
-    setTimeout(() => {
-      setActiveTrip(null);
+    }
 
-      navigation.navigate(ROUTES.MAIN_TABS, {
-        screen: ROUTES.HOME,
-      });
-    }, 1000);
   };
 
   return (
@@ -270,9 +323,11 @@ export default function SummaryScreen({ navigation }) {
 
       <CustomButton
         title={
-          paymentStatus === 'APROBADO'
-            ? 'Pago confirmado ✅'
-            : 'Confirmar cobro'
+          guardandoViaje
+            ? 'Guardando...'
+            : paymentStatus === 'APROBADO'
+              ? 'Pago confirmado ✅'
+              : 'Confirmar cobro'
         }
         onPress={confirmarCobro}
       />
