@@ -5,6 +5,7 @@
 import React, {
   useContext,
   useEffect,
+  useMemo,
 } from 'react';
 
 import {
@@ -18,6 +19,7 @@ import {
 import {
   AppContext,
 } from '../context/AppContext';
+import { useTripContext } from '../context/TripContext';
 
 import MapView, {
   Marker,
@@ -38,6 +40,54 @@ export default function HomeScreen({
     setDisponible,
     driver,
   } = useContext(AppContext);
+
+  const { tripHistory } = useTripContext();
+  const dailyStats = useMemo(() => {
+    const now = new Date();
+    const todaysTrips = tripHistory.filter((trip) => {
+      const tripDateValue =
+        trip.completedAt || trip.createdAt || trip.date;
+      let tripDate;
+
+      if (tripDateValue?.toDate) {
+        tripDate = tripDateValue.toDate();
+      } else if (tripDateValue instanceof Date) {
+        tripDate = tripDateValue;
+      } else if (typeof tripDateValue === 'string') {
+        const localizedDate = tripDateValue.match(
+          /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/
+        );
+        tripDate = localizedDate
+          ? new Date(
+              Number(localizedDate[3]),
+              Number(localizedDate[2]) - 1,
+              Number(localizedDate[1])
+            )
+          : new Date(tripDateValue);
+      } else {
+        tripDate = new Date(tripDateValue);
+      }
+
+      return (
+        !Number.isNaN(tripDate.getTime()) &&
+        tripDate.getFullYear() === now.getFullYear() &&
+        tripDate.getMonth() === now.getMonth() &&
+        tripDate.getDate() === now.getDate()
+      );
+    });
+
+    const gananciasHoy = todaysTrips.reduce((total, trip) => {
+      const earnings = Number(
+        trip.driverEarnings ?? trip.earnings ?? 0
+      );
+      return total + (Number.isFinite(earnings) ? earnings : 0);
+    }, 0);
+
+    return {
+      viajesHoy: todaysTrips.length,
+      gananciasHoy,
+    };
+  }, [tripHistory]);
 
   const location =
     useDriverLocation(disponible);
@@ -228,7 +278,7 @@ export default function HomeScreen({
       <View style={styles.statsCard}>
         <View style={styles.statItem}>
           <Text style={styles.statNumber}>
-            0
+            {dailyStats.viajesHoy}
           </Text>
 
           <Text style={styles.statLabel}>
@@ -240,7 +290,7 @@ export default function HomeScreen({
 
         <View style={styles.statItem}>
           <Text style={styles.statNumber}>
-            $0
+            ${dailyStats.gananciasHoy.toLocaleString('es-CO')}
           </Text>
 
           <Text style={styles.statLabel}>
