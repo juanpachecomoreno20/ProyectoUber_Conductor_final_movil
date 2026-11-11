@@ -1,5 +1,6 @@
 import React, {
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 
@@ -16,13 +17,26 @@ import CustomButton from '../components/CustomButton';
 import SectionTitle from '../components/SectionTitle';
 import Colors from '../constants/colors';
 import { ROUTES } from '../constants/routes';
+import { PRICING } from '../config/pricing';
 import { useTripContext } from '../context/TripContext';
+import { calculateFare } from '../utils/calculateFare';
 
 export default function RequestScreen({
   navigation,
 }) {
   const [tiempo, setTiempo] = useState(15);
   const { setActiveTrip } = useTripContext();
+
+  const tripQuote = useMemo(
+    () =>
+      calculateFare({
+        distanceKm: 5.3,
+        durationMin: 14,
+        category: 'ECONOMY',
+        tip: 0,
+      }),
+    []
+  );
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -58,15 +72,21 @@ export default function RequestScreen({
       distance: '5.3 km',
       duration: '14 min',
       category: 'Económico',
+      categoryKey: 'ECONOMY',
       paymentMethod: 'Efectivo',
-      fare: 18500,
-      earnings: 14800,
-      commission: 3700,
+      fare: tripQuote.fare,
+      commission: tripQuote.commission,
+      driverEarnings: tripQuote.driverEarnings,
+      earnings: tripQuote.driverEarnings,
+      tip: tripQuote.tip,
+      commissionRate: PRICING.COMMISSION_RATE,
+      amount: tripQuote.fare,
       date: now.toLocaleDateString('es-CO'),
       time: now.toLocaleTimeString('es-CO', {
         hour: '2-digit',
         minute: '2-digit',
       }),
+      createdAt: now.toISOString(),
       filter: 'Hoy',
     };
 
@@ -193,13 +213,19 @@ export default function RequestScreen({
           Tarifa estimada
         </Text>
 
-        <Text style={styles.fare}>$18.500</Text>
+        <Text style={styles.fare}>
+          ${tripQuote.fare.toLocaleString('es-CO')}
+        </Text>
 
         <Text style={styles.summaryLabel}>
           Ganancia neta estimada
         </Text>
 
-        <Text style={styles.earnings}>$14.800</Text>
+        <Text style={styles.earnings}>
+          ${tripQuote.driverEarnings.toLocaleString(
+            'es-CO'
+          )}
+        </Text>
       </View>
 
       <View style={styles.card}>

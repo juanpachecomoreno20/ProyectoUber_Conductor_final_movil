@@ -13,6 +13,7 @@ import SectionTitle from '../components/SectionTitle';
 import CustomButton from '../components/CustomButton';
 import Colors from '../constants/colors';
 import { ROUTES } from '../constants/routes';
+import { PRICING } from '../config/pricing';
 import { useTripContext } from '../context/TripContext';
 
 export default function SummaryScreen({ navigation }) {
@@ -37,45 +38,38 @@ export default function SummaryScreen({ navigation }) {
 
   const fare = activeTrip.fare || 0;
   const commission = activeTrip.commission || 0;
-  const driverEarnings = activeTrip.earnings || 0;
+  const driverEarnings =
+    activeTrip.driverEarnings || activeTrip.earnings || 0;
 
   const confirmarCobro = () => {
     const paidTrip = {
       ...activeTrip,
       status: 'paid',
       paymentStatus: 'APROBADO',
-      filter:
-        activeTrip.filter || 'Hoy',
+      commissionRate: PRICING.COMMISSION_RATE,
+      filter: activeTrip.filter || 'Hoy',
     };
 
     setPaymentStatus('APROBADO');
     setTripHistory((prevTrips) => {
-  const existe = prevTrips.some(
-    (trip) => trip.id === paidTrip.id
-  );
+      const existe = prevTrips.some(
+        (trip) => trip.id === paidTrip.id
+      );
 
-  if (existe) {
-    return prevTrips;
-  }
+      if (existe) {
+        return prevTrips;
+      }
 
-  return [
-    paidTrip,
-    ...prevTrips,
-  ];
-});
-    
+      return [paidTrip, ...prevTrips];
+    });
+
     setTimeout(() => {
-    
       setActiveTrip(null);
 
-      navigation.navigate(
-        ROUTES.MAIN_TABS,
-        {
-          screen: ROUTES.HOME,
-        }
-      );
+      navigation.navigate(ROUTES.MAIN_TABS, {
+        screen: ROUTES.HOME,
+      });
     }, 1000);
-
   };
 
   return (

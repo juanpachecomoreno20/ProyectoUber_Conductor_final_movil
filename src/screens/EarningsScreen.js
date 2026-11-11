@@ -46,18 +46,28 @@ export default function EarningsScreen({ navigation }) {
       (sum, trip) => sum + (Number(trip.fare) || 0),
       0
     );
+
     const totalComisiones = tripHistory.reduce(
       (sum, trip) =>
-        sum +
-        (Number(trip.commission) ||
-          (Number(trip.fare) || 0) -
-            (Number(trip.earnings) || 0)),
+        sum + (Number(trip.commission) || 0),
       0
     );
+
+    const totalPropinas = tripHistory.reduce(
+      (sum, trip) => sum + (Number(trip.tip) || 0),
+      0
+    );
+
     const totalGananciasNetas = tripHistory.reduce(
-      (sum, trip) => sum + (Number(trip.earnings) || 0),
+      (sum, trip) =>
+        sum + (Number(trip.driverEarnings) || Number(trip.earnings) || 0),
       0
     );
+
+    const promedioPorViaje =
+      tripHistory.length > 0
+        ? totalFacturado / tripHistory.length
+        : 0;
 
     return {
       viajesHoy: viajesHoy.length,
@@ -68,7 +78,9 @@ export default function EarningsScreen({ navigation }) {
       facturadoMes,
       totalFacturado,
       totalComisiones,
+      totalPropinas,
       totalGananciasNetas,
+      promedioPorViaje,
     };
   }, [tripHistory]);
 
@@ -169,6 +181,20 @@ export default function EarningsScreen({ navigation }) {
 
         <View style={styles.row}>
           <Ionicons
+            name="gift-outline"
+            size={20}
+            color={Colors.primary}
+          />
+
+          <Text style={styles.rowText}>
+            Propinas: ${metrics.totalPropinas.toLocaleString(
+              'es-CO'
+            )}
+          </Text>
+        </View>
+
+        <View style={styles.row}>
+          <Ionicons
             name="wallet-outline"
             size={20}
             color={Colors.primary}
@@ -176,6 +202,20 @@ export default function EarningsScreen({ navigation }) {
 
           <Text style={styles.rowText}>
             Ganancia neta: ${metrics.totalGananciasNetas.toLocaleString(
+              'es-CO'
+            )}
+          </Text>
+        </View>
+
+        <View style={styles.row}>
+          <Ionicons
+            name="bar-chart-outline"
+            size={20}
+            color={Colors.primary}
+          />
+
+          <Text style={styles.rowText}>
+            Promedio por viaje: ${metrics.promedioPorViaje.toLocaleString(
               'es-CO'
             )}
           </Text>

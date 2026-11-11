@@ -476,3 +476,105 @@ feat: implementar trip context y flujo real de viajes
 
 ### Aprendizaje
 Se fortalecieron conocimientos sobre Context API, manejo de estado compartido entre múltiples pantallas, diseño de flujos de negocio completos, eliminación de datos simulados y cálculo dinámico de indicadores a partir de información generada por la aplicación.
+
+## 10/11/2026
+
+### Actividad realizada
+Implementación del contexto global de viajes (TripContext) para conectar el flujo completo entre Solicitud Entrante, Viaje en Curso, Resumen del Viaje, Ganancias e Historial.
+
+### Herramientas utilizadas
+- Visual Studio Code
+- Cursor IDE
+- Microsoft Copilot
+- Expo
+- React Native
+- Context API
+- GitHub
+
+### Uso de IA
+Se utilizó IA únicamente como apoyo para estructurar la gestión de viajes mediante Context API, conectar pantallas existentes, eliminar datos simulados y validar el flujo completo del conductor. La implementación final, integración, corrección de errores y pruebas funcionales fueron realizadas manualmente por el desarrollador.
+
+### Prompt utilizado
+"Implementar TripContext para gestionar activeTrip y tripHistory, reemplazando los datos simulados en las pantallas de viajes, ganancias e historial y conectando el flujo completo del conductor."
+
+### Resultado obtenido
+Se logró conectar las pantallas RequestScreen, TripScreen, SummaryScreen, EarningsScreen e HistoryScreen mediante un contexto global de viajes. Los viajes realizados se registran dinámicamente y alimentan automáticamente las pantallas de Ganancias e Historial.
+
+### Mejoras realizadas
+- Creación de TripContext.
+- Gestión global de activeTrip.
+- Gestión global de tripHistory.
+- Integración de RequestScreen con TripContext.
+- Integración de TripScreen con estados del viaje.
+- Integración de SummaryScreen con registro automático de viajes.
+- Integración de EarningsScreen con métricas dinámicas.
+- Integración de HistoryScreen con viajes generados por la aplicación.
+- Implementación de cálculos con useMemo.
+- Corrección de navegación posterior al cobro.
+- Corrección de duplicados en historial.
+- Corrección del flujo Home → Solicitud → Viaje → Resumen → Ganancias → Historial.
+
+### Resultado de pruebas
+- Solicitud creada correctamente.
+- Viaje aceptado correctamente.
+- Cambio de estados validado.
+- Cobro confirmado correctamente.
+- Viaje agregado al historial.
+- Historial y Ganancias muestran la misma cantidad de viajes.
+- Navegación estable durante todo el flujo.
+
+### Commit asociado
+feat: implementar trip context y flujo real de viajes
+
+### Aprendizaje
+Se fortalecieron conocimientos sobre Context API, gestión de estados compartidos, sincronización entre pantallas, eliminación de datos simulados y construcción de un flujo funcional completo para aplicaciones de transporte.
+
+
+## 10/11/2026
+
+### Actividad realizada
+Implementación de la lógica de cálculo de tarifas del proyecto y conexión del flujo de viajes con el contexto global de viajes (TripContext).
+
+### Herramientas utilizadas
+- Visual Studio Code
+- Cursor IDE
+- Microsoft Copilot
+- Expo
+- React Native
+- Context API
+- GitHub
+
+### Uso de IA
+Se utilizó IA únicamente como apoyo para integrar la lógica de cálculo de tarifas, estructurar TripContext y conectar los datos generados por los viajes con las pantallas de Resumen, Ganancias e Historial. La implementación final, validación funcional y pruebas fueron realizadas manualmente por el desarrollador.
+
+### Prompt utilizado
+"Integrar pricing.js y calculateFare.js dentro del flujo actual de viajes. Reemplazar valores hardcodeados de tarifas, comisiones y ganancias por cálculos dinámicos y conectar los viajes realizados con EarningsScreen e HistoryScreen."
+
+### Resultado obtenido
+Las tarifas, comisiones y ganancias ahora se calculan mediante una función centralizada. Además, los viajes completados alimentan dinámicamente las pantallas de Ganancias e Historial utilizando TripContext.
+
+### Mejoras realizadas
+- Integración de pricing.js.
+- Integración de calculateFare().
+- Eliminación de valores hardcodeados de tarifas.
+- Integración de TripContext con RequestScreen.
+- Integración de TripContext con TripScreen.
+- Integración de TripContext con SummaryScreen.
+- Registro de viajes completados dentro de tripHistory.
+- Integración de métricas dinámicas en EarningsScreen.
+- Integración de HistoryScreen con viajes generados por la aplicación.
+- Corrección de duplicados en historial.
+- Corrección de navegación posterior a la confirmación del cobro.
+
+### Resultado de pruebas
+- Flujo Solicitud → Viaje → Resumen funcionando.
+- Generación correcta de tarifas, comisiones y ganancias.
+- Registro automático de viajes completados.
+- Historial mostrando viajes generados durante la ejecución.
+- Ganancias mostrando información basada en los viajes realizados.
+
+### Commit asociado
+feat: integrar calculo de tarifas y flujo dinamico de viajes
+
+### Aprendizaje
+Se fortalecieron conocimientos sobre centralización de reglas de negocio, cálculo dinámico de tarifas, manejo de estados compartidos mediante contexto y reutilización de información entre múltiples pantallas de la aplicación.

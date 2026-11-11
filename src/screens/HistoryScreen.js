@@ -5,6 +5,7 @@ import React, {
 
 import {
   FlatList,
+  Modal,
   Pressable,
   StyleSheet,
   Text,
@@ -20,31 +21,45 @@ import { useTripContext } from '../context/TripContext';
 export default function HistoryScreen() {
   const [selectedFilter, setSelectedFilter] =
     useState('Todos');
+  const [selectedPaymentFilter, setSelectedPaymentFilter] =
+    useState('Todos');
+  const [selectedTrip, setSelectedTrip] = useState(null);
 
-  const { tripHistory } =
-    useTripContext();
+  const { tripHistory } = useTripContext();
 
   const filteredTrips = useMemo(() => {
-    if (selectedFilter === 'Todos') {
-      return tripHistory;
+    const byDate = [...tripHistory].sort((a, b) => {
+      const dateA = new Date(a.createdAt || a.date);
+      const dateB = new Date(b.createdAt || b.date);
+      return dateB - dateA;
+    });
+
+    let filtered = byDate;
+
+    if (selectedFilter !== 'Todos') {
+      filtered = filtered.filter(
+        (trip) => trip.filter === selectedFilter
+      );
     }
 
-    return tripHistory.filter(
-      (trip) =>
-        trip.filter === selectedFilter
-    );
-  }, [selectedFilter, tripHistory]);
+    if (selectedPaymentFilter !== 'Todos') {
+      filtered = filtered.filter(
+        (trip) => trip.paymentMethod === selectedPaymentFilter
+      );
+    }
+
+    return filtered;
+  }, [selectedFilter, selectedPaymentFilter, tripHistory]);
 
   const renderItem = ({ item }) => (
-    <View style={styles.tripCard}>
+    <Pressable
+      style={styles.tripCard}
+      onPress={() => setSelectedTrip(item)}
+    >
       <View style={styles.tripHeader}>
-        <Text style={styles.tripDate}>
-          {item.date}
-        </Text>
+        <Text style={styles.tripDate}>{item.date}</Text>
 
-        <Text style={styles.tripTime}>
-          {item.time}
-        </Text>
+        <Text style={styles.tripTime}>{item.time}</Text>
       </View>
 
       <View style={styles.tripRow}>
@@ -54,9 +69,7 @@ export default function HistoryScreen() {
           color={Colors.primary}
         />
 
-        <Text style={styles.tripText}>
-          {item.origin}
-        </Text>
+        <Text style={styles.tripText}>{item.origin}</Text>
       </View>
 
       <View style={styles.tripRow}>
@@ -66,76 +79,87 @@ export default function HistoryScreen() {
           color={Colors.error}
         />
 
-        <Text style={styles.tripText}>
-          {item.destination}
-        </Text>
+        <Text style={styles.tripText}>{item.destination}</Text>
       </View>
 
       <View style={styles.tripInfo}>
-        <Text style={styles.infoText}>
-          {item.category}
-        </Text>
+        <Text style={styles.infoText}>{item.category}</Text>
 
-        <Text style={styles.infoText}>
-          {item.paymentMethod}
-        </Text>
+        <Text style={styles.infoText}>{item.paymentMethod}</Text>
+      </View>
+
+      <View style={styles.tripStatusRow}>
+        <Text style={styles.statusText}>Pago: {item.paymentStatus}</Text>
       </View>
 
       <View style={styles.moneyRow}>
         <Text style={styles.fare}>
-          $
-          {Number(item.fare || 0)
-            .toLocaleString('es-CO')}
+          ${Number(item.fare || 0).toLocaleString('es-CO')}
         </Text>
 
         <Text style={styles.earnings}>
-          $
-          {Number(item.earnings || 0)
-            .toLocaleString('es-CO')}
+          ${Number(item.earnings || item.driverEarnings || 0).toLocaleString(
+            'es-CO'
+          )}
         </Text>
       </View>
-    </View>
+    </Pressable>
   );
 
   return (
     <View style={styles.container}>
-      <SectionTitle
-        title="Historial de carreras 🚕"
-      />
+      <SectionTitle title="Historial de carreras 🚕" />
 
       <Text style={styles.subtitle}>
         Consulta los viajes realizados.
       </Text>
 
       <View style={styles.filters}>
-        {[
-          'Hoy',
-          'Semana',
-          'Mes',
-          'Todos',
-        ].map((filter) => (
+        {['Hoy', 'Semana', 'Mes', 'Todos'].map((filter) => (
           <Pressable
             key={filter}
             style={[
               styles.filterButton,
-              selectedFilter === filter &&
-                styles.activeFilter,
+              selectedFilter === filter && styles.activeFilter,
             ]}
-            onPress={() =>
-              setSelectedFilter(filter)
-            }
+            onPress={() => setSelectedFilter(filter)}
           >
             <Text
               style={[
                 styles.filterText,
-                selectedFilter === filter &&
-                  styles.activeText,
+                selectedFilter === filter && styles.activeText,
               ]}
             >
               {filter}
             </Text>
           </Pressable>
         ))}
+      </View>
+
+      <View style={styles.filters}>
+        {['Todos', 'Efectivo', 'Tarjeta', 'Mercado Pago'].map(
+          (filter) => (
+            <Pressable
+              key={filter}
+              style={[
+                styles.filterButton,
+                selectedPaymentFilter === filter &&
+                  styles.activeFilter,
+              ]}
+              onPress={() => setSelectedPaymentFilter(filter)}
+            >
+              <Text
+                style={[
+                  styles.filterText,
+                  selectedPaymentFilter === filter &&
+                    styles.activeText,
+                ]}
+              >
+                {filter}
+              </Text>
+            </Pressable>
+          )
+        )}
       </View>
 
       {filteredTrips.length === 0 ? (
@@ -154,14 +178,103 @@ export default function HistoryScreen() {
         <FlatList
           data={filteredTrips}
           renderItem={renderItem}
-          keyExtractor={(item) =>
-            item.id
-          }
-          showsVerticalScrollIndicator={
-            false
-          }
+          keyExtractor={(item) => item.id}
+          showsVerticalScrollIndicator={false}
         />
       )}
+
+      <Modal
+        visible={Boolean(selectedTrip)}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setSelectedTrip(null)}
+      >
+        <Pressable
+          style={styles.modalBackdrop}
+          onPress={() => setSelectedTrip(null)}
+        >
+          <Pressable style={styles.modalCard}>
+            {selectedTrip && (
+              <>
+                <Text style={styles.modalTitle}>
+                  Detalle del viaje
+                </Text>
+
+                <View style={styles.modalRow}>
+                  <Text style={styles.modalLabel}>Origen:</Text>
+                  <Text style={styles.modalValue}>
+                    {selectedTrip.origin}
+                  </Text>
+                </View>
+
+                <View style={styles.modalRow}>
+                  <Text style={styles.modalLabel}>Destino:</Text>
+                  <Text style={styles.modalValue}>
+                    {selectedTrip.destination}
+                  </Text>
+                </View>
+
+                <View style={styles.modalRow}>
+                  <Text style={styles.modalLabel}>Distancia:</Text>
+                  <Text style={styles.modalValue}>
+                    {selectedTrip.distance}
+                  </Text>
+                </View>
+
+                <View style={styles.modalRow}>
+                  <Text style={styles.modalLabel}>Duración:</Text>
+                  <Text style={styles.modalValue}>
+                    {selectedTrip.duration}
+                  </Text>
+                </View>
+
+                <View style={styles.modalRow}>
+                  <Text style={styles.modalLabel}>Comisión:</Text>
+                  <Text style={styles.modalValue}>
+                    ${Number(selectedTrip.commission || 0).toLocaleString(
+                      'es-CO'
+                    )}
+                  </Text>
+                </View>
+
+                <View style={styles.modalRow}>
+                  <Text style={styles.modalLabel}>Propina:</Text>
+                  <Text style={styles.modalValue}>
+                    ${Number(selectedTrip.tip || 0).toLocaleString(
+                      'es-CO'
+                    )}
+                  </Text>
+                </View>
+
+                <View style={styles.modalRow}>
+                  <Text style={styles.modalLabel}>Ganancia neta:</Text>
+                  <Text style={styles.modalValue}>
+                    ${Number(
+                      selectedTrip.driverEarnings ||
+                        selectedTrip.earnings ||
+                        0
+                    ).toLocaleString('es-CO')}
+                  </Text>
+                </View>
+
+                <View style={styles.modalRow}>
+                  <Text style={styles.modalLabel}>Estado del pago:</Text>
+                  <Text style={styles.modalValue}>
+                    {selectedTrip.paymentStatus}
+                  </Text>
+                </View>
+
+                <View style={styles.modalRow}>
+                  <Text style={styles.modalLabel}>Categoría:</Text>
+                  <Text style={styles.modalValue}>
+                    {selectedTrip.category}
+                  </Text>
+                </View>
+              </>
+            )}
+          </Pressable>
+        </Pressable>
+      </Modal>
     </View>
   );
 }
@@ -182,6 +295,7 @@ const styles = StyleSheet.create({
   filters: {
     flexDirection: 'row',
     marginBottom: 20,
+    flexWrap: 'wrap',
   },
 
   filterButton: {
@@ -190,6 +304,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 20,
     marginRight: 10,
+    marginBottom: 10,
   },
 
   activeFilter: {
@@ -237,12 +352,22 @@ const styles = StyleSheet.create({
   tripText: {
     marginLeft: 10,
     color: Colors.secondary,
+    flexShrink: 1,
   },
 
   tripInfo: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 10,
+  },
+
+  tripStatusRow: {
+    marginTop: 8,
+    marginBottom: 8,
+  },
+
+  statusText: {
+    color: Colors.gray,
   },
 
   infoText: {
@@ -258,23 +383,60 @@ const styles = StyleSheet.create({
   fare: {
     fontWeight: '700',
     color: Colors.secondary,
-    fontSize: 16,
   },
 
   earnings: {
     fontWeight: '700',
     color: Colors.primary,
-    fontSize: 16,
   },
 
   emptyContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical: 50,
   },
 
   emptyText: {
-    marginTop: 10,
     color: Colors.gray,
+    marginTop: 12,
+    textAlign: 'center',
+  },
+
+  modalBackdrop: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.35)',
+    padding: 20,
+  },
+
+  modalCard: {
+    width: '100%',
+    backgroundColor: Colors.white,
+    borderRadius: 18,
+    padding: 20,
+    elevation: 5,
+  },
+
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: Colors.secondary,
+    marginBottom: 16,
+  },
+
+  modalRow: {
+    marginBottom: 10,
+  },
+
+  modalLabel: {
+    color: Colors.gray,
+    fontWeight: '700',
+    marginBottom: 2,
+  },
+
+  modalValue: {
+    color: Colors.secondary,
   },
 });

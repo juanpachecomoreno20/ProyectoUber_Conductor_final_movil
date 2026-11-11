@@ -1,0 +1,15 @@
+export const PRICING = {
+  BASE_FARE: 3500,
+  PRICE_PER_KM: 1200,
+  PRICE_PER_MINUTE: 250,
+
+  MINIMUM_FARE: 6000,
+
+  MULTIPLIERS: {
+    ECONOMY: 1.0,
+    XL: 1.4,
+    PREMIUM: 1.8,
+  },
+
+  COMMISSION_RATE: 0.2,
+};
