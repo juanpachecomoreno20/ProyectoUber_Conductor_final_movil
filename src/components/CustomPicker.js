@@ -35,9 +35,10 @@ export default function CustomPicker({
 
         <View style={styles.pickerWrapper}>
           <Picker
-            selectedValue={selectedValue}
-            onValueChange={onValueChange}
-          >
+  selectedValue={selectedValue}
+  onValueChange={onValueChange}
+  style={styles.picker}
+>
             <Picker.Item
               label={placeholder}
               value=""
@@ -91,4 +92,10 @@ const styles = StyleSheet.create({
   pickerWrapper: {
     flex: 1,
   },
+
+ picker: {
+  color: '#111827',
+  height: 55,
+},
+
 });

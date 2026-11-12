@@ -38,6 +38,7 @@ import SectionTitle from '../components/SectionTitle';
 import Colors from '../constants/colors';
 import Typography from '../constants/typography';
 import Dimensions from '../constants/dimensions';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ProfileScreen() {
   const [showImage, setShowImage] =
@@ -80,7 +81,9 @@ export default function ProfileScreen() {
     );
   }
 
-  return (
+
+ return (
+  <SafeAreaView style={{ flex: 1 }}>
     <ScrollView
       style={styles.container}
       contentContainerStyle={styles.content}
@@ -290,6 +293,13 @@ export default function ProfileScreen() {
           pasajeros
         </Text>
       </View>
+
+        <CustomButton
+  title="Cargar documentos"
+  onPress={() =>
+    navigation.navigate(ROUTES.DOCUMENTS)
+  }
+/>
         <SectionTitle
           title="Documentación"
         />
@@ -356,6 +366,7 @@ export default function ProfileScreen() {
 
   
       </ScrollView>
+    </SafeAreaView>
 );
 }
 
@@ -436,6 +447,12 @@ const styles = StyleSheet.create({
   emptyContainer: {
     alignItems: 'center',
   },
+
+  content: {
+  paddingTop: 20,
+  paddingHorizontal: 20,
+  paddingBottom: 40,
+},
 
   emptyText: {
     marginBottom: 20,

@@ -45,9 +45,16 @@ export async function registerForPushNotificationsAsync() {
   }
 
   try {
-    const token = (await Notifications.getExpoPushTokenAsync()).data;
-    return token;
-  } catch (error) {
+  const token = (
+    await Notifications.getExpoPushTokenAsync({
+      projectId: '87d73b16-edbd-4c48-8ac7-b19c6d2419d0',
+    })
+  ).data;
+
+  console.log('TOKEN NUEVO:', token);
+
+  return token;
+} catch (error) {
     console.warn('No se pudo obtener el token Expo Push:', error);
     return null;
   }

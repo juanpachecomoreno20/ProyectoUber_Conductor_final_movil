@@ -5,7 +5,15 @@
  */
 import { createDriver } from '../services/firestoreService';
 import * as ImagePicker from 'expo-image-picker';
-import { useState } from 'react';
+
+import {
+  useContext,
+  useState,
+} from 'react';
+
+import {
+  AppContext,
+} from '../context/AppContext';
 
 import {
   useNavigation,
@@ -59,6 +67,9 @@ export default function VehicleScreen() {
 
   const route = useRoute();
   const navigation = useNavigation();
+
+  const { setDriver } =
+    useContext(AppContext);
 
   const datosPersonales =
     route.params?.datosPersonales;
@@ -204,27 +215,27 @@ export default function VehicleScreen() {
     if (guardando) {
       return;
     }
-  
+
     const valido = validarFormulario();
-  
+
     if (!valido) {
       return;
     }
 
-  if (!datosPersonales) {
-    Alert.alert(
-      'Información incompleta',
-      'Debes registrar primero los datos personales.'
-    );
-    return;
-  }
+    if (!datosPersonales) {
+      Alert.alert(
+        'Información incompleta',
+        'Debes registrar primero los datos personales.'
+      );
+      return;
+    }
     try {
 
       setGuardando(true);
-    
+
       console.log('INICIANDO GUARDADO');
       console.log('DATOS PERSONALES:', datosPersonales);
-    
+
       const resultado = await createDriver({
         datosPersonales,
         vehiculo: {
@@ -237,9 +248,25 @@ export default function VehicleScreen() {
           capacidad,
         },
       });
-    
+
+      setDriver({
+        id: resultado.id,
+        datosPersonales,
+        vehiculo: {
+          categoria,
+          placa,
+          marca,
+          modelo,
+          anio,
+          color,
+          capacidad,
+          fotoVehiculo,
+        },
+      });
+
+
       console.log('DOCUMENTO CREADO:', resultado.id);
-    
+
       Alert.alert(
         'Éxito',
         'Conductor registrado correctamente.',
@@ -261,21 +288,21 @@ export default function VehicleScreen() {
         ]
       );
     } catch (error) {
-    
+
       console.log('ERROR FIREBASE:', error);
-    
+
       Alert.alert(
         'Error',
         error.message
       );
-    
+
     } finally {
-    
+
       setGuardando(false);
-    
+
     }
-  
- }
+
+  }
 
   return (
     <KeyboardAvoidingView

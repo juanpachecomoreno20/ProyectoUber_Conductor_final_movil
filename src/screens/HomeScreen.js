@@ -9,6 +9,15 @@ import React, {
 } from 'react';
 
 import {
+  sendPushNotification,
+} from '../services/pushTest';
+
+
+import {
+  scheduleLocalNotification,
+} from '../services/notificationService';
+
+import {
   StyleSheet,
   Switch,
   Text,
@@ -31,6 +40,12 @@ import useDriverLocation from '../hooks/useDriverLocation';
 import CustomButton from '../components/CustomButton';
 import HomeMenu from '../components/HomeMenu';
 import { updateDriverLocation } from '../services/firestoreService';
+
+console.log(
+  'PUSH TEST:',
+  sendPushNotification
+);
+
 
 export default function HomeScreen({
   navigation,
@@ -59,10 +74,10 @@ export default function HomeScreen({
         );
         tripDate = localizedDate
           ? new Date(
-              Number(localizedDate[3]),
-              Number(localizedDate[2]) - 1,
-              Number(localizedDate[1])
-            )
+            Number(localizedDate[3]),
+            Number(localizedDate[2]) - 1,
+            Number(localizedDate[1])
+          )
           : new Date(tripDateValue);
       } else {
         tripDate = new Date(tripDateValue);
@@ -334,6 +349,36 @@ export default function HomeScreen({
           }
         />
 
+        <CustomButton
+  title="Enviar Push 🚀"
+  onPress={async () => {
+    try {
+      console.log('TOKEN USADO:', 'ExponentPushToken[KzmvM6Bhp3d10MddhA1NqW]');
+
+      const response = await sendPushNotification(
+        'ExponentPushToken[KzmvM6Bhp3d10MddhA1NqW]'
+      );
+
+      console.log(
+        'RESPUESTA COMPLETA:',
+        JSON.stringify(response, null, 2)
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }}
+/>
+
+<CustomButton
+  title="Probar Local 🔔"
+  onPress={async () => {
+    await scheduleLocalNotification(
+      'Prueba Local ✅',
+      'La notificación local funciona'
+    );
+  }}
+/>
+
       </View>
 
     </ScrollView>
@@ -491,7 +536,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginBottom: 25,
   },
-  
+
   headerContent: {
     flex: 1,
     marginRight: 15,
