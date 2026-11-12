@@ -40,7 +40,7 @@ export default function HomeMenu({
       icon: 'settings-outline',
       label: 'Configuración',
       route: ROUTES.SETTINGS,
-    },
+    }
   ];
 
   const navegar = (route) => {
@@ -97,22 +97,6 @@ export default function HomeMenu({
                 </Text>
               </TouchableOpacity>
             ))}
-
-            <TouchableOpacity
-              style={styles.logout}
-            >
-              <Ionicons
-                name="log-out-outline"
-                size={22}
-                color={Colors.error}
-              />
-
-              <Text
-                style={styles.logoutText}
-              >
-                Cerrar sesión
-              </Text>
-            </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.closeButton}
@@ -178,12 +162,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: '#E5E7EB',
     marginTop: 10,
-  },
-
-  logoutText: {
-    marginLeft: 15,
-    color: Colors.error,
-    fontWeight: '700',
   },
 
   closeButton: {

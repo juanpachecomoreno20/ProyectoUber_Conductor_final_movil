@@ -23,6 +23,7 @@ import {
   Text,
   View,
   ScrollView,
+  Alert,
 } from 'react-native';
 
 import {
@@ -55,6 +56,11 @@ export default function HomeScreen({
     setDisponible,
     driver,
   } = useContext(AppContext);
+
+  const documentosCompletos =
+  !!driver?.documentos?.licenciaUri &&
+  !!driver?.documentos?.soatUri &&
+  !!driver?.documentos?.tecnicoUri;
 
   const { tripHistory } = useTripContext();
   const dailyStats = useMemo(() => {
@@ -147,6 +153,10 @@ export default function HomeScreen({
     location?.coords?.longitude,
   ]);
 
+
+
+
+
   return (
     <ScrollView
       style={styles.container}
@@ -212,7 +222,39 @@ export default function HomeScreen({
 
           <Switch
             value={disponible}
-            onValueChange={setDisponible}
+            onValueChange={(valor) => {
+
+              if (valor && !documentosCompletos) {
+                Alert.alert(
+                  'Documentación pendiente',
+                  'Debes cargar Licencia, SOAT y Técnico Mecánica antes de recibir solicitudes.'
+                );
+                return;
+              }
+
+              if (valor) {
+                Alert.alert(
+                  'Función demostrativa',
+                  'La geolocalización y el mapa fueron implementados y probados en Expo Go. En este Development Build Android, Google Maps requiere una API Key configurada en Google Cloud. Si continúas, puede generarse el error conocido del mapa.',
+                  [
+                    {
+                      text: 'Cancelar',
+                      style: 'cancel',
+                    },
+                    {
+                      text: 'Continuar',
+                      onPress: () => setDisponible(true),
+                    },
+                  ]
+                );
+
+                return;
+              }
+
+              setDisponible(false);
+
+            }}
+
             trackColor={{
               false: '#D1D5DB',
               true: '#A7F3D0',
@@ -344,40 +386,23 @@ export default function HomeScreen({
 
         <CustomButton
           title="Probar solicitud 🚕"
-          onPress={() =>
-            navigation.navigate('Request')
-          }
+          onPress={async () => {
+            try {
+
+              // Notificación local inmediata
+              await scheduleLocalNotification(
+                'Nueva solicitud conductor 🚕',
+                'Tienes una nueva solicitud de viaje.'
+              );
+
+              // Navega a la solicitud simulada
+              navigation.navigate('Request');
+
+            } catch (error) {
+              console.log(error);
+            }
+          }}
         />
-
-        <CustomButton
-  title="Enviar Push 🚀"
-  onPress={async () => {
-    try {
-      console.log('TOKEN USADO:', 'ExponentPushToken[KzmvM6Bhp3d10MddhA1NqW]');
-
-      const response = await sendPushNotification(
-        'ExponentPushToken[KzmvM6Bhp3d10MddhA1NqW]'
-      );
-
-      console.log(
-        'RESPUESTA COMPLETA:',
-        JSON.stringify(response, null, 2)
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  }}
-/>
-
-<CustomButton
-  title="Probar Local 🔔"
-  onPress={async () => {
-    await scheduleLocalNotification(
-      'Prueba Local ✅',
-      'La notificación local funciona'
-    );
-  }}
-/>
 
       </View>
 

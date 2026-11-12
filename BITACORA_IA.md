@@ -779,3 +779,51 @@ feat: configurar push notifications y optimizar flujo de registro y documentos
 
 ### Aprendizaje
 Se fortalecieron conocimientos en Expo Notifications, Firebase Cloud Messaging (FCM V1), EAS Build, manejo de contexto global con React Context, sincronización de estados con Firestore y validación funcional de aplicaciones móviles de extremo a extremo.
+
+## 11/11/2026
+
+### Actividad realizada
+Pruebas finales, corrección de incidencias de navegación, configuración de notificaciones push y validación completa del flujo de la aplicación ProyectoUberConductor.
+
+### Herramientas utilizadas
+- Visual Studio Code
+- Cursor IDE
+- Microsoft Copilot
+- Expo
+- Firebase
+- Firestore
+- Expo Notifications
+- Expo Device
+- Expo Location
+- React Native Maps
+- EAS Build
+- GitHub
+
+### Uso de IA
+Se utilizó IA como apoyo para diagnosticar errores, configurar Firebase Cloud Messaging (FCM V1), optimizar el flujo de registro, documentos y perfil, realizar validaciones de negocio y ejecutar pruebas funcionales de extremo a extremo.
+
+### Prompt utilizado
+"Configurar FCM V1 en Expo, corregir la actualización del contexto después del registro, optimizar el flujo de documentos, integrar notificaciones al flujo de solicitudes y validar el funcionamiento completo del proyecto."
+
+### Resultado obtenido
+Se logró configurar correctamente Firebase Cloud Messaging (FCM V1), obtener y registrar el Expo Push Token, actualizar automáticamente el perfil después del registro, sincronizar documentos en tiempo real y consolidar el flujo completo de conductor desde el registro hasta el historial de viajes.
+
+### Mejoras realizadas
+- Configuración completa de Firebase Cloud Messaging (FCM V1).
+- Asociación de Google Service Account Key en EAS.
+- Generación de nuevo Development Build.
+- Corrección de actualización inmediata del perfil tras registrar conductor.
+- Corrección visual de Pickers (Categoría y Color).
+- Sincronización automática de documentos mediante AppContext.
+- Ocultamiento automático del botón de gestión documental cuando la documentación está completa.
+- Integración de notificaciones al flujo de solicitud de viaje.
+- Eliminación de botones de pruebas individuales.
+- Restricción para activar disponibilidad sin documentos obligatorios.
+- Alerta preventiva para activación de geolocalización en Development Build por requerimiento de API Key de Google Maps.
+- Validación funcional completa de Registro, Perfil, Documentos, Home, Solicitudes, Viajes, Resumen, Ganancias e Historial.
+
+### Commit asociado
+feat: finalizar flujo conductor, documentos y notificaciones
+
+### Aprendizaje
+Se fortalecieron conocimientos sobre Expo Notifications, Firebase Cloud Messaging (FCM V1), EAS Build, manejo de contexto global con React Context, sincronización en tiempo real con Firestore, validaciones de negocio y pruebas funcionales integrales en aplicaciones móviles.

@@ -110,7 +110,7 @@ export default function SettingsScreen() {
 
     Alert.alert(
       'Notificaciones',
-      `Infraestructura Expo Notifications: disponible.\n${notificationStatus}.\n${tokenStatus}\nFCM: no implementado.`
+      `Infraestructura Expo Notifications: disponible.\n${notificationStatus}.\n${tokenStatus}\nFCM V1 configurado correctamente.`
     );
   };
 
@@ -121,24 +121,7 @@ export default function SettingsScreen() {
     );
   };
 
-  const confirmarCerrarSesion = () => {
-    Alert.alert(
-      'Cerrar sesión',
-      '¿Deseas desconectarte y dejar de recibir solicitudes?',
-      [
-        {
-          text: 'Cancelar',
-          style: 'cancel',
-        },
-        {
-          text: 'Confirmar',
-          style: 'destructive',
-          onPress: () => setDisponible(false),
-        },
-      ]
-    );
-  };
-
+  
   const options = [
     {
       icon: 'language-outline',
@@ -218,21 +201,7 @@ export default function SettingsScreen() {
         );
       })}
 
-      <TouchableOpacity
-        style={styles.logoutCard}
-        activeOpacity={0.8}
-        onPress={confirmarCerrarSesion}
-      >
-        <Ionicons
-          name="log-out-outline"
-          size={24}
-          color={Colors.error}
-        />
-
-        <Text style={styles.logoutText}>
-          Cerrar sesión
-        </Text>
-      </TouchableOpacity>
+    
     </ScrollView>
   );
 }
@@ -293,9 +262,5 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
 
-  logoutText: {
-    marginLeft: 15,
-    color: Colors.error,
-    fontWeight: '700',
-  },
+
 });
