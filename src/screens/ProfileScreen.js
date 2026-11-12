@@ -40,6 +40,7 @@ import Typography from '../constants/typography';
 import Dimensions from '../constants/dimensions';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+
 export default function ProfileScreen() {
   const [showImage, setShowImage] =
     useState(false);
@@ -81,225 +82,223 @@ export default function ProfileScreen() {
     );
   }
 
+  const documentosCompletos =
+    !!driver.documentos?.licenciaUri &&
+    !!driver.documentos?.soatUri &&
+    !!driver.documentos?.tecnicoUri;
 
- return (
-  <SafeAreaView style={{ flex: 1 }}>
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.content}
-      showsVerticalScrollIndicator={false}
-    >
-      {driver.datosPersonales?.fotoUri ? (
-        <Pressable
-          onPress={() => setShowImage(true)}
-        >
-          <Image
-            source={{
-              uri: driver.datosPersonales?.fotoUri,
-            }}
-            style={styles.image}
-          />
-        </Pressable>
-
-      ) : null}
-
-
-      {driver?.datosPersonales?.fotoUri ? (
-        <Modal
-          visible={showImage}
-          transparent={true}
-        >
-          <View style={styles.modalContainer}>
-            <Pressable
-              style={styles.modalClose}
-              onPress={() => setShowImage(false)}
-            >
-              <Ionicons
-                name="close"
-                size={30}
-                color="white"
-              />
-            </Pressable>
-
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
+      >
+        {driver.datosPersonales?.fotoUri ? (
+          <Pressable
+            onPress={() => setShowImage(true)}
+          >
             <Image
               source={{
-                uri: driver.datosPersonales.fotoUri,
+                uri: driver.datosPersonales?.fotoUri,
               }}
-              style={styles.fullImage}
-              resizeMode="contain"
+              style={styles.image}
             />
-          </View>
-        </Modal>
-      ) : null}
+          </Pressable>
 
-      <Text style={styles.title}>
-        {driver.datosPersonales?.nombreCompleto}
-      </Text>
+        ) : null}
 
-      <View style={styles.statusContainer}>
-        <Ionicons
-          name="time-outline"
-          size={18}
-          color="#D97706"
+
+        {driver?.datosPersonales?.fotoUri ? (
+          <Modal
+            visible={showImage}
+            transparent={true}
+          >
+            <View style={styles.modalContainer}>
+              <Pressable
+                style={styles.modalClose}
+                onPress={() => setShowImage(false)}
+              >
+                <Ionicons
+                  name="close"
+                  size={30}
+                  color="white"
+                />
+              </Pressable>
+
+              <Image
+                source={{
+                  uri: driver.datosPersonales.fotoUri,
+                }}
+                style={styles.fullImage}
+                resizeMode="contain"
+              />
+            </View>
+          </Modal>
+        ) : null}
+
+        <Text style={styles.title}>
+          {driver.datosPersonales?.nombreCompleto}
+        </Text>
+
+        <View style={styles.statusContainer}>
+          <Ionicons
+            name="time-outline"
+            size={18}
+            color="#D97706"
+          />
+
+          <Text style={styles.statusText}>
+            Pendiente de aprobación
+          </Text>
+        </View>
+
+        <SectionTitle
+          title="Información personal"
         />
 
-        <Text style={styles.statusText}>
-          Pendiente de aprobación
-        </Text>
-      </View>
+        <View style={styles.row}>
+          <Ionicons
+            name="card-outline"
+            size={20}
+            color={Colors.primary}
+          />
+          <Text style={styles.item}>
+            Documento: {driver.datosPersonales?.documento}
+          </Text>
+        </View>
 
-      <SectionTitle
-        title="Información personal"
-      />
+        <View style={styles.row}>
+          <Ionicons
+            name="call-outline"
+            size={20}
+            color={Colors.primary}
+          />
 
-      <View style={styles.row}>
-        <Ionicons
-          name="card-outline"
-          size={20}
-          color={Colors.primary}
-        />
-        <Text style={styles.item}>
-          Documento: {driver.datosPersonales?.documento}
-        </Text>
-      </View>
+          <Text style={styles.item}>
+            Celular:
+            {' '}
+            {driver.datosPersonales?.celular}
+          </Text>
+        </View>
 
-      <View style={styles.row}>
-        <Ionicons
-          name="call-outline"
-          size={20}
-          color={Colors.primary}
-        />
+        <View style={styles.row}>
+          <Ionicons
+            name="person-outline"
+            size={20}
+            color={Colors.primary}
+          />
+          <Text style={styles.item}>
+            Género:
+            {' '}
+            {driver.datosPersonales?.genero}
+          </Text>
+        </View>
 
-        <Text style={styles.item}>
-          Celular:
-          {' '}
-          {driver.datosPersonales?.celular}
-        </Text>
-      </View>
+        <View style={styles.row}>
+          <Ionicons
+            name="language-outline"
+            size={20}
+            color={Colors.primary}
+          />
 
-      <View style={styles.row}>
-        <Ionicons
-          name="person-outline"
-          size={20}
-          color={Colors.primary}
-        />
-        <Text style={styles.item}>
-          Género:
-          {' '}
-          {driver.datosPersonales?.genero}
-        </Text>
-      </View>
+          <Text style={styles.item}>
+            Idioma:
+            {' '}
+            {driver.datosPersonales?.idioma}
+          </Text>
+        </View>
 
-      <View style={styles.row}>
-        <Ionicons
-          name="language-outline"
-          size={20}
-          color={Colors.primary}
-        />
-
-        <Text style={styles.item}>
-          Idioma:
-          {' '}
-          {driver.datosPersonales?.idioma}
-        </Text>
-      </View>
-
-      <SectionTitle
-        title="Información del vehículo"
-      />
-
-      <View style={styles.row}>
-        <Ionicons
-          name="layers-outline"
-          size={20}
-          color={Colors.primary}
+        <SectionTitle
+          title="Información del vehículo"
         />
 
-        <Text style={styles.item}>
-          Categoría:
-          {' '}
-          {driver.vehiculo?.categoria}
-        </Text>
-      </View>
+        <View style={styles.row}>
+          <Ionicons
+            name="layers-outline"
+            size={20}
+            color={Colors.primary}
+          />
 
-      <View style={styles.row}>
-        <Ionicons
-          name="card-outline"
-          size={20}
-          color={Colors.primary}
-        />
+          <Text style={styles.item}>
+            Categoría:
+            {' '}
+            {driver.vehiculo?.categoria}
+          </Text>
+        </View>
 
-        <Text style={styles.item}>
-          Placa:
-          {' '}
-          {driver.vehiculo?.placa}
-        </Text>
-      </View>
+        <View style={styles.row}>
+          <Ionicons
+            name="card-outline"
+            size={20}
+            color={Colors.primary}
+          />
 
-      <View style={styles.row}>
-        <Ionicons
-          name="car-outline"
-          size={20}
-          color={Colors.primary}
-        />
+          <Text style={styles.item}>
+            Placa:
+            {' '}
+            {driver.vehiculo?.placa}
+          </Text>
+        </View>
 
-        <Text style={styles.item}>
-          Marca:
-          {' '}
-          {driver.vehiculo?.marca}
-        </Text>
-      </View>
+        <View style={styles.row}>
+          <Ionicons
+            name="car-outline"
+            size={20}
+            color={Colors.primary}
+          />
 
-      <View style={styles.row}>
-        <Ionicons
-          name="car-sport-outline"
-          size={20}
-          color={Colors.primary}
-        />
+          <Text style={styles.item}>
+            Marca:
+            {' '}
+            {driver.vehiculo?.marca}
+          </Text>
+        </View>
 
-        <Text style={styles.item}>
-          Modelo:
-          {' '}
-          {driver.vehiculo?.modelo}
-        </Text>
-      </View>
+        <View style={styles.row}>
+          <Ionicons
+            name="car-sport-outline"
+            size={20}
+            color={Colors.primary}
+          />
 
-      <View style={styles.row}>
-        <Ionicons
-          name="calendar-outline"
-          size={20}
-          color={Colors.primary}
-        />
+          <Text style={styles.item}>
+            Modelo:
+            {' '}
+            {driver.vehiculo?.modelo}
+          </Text>
+        </View>
 
-        <Text style={styles.item}>
-          Año:
-          {' '}
-          {driver.vehiculo?.anio}
-        </Text>
-      </View>
+        <View style={styles.row}>
+          <Ionicons
+            name="calendar-outline"
+            size={20}
+            color={Colors.primary}
+          />
 
-      <View style={styles.row}>
-        <Ionicons
-          name="people-outline"
-          size={20}
-          color={Colors.primary}
-        />
+          <Text style={styles.item}>
+            Año:
+            {' '}
+            {driver.vehiculo?.anio}
+          </Text>
+        </View>
 
-        <Text style={styles.item}>
-          Capacidad:
-          {' '}
-          {driver.vehiculo?.capacidad}
-          {' '}
-          pasajeros
-        </Text>
-      </View>
+        <View style={styles.row}>
+          <Ionicons
+            name="people-outline"
+            size={20}
+            color={Colors.primary}
+          />
 
-        <CustomButton
-  title="Cargar documentos"
-  onPress={() =>
-    navigation.navigate(ROUTES.DOCUMENTS)
-  }
-/>
+          <Text style={styles.item}>
+            Capacidad:
+            {' '}
+            {driver.vehiculo?.capacidad}
+            {' '}
+            pasajeros
+          </Text>
+        </View>
+
         <SectionTitle
           title="Documentación"
         />
@@ -364,10 +363,18 @@ export default function ProfileScreen() {
           </Text>
         </View>
 
-  
+        {!documentosCompletos && (
+          <CustomButton
+            title="Gestionar documentos"
+            onPress={() =>
+              navigation.navigate(ROUTES.DOCUMENTS)
+            }
+          />
+        )}
+
       </ScrollView>
     </SafeAreaView>
-);
+  );
 }
 
 
@@ -449,10 +456,10 @@ const styles = StyleSheet.create({
   },
 
   content: {
-  paddingTop: 20,
-  paddingHorizontal: 20,
-  paddingBottom: 40,
-},
+    paddingTop: 20,
+    paddingHorizontal: 20,
+    paddingBottom: 40,
+  },
 
   emptyText: {
     marginBottom: 20,

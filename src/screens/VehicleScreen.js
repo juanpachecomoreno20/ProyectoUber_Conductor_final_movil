@@ -233,8 +233,6 @@ export default function VehicleScreen() {
 
       setGuardando(true);
 
-      console.log('INICIANDO GUARDADO');
-      console.log('DATOS PERSONALES:', datosPersonales);
 
       const resultado = await createDriver({
         datosPersonales,
@@ -265,8 +263,6 @@ export default function VehicleScreen() {
       });
 
 
-      console.log('DOCUMENTO CREADO:', resultado.id);
-
       Alert.alert(
         'Éxito',
         'Conductor registrado correctamente.',
@@ -289,7 +285,7 @@ export default function VehicleScreen() {
       );
     } catch (error) {
 
-      console.log('ERROR FIREBASE:', error);
+      console.error('ERROR FIREBASE:', error);
 
       Alert.alert(
         'Error',

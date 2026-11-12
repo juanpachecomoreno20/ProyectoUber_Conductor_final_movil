@@ -736,3 +736,46 @@ feat: integrar tiempo real, ubicacion y preparacion de notificaciones
 
 ### Aprendizaje
 Se fortalecieron conocimientos sobre Firestore en tiempo real, persistencia de datos, Expo Notifications, EAS Build y preparación de infraestructura para notificaciones push.
+
+## 11/11/2026
+
+### Actividad realizada
+Ajustes finales y validación integral del flujo de la aplicación ProyectoUberConductor. Se configuraron correctamente las notificaciones push mediante Firebase Cloud Messaging (FCM V1), se corrigieron incidencias de actualización de datos en tiempo real y se realizaron pruebas funcionales completas del proceso de registro, perfil, documentos, viajes, ganancias e historial.
+
+### Herramientas utilizadas
+- Visual Studio Code
+- Cursor IDE
+- Microsoft Copilot
+- Expo
+- Expo Notifications
+- Expo Device
+- EAS Build
+- Firebase
+- Firestore
+- GitHub
+
+### Uso de IA
+Se utilizó IA como apoyo para diagnosticar errores, configurar notificaciones push con Firebase FCM V1, actualizar el contexto global de la aplicación y optimizar el flujo de navegación y persistencia de datos.
+
+### Prompt utilizado
+"Configurar notificaciones push con FCM V1 en Expo, corregir la actualización automática del perfil después del registro."
+
+### Resultado obtenido
+La aplicación quedó operativa de extremo a extremo. El registro de conductores, carga de documentos, actualización del perfil, solicitudes de viaje, historial, ganancias y sincronización con Firestore funcionan correctamente. Se validó la obtención del Expo Push Token y la integración con Firebase Cloud Messaging.
+
+### Mejoras realizadas
+- Configuración completa de Firebase Cloud Messaging (FCM V1).
+- Asociación de Google Service Account Key en EAS.
+- Generación e instalación de nuevo Development Build.
+- Corrección de actualización inmediata del perfil tras registrar un conductor.
+- Corrección visual de los componentes Picker.
+- Sincronización automática de documentos en AppContext.
+- Ocultamiento dinámico del botón de gestión documental cuando los documentos están completos.
+- Optimización del flujo Perfil → Documentos → Perfil.
+- Pruebas funcionales completas de todas las pantallas principales.
+
+### Commit asociado
+feat: configurar push notifications y optimizar flujo de registro y documentos
+
+### Aprendizaje
+Se fortalecieron conocimientos en Expo Notifications, Firebase Cloud Messaging (FCM V1), EAS Build, manejo de contexto global con React Context, sincronización de estados con Firestore y validación funcional de aplicaciones móviles de extremo a extremo.

@@ -3,6 +3,8 @@ import React, {
     useState,
 } from 'react';
 
+import { useNavigation } from '@react-navigation/native';
+
 import {
     Alert,
     Platform,
@@ -22,10 +24,8 @@ import {
     updateDriver,
 } from '../services/firestoreService';
 
-
 import * as ImagePicker from 'expo-image-picker';
 import { Ionicons } from '@expo/vector-icons';
-
 import Colors from '../constants/colors';
 import CustomButton from '../components/CustomButton';
 import CustomInput from '../components/CustomInput';
@@ -33,7 +33,10 @@ import ProfileImagePicker from '../components/ProfileImagePicker';
 import SectionTitle from '../components/SectionTitle';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+
 export default function DocumentScreen() {
+    const navigation = useNavigation();
+
     const [licenciaUri, setLicenciaUri] =
         useState(null);
 
@@ -267,7 +270,13 @@ export default function DocumentScreen() {
 
             Alert.alert(
                 'Éxito',
-                'Documentos guardados correctamente.'
+                'Documentos guardados correctamente.',
+                [
+                    {
+                        text: 'OK',
+                        onPress: () => navigation.goBack(),
+                    },
+                ]
             );
         } catch (error) {
             console.log(
@@ -279,6 +288,11 @@ export default function DocumentScreen() {
                 'Error',
                 'No fue posible guardar los documentos.'
             );
+
+        } finally {
+
+            setGuardando(false);
+
         }
     };
 
@@ -810,9 +824,9 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: Colors.secondary,
         marginBottom: 6,
-      },
-      
-      fechaButton: {
+    },
+
+    fechaButton: {
         flexDirection: 'row',
         alignItems: 'center',
         borderWidth: 1,
@@ -822,11 +836,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 14,
         paddingVertical: 12,
         marginBottom: 5,
-      },
-      
-      fechaText: {
+    },
+
+    fechaText: {
         marginLeft: 10,
         color: Colors.secondary,
-      },
+    },
 
 });
